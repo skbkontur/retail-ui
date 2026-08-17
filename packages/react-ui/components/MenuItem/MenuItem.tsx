@@ -26,8 +26,8 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps
   extends
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
-    Pick<HTMLAttributes<HTMLElement>, 'id'>,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-selected' | 'aria-disabled'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id' | 'role'>,
     Omit<CommonProps, 'children'> {
   /** Добавляет отступ иконке.
    * @ignore */

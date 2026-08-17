@@ -1,0 +1,180 @@
+import * as TimePickerStories from './TimePicker.docs.stories.tsx';
+import * as TimePickerValidationStories from './TimePickerValidation.docs.stories.tsx';
+import { Description, DocsStory, Primary, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
+
+<Meta of={TimePickerStories} />
+
+<Header
+  component={'TimePicker'}
+  guides={'https://guides.kontur.ru/components/input-fields/timepicker/'}
+  figma={'https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0'}
+/>
+
+```jsx
+import { TimePicker } from '@skbkontur/react-ui';
+```
+
+<Description />
+
+<Primary />
+
+## Все пропсы и методы
+
+<PropsTable />
+
+### Публичные ref-методы
+
+Через `ref` доступны методы:
+
+- `focus(options?)` — устанавливает фокус на поле. С `{ withoutOpenDropdown: true }` фокус не открывает выпадающее меню.
+- `blur()` — снимает фокус с поля.
+- `open()` — открывает выпадающее меню, установив фокус на поле. В режиме `useMobileNativeTimePicker` открывает системный пикер.
+- `close()` — закрывает выпадающее меню, не снимая фокус с поля.
+- `blink()` — запускает анимацию blink.
+- `getRootNode()` — возвращает корневой DOM-узел компонента.
+
+## Использование
+
+Используйте поле времени, когда нужно ввести значение в формате `HH:mm` или `HH:mm:ss`. Проп `format` принимает эти же строковые маски. Компонент поддерживает сегментный ввод с клавиатуры и, если передан непустой `source`, выбор элемента из выпадающего меню.
+
+Проп `source` принимает массив элементов или функцию, которая получает текущий запрос и возвращает элементы синхронно или через Promise, например с сервера. Полученные элементы `TimePicker` фильтрует по началу сегментов времени, а индикацию загрузки и повтор упавшего запроса берёт на себя.
+
+Элементы задаются либо строками со временем — `'09:00'`, — либо объектами, расширяющими `{ value: string }`: у объекта можно задать `label`, `disabled` и любые свои бизнес-поля. Смешивать строки и объекты в одном источнике нельзя. Кроме значений времени в массив можно передать компоненты меню — `MenuHeader`, `MenuSeparator`, `MenuItem`, `MenuFooter`.
+
+Время элементов приводится к формату поля, поэтому в меню и в `renderItem` оно всегда выглядит одинаково: `'9:00'` показывается как `09:00`, а `{ value: '09:00:00' }` в формате `HH:mm` — как `09:00`. Остальные поля элемента при этом сохраняются.
+
+Значение поля — всегда время строкой: и `value`, и `onValueChange` работают со строкой в формате `HH:mm[:ss]`, а пустое значение — это пустая строка. Тип элементов виден только в `source` и `renderItem`, наружу элементы не приходят: если продукту нужен сам элемент со всеми бизнес-полями, он находит его в `source` по времени.
+
+Если проп `value` не задан, компонент неконтролируемый: он хранит значение сам и сообщает о нём через `onValueChange`.
+
+**Альтернативы и дополнения**
+
+[Input](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-input--docs) — если пользователю достаточно свободного текстового ввода без форматных ограничений.
+
+[DatePicker](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-datepicker--docs) — если вместе со вводом нужно выбирать дату в календаре.
+
+## Примеры
+
+<DocsStory of={TimePickerStories.ExampleSize} />
+<DocsStory of={TimePickerStories.ExampleFormats} />
+<DocsStory of={TimePickerStories.ExampleSource} />
+<DocsStory of={TimePickerStories.ExampleSourceWithInfo} />
+<DocsStory of={TimePickerStories.ExampleSourceWithDisabled} />
+<DocsStory of={TimePickerStories.ExampleSourceWithMinMax} />
+<DocsStory of={TimePickerStories.ExampleRightIconAndSuffix} />
+<DocsStory of={TimePickerStories.ExampleError} />
+<DocsStory of={TimePickerStories.ExampleWarning} />
+
+## Кастомизация
+
+Для кастомизации компонента через theme доступны переменные с префиксом `timePicker*`, которые можно найти в [ThemePlayground](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-themeplayground--docs).
+
+## Доступность
+
+Интерактивная часть компонента имеет роль `textbox` и поддерживает `aria-describedby` и `aria-label`. Выпадающее меню — это `listbox`, его элементы — `option` с `aria-selected` у выбранного времени.
+
+**Рекомендации**
+
+- Связывайте поле с подписью через `<label htmlFor>` и `id`.
+- Если у поля нет видимого лейбла, задавайте его через `aria-label`.
+- `ArrowLeft` и `ArrowRight` переключают активный сегмент времени.
+- `ArrowUp` и `ArrowDown` изменяют значение активного сегмента или перемещают выделение по элементам выпадающего меню.
+- `Backspace` и `Delete` очищают активный сегмент, а `Ctrl + A` выделяет всё значение поля.
+- `Enter` выбирает активный элемент из выпадающего меню, а если элемент не выбран, коммитит введённое значение.
+- `Escape` закрывает выпадающее меню.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Валидация
+
+Компонент не позволяет ввести с клавиатуры невалидное время, например `25:88`: некорректный ввод не попадает в поле, а рамка вспыхивает. Ввод, который временем быть не может — буква, знак или вставка вроде `2026-08-01`, — уходит в `onUnexpectedInput`. Обработчик может разобрать такую вставку сам и вернуть значение вместо неё.
+
+Во время ввода `onInputValueChange` возвращает частично нормализованное значение сегмента, например `1` => `01`. Событие `onValueChange` срабатывает при коммите значения — потере фокуса, нажатии Enter, выборе элемента из списка или изменении в нативном пикере — и возвращает полностью нормализованное время, например `01:00`, а при пустом значении — пустую строку.
+
+Вставка из буфера принимается, если это время — `12:30`, `9:5`, `12.30`, `1230`, — и сразу нормализуется к ближайшему валидному значению, например `25:88` → `23:59`.
+
+На уровне продукта можно дополнительно валидировать пустое обязательное поле и проверять, что значение попадает в допустимый диапазон времени. Для этого есть статический метод `TimePicker.validate(value, { format, minTime, maxTime })` — он принимает время строкой.
+
+### Обязательное поле
+
+<Story of={TimePickerValidationStories.ExampleRequiredValidation} />
+
+### Допустимый диапазон
+
+<Story of={TimePickerValidationStories.ExampleRangeValidation} />
+
+### Валидация времени
+
+Проверка времени `TimePicker.validate(value, options)`
+
+- `value` — проверяемое время строкой
+- `options.format` — формат времени
+- `options.minTime` и `options.maxTime` — границы диапазона; перед сравнением они приводятся к `options.format`. Если `minTime` больше `maxTime`, диапазон считается переходящим через полночь
+
+<Story of={TimePickerValidationStories.ExampleValidation} />
+
+## Адаптивность
+
+Мобильный режим включается медиазапросом темы `mobileMediaQuery`, то есть по ширине вьюпорта, а не по устройству. Выглядит поле в мобильном режиме так же, как в десктопном, и без `source` так же работает: время набирается прямо в поле.
+
+Если передан непустой `source`, то в мобильном режиме выпадающее меню открывается в `MobilePopup` со списком элементов и полем ввода времени, а ввод по самому полю только открывает попап.
+
+В мобильном режиме можно включить нативный системный выбор времени через проп `useMobileNativeTimePicker`. В этом режиме `minTime` и `maxTime` дополнительно передаются в нативный `input[type='time']` как ограничения браузера.
+
+Обратите внимание, что в iOS нативный пикер [может не учитывать](https://bugs.webkit.org/show_bug.cgi?id=223128) `min`/`max`, позволяя выбирать время вне диапазона.
+
+Также на iPhone/iOS нативный `input[type='time']` может не поддерживать редактирование секунд для формата `HH:mm:ss` даже при `step=1`: это ограничение платформенного пикера, а не логики `TimePicker` ([MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/time), [Stackoverflow](https://stackoverflow.com/questions/23222876/how-do-i-alter-the-step-for-time-input-for-ios)).
+
+<br />
+<DocsStory of={TimePickerStories.ExampleMobileNative} />
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)
+
+## FAQ
+
+<details>
+  <summary>Почему `minTime` и `maxTime` не ограничивают ручной ввод?</summary>
+
+Эти пропы влияют только на доступность переданных элементов в выпадающем меню.
+Значение, введённое вручную, валидируется на уровне продукта — например через `TimePicker.validate(value, { minTime, maxTime })`.
+
+Исключение — мобильный режим с `useMobileNativeTimePicker`: там `minTime` и `maxTime` дополнительно передаются в нативный `input[type='time']`.
+
+</details>
+
+<details>
+  <summary>В какой форме приходит значение в `onValueChange`?</summary>
+
+Всегда строкой с полностью нормализованным временем — `09:00`, — независимо от того, заданы элементы `source` строками или объектами.
+Пустое значение приходит пустой строкой. Это же значение можно передать обратно в `value`.
+
+</details>
+
+<details>
+  <summary>Как получить элемент `source`, который выбрал пользователь?</summary>
+
+Найдите его в `source` по времени из `onValueChange`. Сам компонент элементы наружу не отдаёт: `source` может быть асинхронным,
+а его содержимое зависит от текущего запроса, поэтому у введённого вручную времени элемента может не быть вовсе —
+и продукт решает такой случай сам.
+
+</details>
+
+<details>
+  <summary>Что будет с элементом `source`, у которого секунды не совпадают с форматом поля?</summary>
+
+Время элемента приводится к формату поля: в `HH:mm:ss` элемент `'09:00'` показывается как `09:00:00`,
+а в `HH:mm` элемент `'09:00:30'` — как `09:00`. Элементы при этом не схлопываются:
+`'09:00:30'` и `'09:00:45'` в формате `HH:mm` останутся двумя пунктами меню с одинаковым временем.
+
+</details>
+
+<details>
+  <summary>Почему `25:88` после вставки превращается в `23:59`?</summary>
+
+Вставка похожа на время, поэтому компонент нормализует её к ближайшему валидному времени.
+Строки, не похожие на время, — например дата `2026-08-01` — в поле не попадают вовсе: они уходят в `onUnexpectedInput`.
+
+</details>

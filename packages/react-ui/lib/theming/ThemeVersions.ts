@@ -1,4 +1,4 @@
-export type ThemeVersions = '6.0' | '6.1';
+export type ThemeVersions = '6.0' | '6.1' | '6.2' | '6.3';
 export interface ThemeVersionParsed {
   major: number;
   minor: number;

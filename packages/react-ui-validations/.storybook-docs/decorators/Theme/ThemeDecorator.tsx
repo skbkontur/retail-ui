@@ -1,16 +1,34 @@
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
-import { DARK_THEME, DARK_THEME_6_0 } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
-import { LIGHT_THEME, LIGHT_THEME_6_0 } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
+import {
+  DARK_THEME,
+  DARK_THEME_6_0,
+  DARK_THEME_6_1,
+  DARK_THEME_6_2,
+  DARK_THEME_6_3,
+} from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
+import {
+  LIGHT_THEME,
+  LIGHT_THEME_6_0,
+  LIGHT_THEME_6_1,
+  LIGHT_THEME_6_2,
+  LIGHT_THEME_6_3,
+} from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 import type { Decorator } from '@storybook/react';
 import React from 'react';
 
 export const themes = {
   LIGHT_THEME,
-  LIGHT_THEME_6_0,
   DARK_THEME,
+  LIGHT_THEME_6_0,
   DARK_THEME_6_0,
+  LIGHT_THEME_6_1,
+  DARK_THEME_6_1,
+  LIGHT_THEME_6_2,
+  DARK_THEME_6_2,
+  LIGHT_THEME_6_3,
+  DARK_THEME_6_3,
 };
 
 export const ThemeDecorator: Decorator = (Story, context) => {

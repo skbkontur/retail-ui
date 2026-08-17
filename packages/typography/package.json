@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/typography",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Kontur UI Typography",
   "author": "Kontur",
   "type": "module",
@@ -53,7 +53,7 @@
     "@babel/preset-typescript": "^7.24.6",
     "@emotion/css": "^11.11.2",
     "@skbkontur/icons": "2.0.10",
-    "@skbkontur/react-ui": ">=5 <=6",
+    "@skbkontur/react-ui": "^6.3.0",
     "@skbkontur/storybook-addon-live-examples": "1.0.0-beta.1",
     "@storybook/addon-docs": "8.6.14",
     "@storybook/addon-essentials": "8.6.14",

@@ -28,6 +28,9 @@ import { IconSecurityLockClosedLight20 } from '@skbkontur/icons/IconSecurityLock
 import { IconSettingsGearRegular20 } from '@skbkontur/icons/IconSettingsGearRegular20';
 import { IconTechPhoneSmartRegular16 } from '@skbkontur/icons/IconTechPhoneSmartRegular16';
 import { IconTechScreenMonitorLight16 } from '@skbkontur/icons/IconTechScreenMonitorLight16';
+import { IconTimeClockStopwatchLight16 } from '@skbkontur/icons/IconTimeClockStopwatchLight16';
+import { IconTimeClockStopwatchLight20 } from '@skbkontur/icons/IconTimeClockStopwatchLight20';
+import { IconTimeClockStopwatchRegular24 } from '@skbkontur/icons/IconTimeClockStopwatchRegular24';
 import { IconToolPencilLineLight16 } from '@skbkontur/icons/IconToolPencilLineLight16';
 import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
 import { IconToolPencilLineRegular24 } from '@skbkontur/icons/IconToolPencilLineRegular24';
@@ -271,6 +274,9 @@ addons.setConfig({
       IconSettingsGearRegular20,
       IconDocPlusLight16,
       IconNatureFxLightningALight16,
+      IconTimeClockStopwatchLight16,
+      IconTimeClockStopwatchLight20,
+      IconTimeClockStopwatchRegular24,
       ShowcaseGroup,
       ThemeContext,
       ThemeContextPlayground,

@@ -1236,6 +1236,89 @@ export class BasicThemeClass {
   public static mobileCalendarWrapperHeight = '304px';
   //#endregion DatePicker
 
+  //#region TimePicker
+  public static timePickerItemGapSmall = '4px';
+  public static timePickerItemGapMedium = '6px';
+  public static timePickerItemGapLarge = '8px';
+
+  public static timePickerSuffixGapSmall = '4px';
+  public static timePickerSuffixGapMedium = '6px';
+  public static timePickerSuffixGapLarge = '8px';
+
+  public static timePickerInputMinWidthSmall = '58px';
+  public static timePickerInputMinWidthMedium = '71px';
+  public static timePickerInputMinWidthLarge = '85px';
+
+  public static timePickerInputMinWidthWithSecondsSmall = '79px';
+  public static timePickerInputMinWidthWithSecondsMedium = '95px';
+  public static timePickerInputMinWidthWithSecondsLarge = '112px';
+
+  public static timePickerInputMinWidthWithIconSmall = '78px';
+  public static timePickerInputMinWidthWithIconMedium = '97px';
+  public static timePickerInputMinWidthWithIconLarge = '117px';
+
+  public static timePickerInputMinWidthWithIconAndSecondsSmall = '99px';
+  public static timePickerInputMinWidthWithIconAndSecondsMedium = '121px';
+  public static timePickerInputMinWidthWithIconAndSecondsLarge = '144px';
+
+  public static timePickerSeparatorOffsetTopSmall = '-1px';
+  public static timePickerSeparatorOffsetTopMedium = '-1px';
+  public static timePickerSeparatorOffsetTopLarge = '-2px';
+
+  public static timePickerSeparatorPaddingXSmall = '1px';
+  public static timePickerSeparatorPaddingXMedium = '1px';
+  public static timePickerSeparatorPaddingXLarge = '2px';
+
+  public static timePickerPopupBg = colors.shapeOtherField;
+  public static get timePickerPopupBorderRadius(): string {
+    return this.menuBorderRadius;
+  }
+  public static get timePickerPopupShadow(): string {
+    return this.menuShadow;
+  }
+  public static get timePickerMaskColor(): string {
+    return this.placeholderColor;
+  }
+  public static timePickerSelectedBgColor = '';
+  public static timePickerSelectedTextColor = '';
+  public static get timePickerMenuOffsetY(): string {
+    return `${parseInt(this.menuOffsetY) - 1}px`;
+  }
+
+  public static get timePickerMenuMaxHeightSmall(): string {
+    const timePickerVisibleItemsCount = 8;
+    const timePickerVisibleItemsGapCount = timePickerVisibleItemsCount - 1;
+
+    return `${
+      (parseInt(this.menuItemLineHeightSmall) + parseInt(this.menuItemPaddingYSmall) * 2) *
+        timePickerVisibleItemsCount +
+      parseInt(this.menuItemGap) * timePickerVisibleItemsGapCount
+    }px`;
+  }
+
+  public static get timePickerMenuMaxHeightMedium(): string {
+    const timePickerVisibleItemsCount = 8;
+    const timePickerVisibleItemsGapCount = timePickerVisibleItemsCount - 1;
+
+    return `${
+      (parseInt(this.menuItemLineHeightMedium) + parseInt(this.menuItemPaddingYMedium) * 2) *
+        timePickerVisibleItemsCount +
+      parseInt(this.menuItemGap) * timePickerVisibleItemsGapCount
+    }px`;
+  }
+
+  public static get timePickerMenuMaxHeightLarge(): string {
+    const timePickerVisibleItemsCount = 8;
+    const timePickerVisibleItemsGapCount = timePickerVisibleItemsCount - 1;
+
+    return `${
+      (parseInt(this.menuItemLineHeightLarge) + parseInt(this.menuItemPaddingYLarge) * 2) *
+        timePickerVisibleItemsCount +
+      parseInt(this.menuItemGap) * timePickerVisibleItemsGapCount
+    }px`;
+  }
+  //#endregion TimePicker
+
   //#region DateRangePicker
   public static rangeCalendarCellBg = colors.shapeFaintNeutralAlpha;
   public static rangeCalendarCellEndBg = colors.shapeBoldAccent;
