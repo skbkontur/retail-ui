@@ -41,6 +41,7 @@ import {
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
 import { useStyles } from '../../lib/renderEnvironment/index.js';
+import { useSizeControl } from '../../lib/size/useSizeControl.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getRandomID } from '../../lib/utils.js';
@@ -242,7 +243,7 @@ export const TimePicker = Object.assign(
       disabled,
       useMobileNativeTimePicker = false,
       format = 'HH:mm',
-      size = 'small',
+      size: sizeProp,
       source,
       renderItem,
       menuPos,
@@ -269,6 +270,7 @@ export const TimePicker = Object.assign(
 
     const styles = useStyles(getStyles);
     const locale = useLocaleForControl('TimePicker', TimePickerLocaleHelper);
+    const size = useSizeControl(sizeProp);
 
     const [isInputFocused, setIsInputFocused] = useState(false);
 

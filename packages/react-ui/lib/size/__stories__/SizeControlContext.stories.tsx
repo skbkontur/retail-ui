@@ -13,6 +13,7 @@ import { PasswordInput } from '../../../components/PasswordInput/index.js';
 import { Radio } from '../../../components/Radio/index.js';
 import { Select } from '../../../components/Select/index.js';
 import { Textarea } from '../../../components/Textarea/index.js';
+import { TimePicker } from '../../../components/TimePicker/index.js';
 import { Toggle } from '../../../components/Toggle/index.js';
 import { TokenInput, TokenInputType } from '../../../components/TokenInput/index.js';
 import { Tooltip } from '../../../components/Tooltip/index.js';
@@ -39,6 +40,7 @@ const ControlNames = {
   Radio: 'Radio',
   Select: 'Select',
   Textarea: 'Textarea',
+  TimePicker: 'TimePicker',
   Toggle: 'Toggle',
   Tooltip: 'Tooltip',
   TokenInput: 'TokenInput',
@@ -90,6 +92,9 @@ function getControl(controlName: string | null): React.ReactNode {
 
     case ControlNames.Textarea:
       return <Textarea />;
+
+    case ControlNames.TimePicker:
+      return <TimePicker value="12:30" />;
 
     case ControlNames.Toggle:
       return <Toggle />;
