@@ -6,6 +6,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { MenuContext } from '../../internal/Menu/MenuContext.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { useSizeControl } from '../../lib/size/useSizeControl.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './MenuHeader.styles.js';
@@ -32,13 +33,14 @@ export const MenuHeaderDataTids = {
 const MenuHeader = forwardRefAndName(
   'MenuHeader',
   function MenuHeader(
-    { id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps,
+    { id, _enableIconPadding = false, children, size: sizeProp, ...rest }: MenuHeaderProps,
     ref: React.Ref<HTMLDivElement>,
   ) {
     const theme = useContext(ThemeContext);
     const { cx } = useEmotion();
     const styles = useStyles(getStyles);
     const menuContext = useContext(MenuContext);
+    const size = useSizeControl(sizeProp);
 
     function getRootSizeClassName() {
       switch (size) {

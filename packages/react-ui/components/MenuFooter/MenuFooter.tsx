@@ -5,6 +5,7 @@ import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { useSizeControl } from '../../lib/size/useSizeControl.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './MenuFooter.styles.js';
@@ -31,12 +32,13 @@ export const MenuFooterDataTids = {
 const MenuFooter = forwardRefAndName(
   'MenuFooter',
   function MenuFooter(
-    { id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps,
+    { id, _enableIconPadding = false, children, size: sizeProp, ...rest }: MenuFooterProps,
     ref: React.Ref<HTMLDivElement>,
   ) {
     const theme = useContext(ThemeContext);
     const { cx } = useEmotion();
     const styles = useStyles(getStyles);
+    const size = useSizeControl(sizeProp);
     function getRootSizeClassName() {
       switch (size) {
         case 'large':

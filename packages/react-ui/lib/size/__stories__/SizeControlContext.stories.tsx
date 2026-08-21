@@ -9,6 +9,8 @@ import { FxInput } from '../../../components/FxInput/index.js';
 import { Gapped } from '../../../components/Gapped/index.js';
 import { Input } from '../../../components/Input/index.js';
 import { Kebab } from '../../../components/Kebab/index.js';
+import { MenuFooter } from '../../../components/MenuFooter/index.js';
+import { MenuHeader } from '../../../components/MenuHeader/index.js';
 import { PasswordInput } from '../../../components/PasswordInput/index.js';
 import { Radio } from '../../../components/Radio/index.js';
 import { Select } from '../../../components/Select/index.js';
@@ -36,6 +38,8 @@ const ControlNames = {
   FxInput: 'FxInput',
   Input: 'Input',
   Kebab: 'Kebab',
+  MenuFooter: 'MenuFooter',
+  MenuHeader: 'MenuHeader',
   PasswordInput: 'PasswordInput',
   Radio: 'Radio',
   Select: 'Select',
@@ -83,6 +87,12 @@ function getControl(controlName: string | null): React.ReactNode {
 
     case ControlNames.Kebab:
       return <Kebab />;
+
+    case ControlNames.MenuFooter:
+      return <MenuFooter>Футер меню</MenuFooter>;
+
+    case ControlNames.MenuHeader:
+      return <MenuHeader>Заголовок меню</MenuHeader>;
 
     case ControlNames.PasswordInput:
       return <PasswordInput />;
