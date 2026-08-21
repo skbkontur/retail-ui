@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.0...@skbkontur/react-ui@6.3.1) (2026-08-21)
+
+
+### Bug Fixes
+
+* **MaskedInput:** do not fire onUnexpectedInput on deletion in empty input ([cb8e1d5](https://github.com/skbkontur/retail-ui/commit/cb8e1d5b04122c488b6978872ec5e3cd360b0ae4))
+* **MaskedInput:** make showClearIcon work with mask ([2f302c3](https://github.com/skbkontur/retail-ui/commit/2f302c3e9db54d6cb8fb6d5e71cafcc5ec345ffd))
+* **TimePicker:** add SizeControlContext support ([8e56133](https://github.com/skbkontur/retail-ui/commit/8e561338d4b1420187eef2a641c83a3d4dd08c2d))
+* **MenuHeader,MenuFooter:** add SizeControlContext support ([8e33cad](https://github.com/skbkontur/retail-ui/commit/8e33cad2f22431f0984119e82975a3ef1e16643e))
+
+
+
+
+
 # [6.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.2.1...@skbkontur/react-ui@6.3.0) (2026-08-14)
 
 
