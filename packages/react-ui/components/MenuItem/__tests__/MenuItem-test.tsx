@@ -4,6 +4,8 @@ import React from 'react';
 
 import { Menu } from '../../../internal/Menu/index.js';
 import { SizeControlContext } from '../../../lib/size/SizeControlContext.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 import { MenuItem, MenuItemDataTids } from '../MenuItem.js';
 import type { MenuItemState } from '../MenuItem.js';
 
@@ -85,6 +87,23 @@ describe('MenuItem', () => {
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('uses disabled color for comment', () => {
+    const theme = ThemeFactory.create({
+      menuItemCommentColor: 'rgb(1, 2, 3)',
+      menuItemDisabledColor: 'rgb(4, 5, 6)',
+    });
+
+    render(
+      <ThemeContext.Provider value={theme}>
+        <MenuItem comment="Comment" disabled>
+          Menu item
+        </MenuItem>
+      </ThemeContext.Provider>,
+    );
+
+    expect(getComputedStyle(screen.getByTestId(MenuItemDataTids.comment)).color).toBe(theme.menuItemDisabledColor);
   });
 
   it('has correct data-tid', () => {

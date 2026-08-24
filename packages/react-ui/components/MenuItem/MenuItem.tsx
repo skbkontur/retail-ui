@@ -353,6 +353,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
               className={this.cx({
                 [this.styles.comment(this.theme)]: true,
                 [this.styles.commentHover(this.theme)]: this.isHover,
+                [this.styles.commentDisabled(this.theme)]: !!disabled,
               })}
             >
               {comment}

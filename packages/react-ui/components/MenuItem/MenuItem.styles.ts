@@ -148,6 +148,11 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       opacity: ${t.menuItemCommentOpacityHover};
     `;
   },
+  commentDisabled(t: Theme) {
+    return css`
+      color: ${t.menuItemDisabledColor};
+    `;
+  },
   icon() {
     return css`
       display: inline-block;
