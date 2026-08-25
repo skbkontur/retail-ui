@@ -197,6 +197,12 @@ export interface TokenInputProps<T>
    * Сама функция также может вернуть значение, не равное undefined, с которым будет вызван `onValueChange`. Если возвращаемое значение будет равно null, то сработает очистка текущего значения поля, а в режиме редактирования токен будет удален. */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
 
+  /** Проверяет, можно ли создать токен из свободного ввода.
+   * Верните `false`, чтобы не создавать токен (поле мигнёт), пункт «Добавить» при этом станет неактивным.
+   * Функция должна быть без побочных эффектов; сообщения об ошибке показывайте через ValidationWrapper.
+   * Не применяется при выборе значения из справочника. */
+  isTokenValid?: (value: string) => boolean;
+
   /** Задаёт типы вводимых данных. Передаёт браузеру информацию о том, какой набор символов показать при вводе данных в конкретное поле на устройствах с экранной клавиатурой. */
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
 
@@ -351,6 +357,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
+  private menuNavigatedByUser = false;
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -971,8 +978,63 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return e.key === delimiter;
   }
 
-  private tryApplyDelimiterFromInputValue(rawValue: string): boolean {
-    const { delimiters, selectedItems, valueToItem, onValueChange } = this.getProps();
+  private canAcceptInputAsToken(value: string): boolean {
+    if (!value) {
+      return false;
+    }
+
+    const { isTokenValid } = this.props;
+    if (!isTokenValid) {
+      return true;
+    }
+
+    return isTokenValid(value);
+  }
+
+  private rejectIfInvalidToken(value: string): boolean {
+    if (!value || !this.props.isTokenValid) {
+      return false;
+    }
+    if (this.props.isTokenValid(value)) {
+      return false;
+    }
+    this.blink();
+    return true;
+  }
+
+  private hasExactAutocompleteMatch(value: string): boolean {
+    const { valueToString } = this.getProps();
+    return this.state.autocompleteItems?.filter(isSimpleItem).some((item) => valueToString(item) === value) ?? false;
+  }
+
+  private createItemsFromTokens(tokens: string[], selectedItems: T[]): { items: T[]; remainder: string } {
+    const { valueToItem, delimiters } = this.getProps();
+    const items: T[] = [];
+    let remainder = '';
+    const joinDelimiter = delimiters[0] ?? ',';
+
+    for (let index = 0; index < tokens.length; index++) {
+      const token = tokens[index];
+      if (!token) {
+        continue;
+      }
+
+      if (!this.canAcceptInputAsToken(token)) {
+        remainder = tokens.slice(index).filter(Boolean).join(joinDelimiter);
+        break;
+      }
+
+      const item = valueToItem(token);
+      if (item && !this.hasValueInItems(selectedItems.concat(items), item)) {
+        items.push(item);
+      }
+    }
+
+    return { items, remainder };
+  }
+
+  private tryApplyDelimiterFromInputValue(rawValue: string): false | { nextInputValue: string } {
+    const { delimiters, selectedItems, onValueChange } = this.getProps();
     const trailingDelimiter = delimiters.find((delimiter) => rawValue.endsWith(delimiter));
     if (!trailingDelimiter) {
       return false;
@@ -982,33 +1044,42 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.isEditingMode) {
       if (valueWithoutTrailingDelimiter !== '') {
+        if (this.rejectIfInvalidToken(valueWithoutTrailingDelimiter)) {
+          this.dispatch({ type: 'UPDATE_QUERY', payload: valueWithoutTrailingDelimiter });
+          return { nextInputValue: valueWithoutTrailingDelimiter };
+        }
+
         this.dispatch({ type: 'UPDATE_QUERY', payload: valueWithoutTrailingDelimiter }, () => {
           this.finishTokenEdit();
         });
+        return { nextInputValue: valueWithoutTrailingDelimiter };
       }
-      return true;
+      return { nextInputValue: this.state.inputValue };
     }
 
     if (valueWithoutTrailingDelimiter === '') {
       this.dispatch({ type: 'CLEAR_INPUT' });
       this.tryGetItems();
-      return true;
+      return { nextInputValue: '' };
     }
 
     const tokens = this.splitValueByDelimiters(valueWithoutTrailingDelimiter);
-    const items = tokens
-      .filter(Boolean)
-      .map((token) => valueToItem(token))
-      .filter((item) => item && !this.hasValueInItems(selectedItems, item));
+    const { items, remainder } = this.createItemsFromTokens(tokens, selectedItems);
 
     if (items.length > 0) {
       onValueChange(selectedItems.concat(items));
     }
 
+    if (remainder) {
+      this.blink();
+      this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
+      this.dispatch({ type: 'UPDATE_QUERY', payload: remainder }, () => this.tryGetItems(remainder));
+      return { nextInputValue: remainder };
+    }
+
     this.dispatch({ type: 'CLEAR_INPUT' });
-    this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     this.tryGetItems();
-    return true;
+    return { nextInputValue: '' };
   }
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -1016,20 +1087,26 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     const paste = event.clipboardData.getData('text');
-    const { delimiters, selectedItems, valueToItem, onValueChange } = this.getProps();
+    const { delimiters, selectedItems, onValueChange } = this.getProps();
     if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
       const tokens = this.splitValueByDelimiters(paste.trim());
-      const items = tokens
-        .filter(Boolean)
-        .map((token) => valueToItem(token))
-        .filter((item) => item && !this.hasValueInItems(selectedItems, item));
-      const newItems = selectedItems.concat(items);
-      onValueChange(newItems);
+      const { items, remainder } = this.createItemsFromTokens(tokens, selectedItems);
 
+      if (items.length > 0) {
+        onValueChange(selectedItems.concat(items));
+      }
+
+      this.menuNavigatedByUser = false;
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
-      this.tryGetItems();
+      if (remainder) {
+        this.blink();
+        this.dispatch({ type: 'UPDATE_QUERY', payload: remainder }, () => this.tryGetItems(remainder));
+        this.props.onInputValueChange?.(remainder);
+      } else {
+        this.tryGetItems();
+      }
     }
   };
 
@@ -1070,9 +1147,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
-      const highlightIndex = selectItemIndex < 0 ? 0 : selectItemIndex;
-      const applyMenuHighlight = () => this.menuRef?.highlightItem(highlightIndex);
-      this.globalObject.requestAnimationFrame?.(applyMenuHighlight);
+      let highlightIndex: number | null = null;
+      if (selectItemIndex >= 0) {
+        highlightIndex = selectItemIndex;
+      } else {
+        highlightIndex = 0;
+      }
+      if (highlightIndex !== null) {
+        const applyMenuHighlight = () => this.menuRef?.highlightItem(highlightIndex);
+        this.globalObject.requestAnimationFrame?.(applyMenuHighlight);
+      }
     }
   };
 
@@ -1112,8 +1196,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     switch (true) {
       case isKeyEnter(e):
-        if (canSetValueToInput && this.menuRef) {
-          this.menuRef.enter(e);
+        if (this.type !== TokenInputType.WithoutReference) {
+          if (
+            !this.menuNavigatedByUser &&
+            !this.hasExactAutocompleteMatch(this.state.inputValue) &&
+            this.rejectIfInvalidToken(this.state.inputValue)
+          ) {
+            // free-text rejected: blink already done, do not select menu item
+          } else if (canSetValueToInput && this.menuRef) {
+            this.menuRef.enter(e);
+          }
         }
         // don't allow textarea
         // became multiline
@@ -1122,6 +1214,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       case isKeyArrowVertical(e):
         e.preventDefault();
         if (this.menuRef) {
+          this.menuNavigatedByUser = true;
           if (isKeyArrowUp(e)) {
             this.menuRef.up();
           } else {
@@ -1248,7 +1341,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleAddItem = () => {
-    const item = this.getProps().valueToItem(this.state.inputValue);
+    const { inputValue } = this.state;
+    if (!inputValue) {
+      return;
+    }
+    if (this.rejectIfInvalidToken(inputValue)) {
+      return;
+    }
+
+    const item = this.getProps().valueToItem(inputValue);
     if (item) {
       this.selectItem(item);
     }
@@ -1311,8 +1412,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { selectedItems, valueToString } = this.getProps();
     const { editingTokenIndex, inputValue, reservedInputValue, autocompleteItems } = this.state;
 
-    const editedItem =
-      autocompleteItems?.find((item) => valueToString(item) === inputValue) ?? this.getProps().valueToItem(inputValue);
+    const autocompleteMatch = autocompleteItems
+      ?.filter(isSimpleItem)
+      .find((item) => valueToString(item) === inputValue);
+    const editedItem = autocompleteMatch ?? this.getProps().valueToItem(inputValue);
+
+    if (this.isInputValueChanged && !autocompleteMatch) {
+      if (!inputValue || this.rejectIfInvalidToken(inputValue)) {
+        return;
+      }
+    }
 
     const newItems = selectedItems.concat([]);
 
@@ -1367,6 +1476,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+    this.menuNavigatedByUser = false;
     let query = event.target.value.trimLeft();
 
     if (query.endsWith(' ')) {
@@ -1376,7 +1486,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
     if (this.isDelimiterInputEnabled && this.inputValueEndsWithDelimiter(query)) {
-      if (this.tryApplyDelimiterFromInputValue(query)) {
+      const delimiterResult = this.tryApplyDelimiterFromInputValue(query);
+      if (delimiterResult) {
+        this.props.onInputValueChange?.(delimiterResult.nextInputValue);
         return;
       }
     }
@@ -1469,11 +1581,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return this.props.renderAddButton(value, this.handleAddItem);
     }
 
-    const { addButtonComment, addButtonTitle } = this.locale;
+    const { addButtonComment, addButtonInvalidComment, addButtonTitle } = this.locale;
+    const isInvalid = !this.canAcceptInputAsToken(value);
 
     return (
-      <MenuItem onClick={this.handleAddItem} comment={addButtonComment} key="renderAddButton">
-        {addButtonTitle} {value}
+      <MenuItem
+        onClick={this.handleAddItem}
+        comment={isInvalid ? addButtonInvalidComment : addButtonComment}
+        disabled={isInvalid}
+        key="renderAddButton"
+      >
+        {`${addButtonTitle} \u00AB${value}\u00BB`}
       </MenuItem>
     );
   };

@@ -489,6 +489,357 @@ describe('<TokenInput />', () => {
     });
   });
 
+  describe('isTokenValid', () => {
+    const isTokenValid = (value: string) => !value.includes(' ');
+
+    const StatefulTokenInput = (props: Partial<TokenInputProps<string>>) => {
+      const [selectedItems, setSelectedItems] = useState<string[]>([]);
+      return (
+        <TokenInput
+          type={TokenInputType.WithoutReference}
+          selectedItems={selectedItems}
+          onValueChange={setSelectedItems}
+          isTokenValid={isTokenValid}
+          {...props}
+        />
+      );
+    };
+
+    it('should not add token on Enter when input is invalid', async () => {
+      render(<StatefulTokenInput />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await userEvent.keyboard('{Enter}');
+
+      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+      expect(tokenInput).toHaveValue('foo bar');
+    });
+
+    it('should add token on Enter when input is valid', async () => {
+      render(<StatefulTokenInput />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo');
+      await userEvent.keyboard('{Enter}');
+
+      expect(screen.getByText('foo')).toBeInTheDocument();
+      expect(tokenInput).toHaveValue('');
+    });
+
+    it('should not add token on blur when input is invalid', async () => {
+      const isTokenValidSpy = vi.fn(isTokenValid);
+      render(<StatefulTokenInput isTokenValid={isTokenValidSpy} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await userEvent.tab();
+
+      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+      expect(tokenInput).toHaveValue('foo bar');
+      expect(isTokenValidSpy).toHaveBeenCalledTimes(1);
+      expect(isTokenValidSpy).toHaveBeenCalledWith('foo bar');
+    });
+
+    it('should add valid tokens and keep invalid remainder on delimiter', async () => {
+      render(<StatefulTokenInput type={TokenInputType.Combined} getItems={getItems} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      fireEvent.change(tokenInput, { target: { value: 'valid,bad value,' } });
+      await delay(1);
+
+      expect(screen.getByText('valid')).toBeInTheDocument();
+      expect(tokenInput).toHaveValue('bad value');
+    });
+
+    it('should keep invalid segment and trailing tokens in remainder on delimiter', async () => {
+      render(<StatefulTokenInput type={TokenInputType.Combined} getItems={getItems} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      fireEvent.change(tokenInput, { target: { value: 'valid,bad value,tail,' } });
+      await delay(1);
+
+      expect(screen.getByText('valid')).toBeInTheDocument();
+      expect(tokenInput).toHaveValue('bad value,tail');
+    });
+
+    it('should keep invalid text on delimiter when all tokens are invalid', async () => {
+      render(<StatefulTokenInput />);
+
+      const tokenInput = screen.getByRole('textbox');
+      fireEvent.change(tokenInput, { target: { value: 'foo bar,' } });
+      await delay(1);
+
+      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+      expect(tokenInput).toHaveValue('foo bar');
+    });
+
+    it('should call isTokenValid before onInputValueChange on invalid delimiter', async () => {
+      const calls: string[] = [];
+      render(
+        <StatefulTokenInput
+          type={TokenInputType.Combined}
+          getItems={getItems}
+          isTokenValid={(value) => {
+            const isValid = !value.includes(' ');
+            if (!isValid) {
+              calls.push('validate');
+            }
+            return isValid;
+          }}
+          onInputValueChange={() => calls.push('input')}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      fireEvent.change(tokenInput, { target: { value: 'foo bar,' } });
+      await delay(1);
+
+      expect(calls[0]).toBe('validate');
+      expect(calls.indexOf('validate')).toBeLessThan(calls.indexOf('input'));
+    });
+
+    it('should call isTokenValid and blink on Enter when input is invalid', async () => {
+      const isTokenValidSpy = vi.fn((value: string) => !value.includes(' '));
+      const blinkSpy = vi.spyOn(TokenInput.prototype, 'blink').mockImplementation(() => undefined);
+
+      render(<StatefulTokenInput isTokenValid={isTokenValidSpy} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await userEvent.keyboard('{Enter}');
+
+      expect(isTokenValidSpy).toHaveBeenCalledWith('foo bar');
+      expect(blinkSpy).toHaveBeenCalled();
+      blinkSpy.mockRestore();
+    });
+
+    it('should not add token or blink while typing and loading menu items', async () => {
+      const blinkSpy = vi.spyOn(TokenInput.prototype, 'blink').mockImplementation(() => undefined);
+      render(
+        <StatefulTokenInput
+          type={TokenInputType.Combined}
+          getItems={async () => ['Запрещённый токен', 'Обычный токен']}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await delay(100);
+
+      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+      expect(blinkSpy).not.toHaveBeenCalled();
+      blinkSpy.mockRestore();
+    });
+
+    it('should disable add button and show invalid comment when input is invalid', async () => {
+      render(<StatefulTokenInput type={TokenInputType.Combined} getItems={getItems} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await delay(100);
+
+      const invalidComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonInvalidComment;
+      expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(invalidComment);
+      expect(screen.getByTestId(MenuItemDataTids.root)).toBeDisabled();
+    });
+
+    it('should enable add button with default comment when input is valid', async () => {
+      render(<StatefulTokenInput type={TokenInputType.Combined} getItems={getItems} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo');
+      await delay(100);
+
+      const comment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
+      expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(comment);
+      expect(screen.getByTestId(MenuItemDataTids.root)).not.toBeDisabled();
+    });
+
+    it('should not select first menu item on Enter when free text is invalid', async () => {
+      const onValueChange = vi.fn();
+      const isTokenValidSpy = vi.fn((value: string) => !value.includes(' '));
+      render(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={async () => ['Запрещённый токен', 'Обычный токен']}
+          selectedItems={[]}
+          onValueChange={onValueChange}
+          isTokenValid={isTokenValidSpy}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'a ');
+      await delay(100);
+      await userEvent.keyboard('{Enter}');
+
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(isTokenValidSpy).toHaveBeenCalledWith('a ');
+      expect(tokenInput).toHaveValue('a ');
+    });
+
+    it('should add token from menu even when predicate would reject the text', async () => {
+      const onValueChange = vi.fn();
+      const blinkSpy = vi.spyOn(TokenInput.prototype, 'blink').mockImplementation(() => undefined);
+      render(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={async () => ['foo bar']}
+          selectedItems={[]}
+          onValueChange={onValueChange}
+          isTokenValid={isTokenValid}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await delay(100);
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+
+      expect(onValueChange).toHaveBeenCalledWith(['foo bar']);
+      expect(blinkSpy).not.toHaveBeenCalled();
+      blinkSpy.mockRestore();
+    });
+
+    it('should validate pasted tokens and keep invalid remainder with trailing segments', async () => {
+      const isTokenValidSpy = vi.fn(isTokenValid);
+      render(<StatefulTokenInput isTokenValid={isTokenValidSpy} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      fireEvent.paste(tokenInput, { clipboardData: { getData: () => 'valid,bad value,good' } });
+      await delay(1);
+
+      expect(isTokenValidSpy.mock.calls).toEqual([['valid'], ['bad value']]);
+      expect(screen.getByText('valid')).toBeInTheDocument();
+      expect(screen.queryByText('good')).not.toBeInTheDocument();
+      expect(tokenInput).toHaveValue('bad value,good');
+    });
+    it('should call onInputValueChange with remainder after paste', async () => {
+      const onInputValueChange = vi.fn();
+      render(
+        <StatefulTokenInput
+          type={TokenInputType.Combined}
+          getItems={getItems}
+          onInputValueChange={onInputValueChange}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      fireEvent.paste(tokenInput, { clipboardData: { getData: () => 'valid,bad value,tail' } });
+      await delay(1);
+
+      expect(onInputValueChange).toHaveBeenCalledWith('bad value,tail');
+      expect(tokenInput).toHaveValue('bad value,tail');
+    });
+
+    it('should not select first menu item on Enter after paste replaces navigated query', async () => {
+      const onValueChange = vi.fn();
+      render(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={async () => ['Запрещённый токен', 'Обычный токен']}
+          selectedItems={[]}
+          onValueChange={onValueChange}
+          isTokenValid={isTokenValid}
+        />,
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo');
+      await delay(100);
+      await userEvent.keyboard('{ArrowDown}');
+      fireEvent.paste(tokenInput, { clipboardData: { getData: () => 'valid,bad value' } });
+      await delay(100);
+      await userEvent.keyboard('{Enter}');
+
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      expect(onValueChange).toHaveBeenCalledWith(['valid']);
+      expect(tokenInput).toHaveValue('bad value');
+    });
+
+    it('should apply exact menu match on Enter while editing even when predicate would reject the text', async () => {
+      const onValueChange = vi.fn();
+      render(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={async () => ['foo bar']}
+          selectedItems={['foo']}
+          onValueChange={onValueChange}
+          isTokenValid={isTokenValid}
+        />,
+      );
+
+      await userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.clear(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await delay(100);
+      await userEvent.keyboard('{Enter}');
+
+      expect(onValueChange).toHaveBeenCalledWith(['foo bar']);
+    });
+
+    it('should validate token when finishing editing', async () => {
+      const isTokenValidSpy = vi.fn(isTokenValid);
+      const onValueChange = vi.fn();
+      render(
+        <TokenInput
+          type={TokenInputType.WithoutReference}
+          selectedItems={['foo']}
+          onValueChange={onValueChange}
+          isTokenValid={isTokenValidSpy}
+        />,
+      );
+
+      await userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.clear(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      expect(isTokenValidSpy).not.toHaveBeenCalled();
+      await userEvent.keyboard('{Enter}');
+
+      expect(isTokenValidSpy).toHaveBeenCalledTimes(1);
+      expect(isTokenValidSpy).toHaveBeenCalledWith('foo bar');
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(tokenInput).toHaveValue('foo bar');
+    });
+
+    it('should behave as before when isTokenValid is not provided', async () => {
+      const WithoutValidation = () => {
+        const [selectedItems, setSelectedItems] = useState<string[]>([]);
+        return (
+          <TokenInput
+            type={TokenInputType.WithoutReference}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+          />
+        );
+      };
+
+      render(<WithoutValidation />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.click(tokenInput);
+      await userEvent.type(tokenInput, 'foo bar');
+      await userEvent.keyboard('{Enter}');
+
+      expect(screen.getByText('foo bar')).toBeInTheDocument();
+    });
+  });
+
   describe('itemToId', () => {
     interface TestValue {
       id: string;

@@ -643,6 +643,38 @@ export const ExampleExtendedItems: Story = () => {
 };
 ExampleExtendedItems.storyName = 'Шапка, разделитель и футер в списке';
 
+/** Проп `isTokenValid` задаёт функцию, которая проверяет, можно ли сделать токен из введённого текста. Если текст не проходит проверку, токен не создаётся — поле мигает, текст остаётся. На выбор из справочника проверка не производится.
+ *
+ * Сообщение об ошибке на поле — в разделе [Валидация](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-tokeninput--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F). */
+export const ExampleIsTokenValid: Story = () => {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([
+    '+7 950 000-00-01',
+    '+7 950 000-00-02',
+    '+380 000 000-00-03',
+  ]);
+  const phoneNumbers = [
+    '+7 950 000-00-01',
+    '+7 950 000-00-02',
+    '+380 000 000-00-03',
+    '+375 000 000-00-04',
+    '+49 800 000-0002',
+    '+775 000 000-00-04',
+  ];
+
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      placeholder="Введите номер телефона"
+      delimiters={[',', ';']}
+      getItems={async (query) => phoneNumbers.filter((item) => item.includes(query))}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      isTokenValid={(value) => value.trim().startsWith('+')}
+    />
+  );
+};
+ExampleIsTokenValid.storyName = 'Проверка перед добавлением токена';
+
 /** Функция `debounce` из lodash некорректно работает с `async/promise`, поэтому лучше использовать кастомную функцию, как в примере ниже. */
 export const ExampleFuncDebounceAsync: Story = () => {
   const [value, setValue] = React.useState<string[]>([]);

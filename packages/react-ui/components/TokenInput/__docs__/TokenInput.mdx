@@ -89,15 +89,17 @@ import { Token } from '@skbkontur/react-ui';
 
 ## Валидация
 
-С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно реализовать сценарии валидации для компонента из [гайдов](https://guides.kontur.ru/components/input-fields/tokens/#Validatsiya):
 
-В примере добавлена комплексная валидация:
+1. Валидация [ввода](https://guides.kontur.ru/components/input-fields/tokens/#42) пользователя: если текст не подходит по формату, токен не формируется (`isTokenValid`). При потере фокуса валидируется всё поле.
 
-1.  Валидация обязательности ввода.
-2.  Классическая валидация компонента: проверка пробелов в токене.
-3.  Валидация каждого токена через `createValidator` и `renderToken`.
+<Story of={TokenInputExamples.ExampleValidationField} />
 
-<Story of={TokenInputExamples.ExampleValidation} />
+2. Валидация каждого [токена](https://guides.kontur.ru/components/input-fields/tokens/#44): токен может валидироваться отдельно — например, при отправке формы (`createValidator` + `renderToken` с `error`).
+
+<Story of={TokenInputExamples.ExampleValidationTokens} />
+
+Валидация только показывает ошибку и не блокирует `onValueChange`. Проп `isTokenValid` нужен отдельно, если невалидный текст не должен становиться токеном.
 
 Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
 
