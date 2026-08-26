@@ -21,6 +21,49 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  hoverBridge() {
+    return css`
+      position: absolute;
+      pointer-events: auto;
+    `;
+  },
+
+  hoverBridgeTop() {
+    return css`
+      left: 0;
+      right: 0;
+      bottom: 100%;
+      height: var(--popup-hover-bridge-size);
+    `;
+  },
+
+  hoverBridgeBottom() {
+    return css`
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: var(--popup-hover-bridge-size);
+    `;
+  },
+
+  hoverBridgeLeft() {
+    return css`
+      top: 0;
+      bottom: 0;
+      right: 100%;
+      width: var(--popup-hover-bridge-size);
+    `;
+  },
+
+  hoverBridgeRight() {
+    return css`
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      width: var(--popup-hover-bridge-size);
+    `;
+  },
+
   content(t: Theme) {
     return css`
       overflow: hidden;

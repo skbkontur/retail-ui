@@ -1,7 +1,8 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
+import { PopupDataTids } from '../../../internal/Popup/index.js';
 import { clickOutside, delay } from '../../../lib/utils.js';
 import { Button } from '../../Button/index.js';
 import { Tooltip, TooltipDataTids } from '../Tooltip.js';
@@ -695,5 +696,71 @@ describe('Tooltip', () => {
     unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(hoverTimeout);
+  });
+
+  describe('hover bridge keeps tooltip open', () => {
+    it('stays open when mouse leaves anchor onto hover bridge', async () => {
+      render(
+        <Tooltip trigger="hover" disableAnimations render={() => <div>Content</div>} pos="top center">
+          <button type="button">Anchor</button>
+        </Tooltip>,
+      );
+
+      const anchor = screen.getByRole('button');
+      await userEvent.hover(anchor);
+      await delay(Tooltip.delay);
+
+      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      const bridge = await screen.findByTestId(PopupDataTids.hoverBridge);
+
+      // Direct move onto bridge: relatedTarget is bridge — must not schedule close.
+      fireEvent.mouseLeave(anchor, { relatedTarget: bridge });
+      await delay(Tooltip.delay);
+
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    });
+
+    it('stays open when mouse enters popup after leaving anchor', async () => {
+      render(
+        <Tooltip trigger="hover" disableAnimations render={() => <div>Content</div>} pos="top center">
+          <button type="button">Anchor</button>
+        </Tooltip>,
+      );
+
+      const anchor = screen.getByRole('button');
+      await userEvent.hover(anchor);
+      await delay(Tooltip.delay);
+
+      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      const popupRoot = await screen.findByTestId(TooltipDataTids.root);
+      await screen.findByTestId(PopupDataTids.hoverBridge);
+
+      fireEvent.mouseLeave(anchor, { relatedTarget: document.body });
+      fireEvent.mouseEnter(popupRoot);
+      await delay(Tooltip.delay);
+
+      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    });
+
+    it('closes after leave when mouse does not enter popup', async () => {
+      render(
+        <Tooltip trigger="hover" disableAnimations render={() => <div>Content</div>} pos="top center">
+          <button type="button">Anchor</button>
+        </Tooltip>,
+      );
+
+      const anchor = screen.getByRole('button');
+      await userEvent.hover(anchor);
+      await delay(Tooltip.delay);
+
+      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
+
+      fireEvent.mouseLeave(anchor, { relatedTarget: document.body });
+      await delay(Tooltip.delay);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+      });
+    });
   });
 });

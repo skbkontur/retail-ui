@@ -203,6 +203,7 @@ export const PopupDataTids = {
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
   popupPin: 'PopupPin__root',
+  hoverBridge: 'Popup__hoverBridge',
 } as const;
 
 export const PopupIds = {
@@ -524,10 +525,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const relativeShift = this.getRelativeShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
+    const margin = this.getMargin();
     const rootStyle: React.CSSProperties = {
       maxWidth: this.getMobileMaxWidth(maxWidth),
       top: location.coordinates.top + relativeShift.top,
       left: location.coordinates.left + relativeShift.left,
+      ...(margin > 0 ? ({ '--popup-hover-bridge-size': `${margin}px` } as React.CSSProperties) : {}),
     };
 
     return (
@@ -566,6 +569,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseLeave={this.handleMouseLeave}
             >
               {this.content(children)}
+              {location !== DUMMY_LOCATION && this.renderHoverBridge(direction, margin)}
               {location !== DUMMY_LOCATION &&
                 (!this.isMobileLayout || this.props.withoutMobile) &&
                 this.renderPin(location.position)}
@@ -617,6 +621,47 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         />
       )
     );
+  }
+
+  private renderHoverBridge(direction: string, margin: number): React.ReactNode {
+    if (margin <= 0) {
+      return null;
+    }
+
+    // Bridge faces the anchor (opposite to popup placement direction).
+    const sideByPopupDirection: Record<string, 'top' | 'bottom' | 'left' | 'right'> = {
+      bottom: 'top',
+      top: 'bottom',
+      right: 'left',
+      left: 'right',
+    };
+    const sideTowardAnchor = sideByPopupDirection[direction];
+
+    if (!sideTowardAnchor) {
+      return null;
+    }
+
+    const directionalStyle = {
+      top: this.styles.hoverBridgeTop(),
+      bottom: this.styles.hoverBridgeBottom(),
+      left: this.styles.hoverBridgeLeft(),
+      right: this.styles.hoverBridgeRight(),
+    }[sideTowardAnchor];
+
+    return (
+      <div
+        data-tid={PopupDataTids.hoverBridge}
+        data-side={sideTowardAnchor}
+        className={this.cx(this.styles.hoverBridge(), directionalStyle)}
+      />
+    );
+  }
+
+  private getMargin(): number {
+    const { margin: marginFromProps } = this.props;
+    return isNonNullable(marginFromProps) && !isNaN(marginFromProps)
+      ? marginFromProps
+      : parseInt(this.theme.popupMargin) || 0;
   }
 
   private handleLayoutEvent = () => {
@@ -1078,11 +1123,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const { margin: marginFromProps } = this.props;
-    const margin =
-      isNonNullable(marginFromProps) && !isNaN(marginFromProps)
-        ? marginFromProps
-        : parseInt(this.theme.popupMargin) || 0;
+    const margin = this.getMargin();
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 

@@ -762,3 +762,54 @@ describe('rootNode', () => {
     });
   });
 });
+
+describe('hover bridge', () => {
+  const renderOpenedPopup = async (props: Partial<PopupProps> = {}) => {
+    const anchor = document.createElement('button');
+    document.body.appendChild(anchor);
+
+    const { rerender, unmount } = render(
+      <Popup opened={false} anchorElement={anchor} disableAnimations positions={['top center']} {...props}>
+        Content
+      </Popup>,
+    );
+
+    act(() => {
+      rerender(
+        <Popup opened anchorElement={anchor} disableAnimations positions={['top center']} {...props}>
+          Content
+        </Popup>,
+      );
+    });
+    await delay(100);
+
+    return {
+      unmount: () => {
+        unmount();
+        anchor.remove();
+      },
+    };
+  };
+
+  it.each([
+    ['top center', 'bottom'],
+    ['bottom center', 'top'],
+    ['left middle', 'right'],
+    ['right middle', 'left'],
+  ] as const)('renders bridge toward anchor for %s', async (position, expectedSide) => {
+    const { unmount } = await renderOpenedPopup({ positions: [position] });
+
+    const bridge = screen.getByTestId(PopupDataTids.hoverBridge);
+    expect(bridge).toHaveAttribute('data-side', expectedSide);
+
+    unmount();
+  });
+
+  it('does not render bridge when margin is 0', async () => {
+    const { unmount } = await renderOpenedPopup({ margin: 0 });
+
+    expect(screen.queryByTestId(PopupDataTids.hoverBridge)).not.toBeInTheDocument();
+
+    unmount();
+  });
+});

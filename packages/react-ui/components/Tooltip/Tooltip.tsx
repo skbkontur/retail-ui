@@ -540,9 +540,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     const trigger = this.getTrigger();
+    if (trigger === 'hover&focus' && this.state.focused) {
+      return;
+    }
+
+    // Transitioning between the anchor and the popup, including the hover-bridge and pin, must not trigger the close timeout.
     if (
-      (trigger === 'hover&focus' && this.state.focused) ||
-      (trigger === 'hover' && event.relatedTarget === this.contentElement)
+      (trigger === 'hover' || trigger === 'hover&focus') &&
+      this.isRelatedTargetInsideHoverArea(event.relatedTarget)
     ) {
       return;
     }
@@ -554,6 +559,24 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     } else {
       this.hoverTimeout = setTimeout(this.close, Tooltip.delay);
     }
+  };
+
+  private isRelatedTargetInsideHoverArea = (relatedTarget: EventTarget | null): boolean => {
+    if (!relatedTarget || !isInstanceOf(relatedTarget, this.globalObject.Element)) {
+      return false;
+    }
+
+    const popupNode = this.popupRef.current?.getRootNode?.() ?? null;
+    if (popupNode && containsTargetOrRenderContainer(relatedTarget)(popupNode)) {
+      return true;
+    }
+
+    const anchorNode = this.getAnchorElement();
+    if (anchorNode && isInstanceOf(anchorNode, this.globalObject.Element)) {
+      return containsTargetOrRenderContainer(relatedTarget)(anchorNode);
+    }
+
+    return relatedTarget === this.contentElement;
   };
 
   private handleClick = () => {
