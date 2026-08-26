@@ -194,17 +194,22 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       ...rest
     } = props;
 
+    const isFocused = this.getProps().focused || this.state.focusedByKeyboard;
+    const isInRadioGroup = this._isInRadioGroup();
+    const isCheckedByGroup = isInRadioGroup && this.props.value === this.context.activeItem;
+    const isChecked = isCheckedByGroup || !!this.props.checked;
+
     const radioProps = {
       className: this.cx({
         [this.styles.circle(this.theme)]: true,
         [this.getCircleSizeClassName()]: true,
-        [this.styles.checked(this.theme)]: this.props.checked,
-        [this.getCheckedSizeClassName()]: this.props.checked,
-        [this.styles.focus(this.theme)]: this.getProps().focused || this.state.focusedByKeyboard,
+        [this.styles.checked(this.theme)]: isChecked,
+        [this.getCheckedSizeClassName()]: isChecked,
+        [this.styles.focus(this.theme)]: isFocused,
         [this.styles.error(this.theme)]: error,
         [this.styles.warning(this.theme)]: warning,
         [this.styles.disabled(this.theme)]: disabled,
-        [this.styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+        [this.styles.checkedDisabled(this.theme)]: isChecked && disabled,
         [globalClasses.circle]: true,
       }),
     };
@@ -225,32 +230,24 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
+      ...(isInRadioGroup
+        ? {
+            checked: isCheckedByGroup,
+            name: this.context.name,
+            suppressHydrationWarning: true,
+          }
+        : {}),
     };
 
     const labelProps = {
       className: this.cx(this.styles.root(this.theme), this.getRootSizeClassName(), {
-        [this.styles.rootChecked(this.theme)]: this.props.checked,
+        [this.styles.rootChecked(this.theme)]: isChecked,
       }),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
       onClick: fixFirefoxModifiedClickOnLabel(this.inputEl),
     };
-
-    if (this._isInRadioGroup()) {
-      const checked = this.props.value === this.context.activeItem;
-      inputProps.checked = checked;
-      inputProps.name = this.context.name;
-      inputProps.suppressHydrationWarning = true;
-      labelProps.className = this.cx(this.styles.root(this.theme), this.getRootSizeClassName(), {
-        [this.styles.rootChecked(this.theme)]: checked,
-      });
-      radioProps.className = this.cx(radioProps.className, {
-        [this.styles.checked(this.theme)]: checked,
-        [this.getCheckedSizeClassName()]: checked,
-        [this.styles.checkedDisabled(this.theme)]: checked && disabled,
-      });
-    }
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import { Gapped } from '../../Gapped/index.js';
+import { RadioGroup } from '../../RadioGroup/index.js';
 import { Radio } from '../Radio.js';
 
 const meta: Meta = {
@@ -96,6 +97,22 @@ export const Size: Story = () => {
     </div>
   );
 };
+
+export const CheckedPropInRadioGroup: Story = () => {
+  const [chosen, setChosen] = React.useState<number | null>(null);
+
+  return (
+    <RadioGroup value={chosen} onValueChange={setChosen}>
+      <Gapped gap={10} vertical>
+        <Radio value={1}>One</Radio>
+        <Radio value={2} checked={chosen === null}>
+          Checked by prop
+        </Radio>
+      </Gapped>
+    </RadioGroup>
+  );
+};
+CheckedPropInRadioGroup.storyName = 'checked prop in RadioGroup';
 
 export const WithComment: Story = () => {
   return (

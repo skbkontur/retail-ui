@@ -202,7 +202,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   disabled(t: Theme) {
     return css`
       background: ${t.radioDisabledBg} !important; // override root hover/active styles
-      border-color: transparent !important; // override root hover/active styles
+      border-color: ${t.radioDisabledBorderColor} !important; // override root hover/active styles
       box-shadow: ${t.radioDisabledShadow} !important; // override root hover/active styles
     `;
   },

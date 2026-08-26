@@ -2610,6 +2610,7 @@ export class BasicThemeClass {
   public static get radioDisabledBg(): string {
     return this.checkboxBgDisabled;
   }
+  public static radioDisabledBorderColor = 'transparent';
   public static get radioDisabledShadow(): string {
     return `0 0 0 ${this.radioBorderWidth} ${colors.lineNeutralFaint}`;
   }
