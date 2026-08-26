@@ -1,6 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import React from 'react';
 
+import { ComboBoxRequestStatus } from '../../internal/CustomComboBox/CustomComboBoxTypes.js';
 import type { ComboBoxMenuProps } from '../../internal/CustomComboBox/index.js';
 import { ComboBoxMenu } from '../../internal/CustomComboBox/index.js';
 import type { Menu } from '../../internal/Menu/index.js';
@@ -8,6 +9,7 @@ import { MobilePopup } from '../../internal/MobilePopup/index.js';
 import type { HTMLProps } from '../../typings/html.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import type { TokenSize } from '../Token/index.js';
+import { TokenInputFailedMenu } from './TokenInputFailedMenu.js';
 
 export interface TokenInputMobileMenuProps<T> extends ComboBoxMenuProps<T> {
   /** Задает id выпадающему меню.
@@ -52,21 +54,35 @@ export class TokenInputMobileMenu<T = string> extends React.Component<TokenInput
         id={this.props.popupMenuId}
         onCloseRequest={onCloseRequest}
       >
-        <ComboBoxMenu
-          size={this.props.size}
-          items={items}
-          loading={loading}
-          hasMargin={false}
-          refMenu={this.menuRef}
-          maxMenuHeight={maxMenuHeight}
-          onValueChange={onValueChange}
-          opened={opened}
-          renderTotalCount={renderTotalCount}
-          renderItem={renderItem}
-          renderNotFound={renderNotFound}
-          totalCount={totalCount}
-          renderAddButton={renderAddButton}
-        />
+        {opened && items === null && this.props.requestStatus === ComboBoxRequestStatus.Failed && !loading ? (
+          <TokenInputFailedMenu
+            refMenu={this.menuRef}
+            maxMenuHeight={maxMenuHeight}
+            size={this.props.size}
+            isMobile
+            hasMargin={false}
+            repeatRequest={this.props.repeatRequest}
+            renderAddButton={renderAddButton}
+          />
+        ) : (
+          <ComboBoxMenu
+            size={this.props.size}
+            items={items}
+            loading={loading}
+            hasMargin={false}
+            refMenu={this.menuRef}
+            maxMenuHeight={maxMenuHeight}
+            onValueChange={onValueChange}
+            opened={opened}
+            renderTotalCount={renderTotalCount}
+            renderItem={renderItem}
+            renderNotFound={renderNotFound}
+            totalCount={totalCount}
+            renderAddButton={renderAddButton}
+            requestStatus={this.props.requestStatus}
+            repeatRequest={this.props.repeatRequest}
+          />
+        )}
       </MobilePopup>
     );
   }

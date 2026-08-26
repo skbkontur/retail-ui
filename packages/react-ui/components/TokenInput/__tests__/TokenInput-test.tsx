@@ -2,6 +2,10 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testi
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
+import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes.js';
+import { ComboBoxMenuDataTids } from '../../../internal/CustomComboBox/index.js';
+import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { MenuMessageDataTids } from '../../../internal/MenuMessage/index.js';
 import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
 import { PopupIds } from '../../../internal/Popup/index.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
@@ -434,6 +438,34 @@ describe('<TokenInput />', () => {
       render(<TokenInput getItems={vi.fn()} aria-label={ariaLabel} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('sets aria-busy while getItems is pending', async () => {
+      let resolveItems: (items: string[]) => void = () => undefined;
+      const getItemsMock = vi.fn(
+        () =>
+          new Promise<string[]>((resolve) => {
+            resolveItems = resolve;
+          }),
+      );
+      render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).not.toHaveAttribute('aria-busy');
+
+      await userEvent.click(input);
+
+      await waitFor(() => {
+        expect(input).toHaveAttribute('aria-busy', 'true');
+      });
+
+      await act(async () => {
+        resolveItems(['aaa']);
+      });
+
+      await waitFor(() => {
+        expect(input).not.toHaveAttribute('aria-busy');
+      });
     });
   });
   describe('in "without reference" mode', () => {
@@ -1108,6 +1140,242 @@ describe('<TokenInput />', () => {
         expect(Object.keys(props).sort()).toEqual(Object.keys(_props).sort());
         expect(index).toBe(_index);
       });
+  });
+
+  it('shows failed menu when getItems rejects', async () => {
+    const getItemsMock = vi.fn(() => Promise.reject());
+    render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+
+    await waitFor(() => {
+      expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+  });
+
+  it('retries getItems on retry button click', async () => {
+    const getItemsMock = vi.fn(() => Promise.reject());
+    render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    const callsBeforeRetry = getItemsMock.mock.calls.length;
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+
+    await waitFor(() => {
+      expect(getItemsMock.mock.calls.length).toBeGreaterThan(callsBeforeRetry);
+    });
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
+
+  it('retries getItems with current input value', async () => {
+    const getItemsMock = vi.fn(() => Promise.reject());
+    render(<TokenInput getItems={getItemsMock} selectedItems={['aaa']} onValueChange={vi.fn()} />);
+
+    await userEvent.type(screen.getByRole('textbox'), 'foo');
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId(TokenDataTids.removeIcon));
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    getItemsMock.mockClear();
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+
+    await waitFor(() => {
+      expect(getItemsMock).toHaveBeenCalledWith('foo');
+    });
+  });
+
+  it('retries getItems on Enter when request failed', async () => {
+    const getItemsMock = vi.fn(() => Promise.reject());
+    render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    const callsBeforeRetry = getItemsMock.mock.calls.length;
+    await act(async () => {
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve());
+      });
+    });
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+    await waitFor(() => {
+      expect(getItemsMock.mock.calls.length).toBeGreaterThan(callsBeforeRetry);
+    });
+  });
+
+  it('ignores getItems rejection after blur', async () => {
+    const tokenInputRef = React.createRef<TokenInput>();
+    let rejectGetItems: (reason?: unknown) => void = () => undefined;
+    const getItemsMock = vi.fn(
+      () =>
+        new Promise<string[]>((_, reject) => {
+          rejectGetItems = reject;
+        }),
+    );
+    render(<TokenInput ref={tokenInputRef} getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    act(() => {
+      tokenInputRef.current?.blur();
+    });
+    await act(async () => {
+      rejectGetItems();
+    });
+
+    expect(tokenInputRef.current?.state.requestStatus).toBe(ComboBoxRequestStatus.Unknown);
+    expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
+  });
+
+  it('ignores getItems rejection after unmount', async () => {
+    let rejectGetItems: (reason?: unknown) => void = () => undefined;
+    const getItemsMock = vi.fn(
+      () =>
+        new Promise<string[]>((_, reject) => {
+          rejectGetItems = reject;
+        }),
+    );
+    const { unmount } = render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    unmount();
+    await act(async () => {
+      rejectGetItems();
+    });
+
+    expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
+  });
+
+  it('shows items after retry succeeds without not-found state', async () => {
+    let shouldReject = true;
+    const getItemsMock = vi.fn(() => (shouldReject ? Promise.reject() : Promise.resolve(['aaa'])));
+    render(<TokenInput getItems={getItemsMock} selectedItems={[]} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    shouldReject = false;
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+
+    await waitFor(() => {
+      expect(screen.getByText('aaa')).toBeInTheDocument();
+    });
+    expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.notFound)).not.toBeInTheDocument();
+  });
+
+  it('shows add button in Combined mode when getItems rejects', async () => {
+    const onValueChange = vi.fn();
+    const getItemsMock = vi.fn(() => Promise.reject());
+    render(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={getItemsMock}
+        selectedItems={[]}
+        onValueChange={onValueChange}
+      />,
+    );
+
+    await userEvent.type(screen.getByRole('textbox'), 'zzz');
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    const addButton = screen.getByRole('button', { name: /Добавить.*zzz/ });
+    expect(addButton).toBeInTheDocument();
+
+    await userEvent.click(addButton);
+    expect(onValueChange).toHaveBeenCalledWith(['zzz']);
+  });
+
+  it('does not call onUnexpectedInput on blur when getItems rejected', async () => {
+    const onUnexpectedInput = vi.fn(() => 'zzz');
+    render(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={() => Promise.reject()}
+        selectedItems={[]}
+        onValueChange={vi.fn()}
+        onUnexpectedInput={onUnexpectedInput}
+      />,
+    );
+
+    await userEvent.type(screen.getByRole('textbox'), 'zzz');
+    await waitFor(() => {
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
+    });
+
+    fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
+
+    expect(onUnexpectedInput).not.toHaveBeenCalled();
+    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('does not call onUnexpectedInput on blur while getItems is pending', async () => {
+    const onUnexpectedInput = vi.fn(() => 'zzz');
+    render(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={() => new Promise(() => undefined)}
+        selectedItems={[]}
+        onValueChange={vi.fn()}
+        onUnexpectedInput={onUnexpectedInput}
+      />,
+    );
+
+    await userEvent.type(screen.getByRole('textbox'), 'zzz');
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
+
+    expect(onUnexpectedInput).not.toHaveBeenCalled();
+    expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
+  });
+
+  it('calls onUnexpectedInput on blur after getItems resolves with no match', async () => {
+    const onUnexpectedInput = vi.fn(() => 'zzz');
+    render(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={() => Promise.resolve([])}
+        selectedItems={[]}
+        onValueChange={vi.fn()}
+        onUnexpectedInput={onUnexpectedInput}
+      />,
+    );
+
+    await userEvent.type(screen.getByRole('textbox'), 'zzz');
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-busy');
+    });
+
+    fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
+
+    expect(onUnexpectedInput).toHaveBeenCalledWith('zzz');
   });
 });
 

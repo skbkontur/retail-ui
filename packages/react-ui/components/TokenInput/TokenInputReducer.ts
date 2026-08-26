@@ -1,5 +1,10 @@
+import { ComboBoxRequestStatus } from '../../internal/CustomComboBox/CustomComboBoxTypes.js';
 import { DefaultState } from './TokenInput.js';
 import type { TokenInputState } from './TokenInput.js';
+
+export interface TokenInputInternalState<T> extends TokenInputState<T> {
+  requestStatus: ComboBoxRequestStatus;
+}
 
 export interface TokenInputAction {
   type: TokenInputActionType;
@@ -17,6 +22,7 @@ export const TokenActions = {
   SET_ACTIVE_TOKENS: 'SET_ACTIVE_TOKENS',
   REMOVE_ALL_ACTIVE_TOKENS: 'REMOVE_ALL_ACTIVE_TOKENS',
   SET_LOADING: 'SET_LOADING',
+  SET_REQUEST_FAILURE: 'SET_REQUEST_FAILURE',
   CLEAR_INPUT: 'CLEAR_INPUT',
   RESET: 'RESET',
   SET_EDITING_TOKEN_INDEX: 'SET_EDITING_TOKEN_INDEX',
@@ -30,9 +36,9 @@ export const TokenActions = {
 export type TokenInputActionType = keyof typeof TokenActions;
 
 export function tokenInputReducer<T = string>(
-  state: TokenInputState<T>,
+  state: TokenInputInternalState<T>,
   action: TokenInputAction,
-): Pick<TokenInputState<T>, never> {
+): Pick<TokenInputInternalState<T>, never> {
   const payload = action.payload;
   switch (action.type) {
     case TokenActions.SET_INPUT_VALUE_WIDTH: {
@@ -51,7 +57,7 @@ export function tokenInputReducer<T = string>(
       return { preventBlur: payload };
     }
     case TokenActions.SET_AUTOCOMPLETE_ITEMS: {
-      return { autocompleteItems: payload };
+      return { autocompleteItems: payload, loading: false, requestStatus: ComboBoxRequestStatus.Unknown };
     }
     case TokenActions.SET_ACTIVE_TOKENS: {
       return { activeTokens: payload };
@@ -62,17 +68,24 @@ export function tokenInputReducer<T = string>(
         preventBlur: false,
         autocompleteItems: undefined,
         activeTokens: [],
+        loading: false,
+        requestStatus: ComboBoxRequestStatus.Unknown,
       };
     }
     case TokenActions.REMOVE_ALL_ACTIVE_TOKENS: {
       return { activeTokens: [] };
     }
     case TokenActions.CLEAR_INPUT: {
-      return { inputValue: '', autocompleteItems: undefined };
+      return { inputValue: '', autocompleteItems: undefined, requestStatus: ComboBoxRequestStatus.Unknown };
     }
     case TokenActions.SET_LOADING: {
+      return payload ? { loading: true } : { loading: false, requestStatus: ComboBoxRequestStatus.Unknown };
+    }
+    case TokenActions.SET_REQUEST_FAILURE: {
       return {
-        loading: payload,
+        loading: false,
+        autocompleteItems: undefined,
+        requestStatus: ComboBoxRequestStatus.Failed,
       };
     }
     case TokenActions.RESET: {
@@ -100,6 +113,8 @@ export function tokenInputReducer<T = string>(
         preventBlur: false,
         autocompleteItems: undefined,
         activeTokens: [],
+        loading: false,
+        requestStatus: ComboBoxRequestStatus.Unknown,
       };
     }
     default:

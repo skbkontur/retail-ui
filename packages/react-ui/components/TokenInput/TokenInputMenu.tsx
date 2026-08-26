@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ComboBoxRequestStatus } from '../../internal/CustomComboBox/CustomComboBoxTypes.js';
 import { ComboBoxMenu } from '../../internal/CustomComboBox/index.js';
 import type { ComboBoxMenuProps } from '../../internal/CustomComboBox/index.js';
 import type { Menu } from '../../internal/Menu/index.js';
@@ -13,6 +14,7 @@ import type { HTMLProps } from '../../typings/html.js';
 import type { TokenSize } from '../Token/index.js';
 import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput.js';
 import { TokenInputDataTids } from './TokenInput.js';
+import { TokenInputFailedMenu } from './TokenInputFailedMenu.js';
 
 const cursorNearFieldEdgeTolerancePx = 1;
 
@@ -260,21 +262,34 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         width={isCursorAlign ? 'auto' : menuWidth}
         onPositionChange={this.handleMenuPositionChange}
       >
-        <ComboBoxMenu
-          size={this.props.size}
-          items={items}
-          loading={loading}
-          hasMargin={false}
-          maxMenuHeight={maxMenuHeight}
-          onValueChange={onValueChange}
-          opened={opened}
-          refMenu={this.menuRef}
-          renderTotalCount={renderTotalCount}
-          renderItem={renderItem}
-          renderNotFound={renderNotFound}
-          totalCount={totalCount}
-          renderAddButton={renderAddButton}
-        />
+        {opened && items === null && this.props.requestStatus === ComboBoxRequestStatus.Failed && !loading ? (
+          <TokenInputFailedMenu
+            refMenu={this.menuRef}
+            maxMenuHeight={maxMenuHeight}
+            size={this.props.size}
+            hasMargin={false}
+            repeatRequest={this.props.repeatRequest}
+            renderAddButton={renderAddButton}
+          />
+        ) : (
+          <ComboBoxMenu
+            size={this.props.size}
+            items={items}
+            loading={loading}
+            hasMargin={false}
+            maxMenuHeight={maxMenuHeight}
+            onValueChange={onValueChange}
+            opened={opened}
+            refMenu={this.menuRef}
+            renderTotalCount={renderTotalCount}
+            renderItem={renderItem}
+            renderNotFound={renderNotFound}
+            totalCount={totalCount}
+            renderAddButton={renderAddButton}
+            requestStatus={this.props.requestStatus}
+            repeatRequest={this.props.repeatRequest}
+          />
+        )}
       </Popup>
     );
   }

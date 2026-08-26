@@ -13,10 +13,11 @@ import type {
   ReactNode,
 } from 'react';
 import React from 'react';
-import logWarning from 'warning';
+import warning from 'warning';
 
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { ComboBoxRequestStatus } from '../../internal/CustomComboBox/CustomComboBoxTypes.js';
 import type { Menu } from '../../internal/Menu/index.js';
 import { PopupIds } from '../../internal/Popup/index.js';
 import { blink } from '../../lib/blink.js';
@@ -61,7 +62,7 @@ import { TextWidthHelper } from './TextWidthHelper.js';
 import { getStyles } from './TokenInput.styles.js';
 import { TokenInputMenu } from './TokenInputMenu.js';
 import { TokenInputMobileMenu } from './TokenInputMobileMenu.js';
-import type { TokenInputAction } from './TokenInputReducer.js';
+import type { TokenInputAction, TokenInputInternalState } from './TokenInputReducer.js';
 import { tokenInputReducer } from './TokenInputReducer.js';
 
 const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
@@ -230,7 +231,7 @@ export interface TokenInputState<T> {
 
 export type TokenInputExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
 
-export const DefaultState = {
+export const DefaultState: TokenInputInternalState<any> = {
   inputValue: '',
   reservedInputValue: undefined,
   autocompleteItems: undefined,
@@ -242,6 +243,7 @@ export const DefaultState = {
   inputValueWidth: 2,
   inputValueHeight: 22,
   showMobilePopup: false,
+  requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
 export const TokenInputDataTids = {
@@ -296,7 +298,7 @@ const defaultRenderToken = <T extends AnyObject>(
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 @withSize
-export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
+export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputInternalState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
   public static displayName = 'TokenInput';
 
@@ -337,7 +339,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return this.props.id ?? this._textareaId;
   }
 
-  public state: TokenInputState<T> = DefaultState;
+  public state: TokenInputInternalState<T> = DefaultState;
 
   private readonly _textareaId: string = getUid();
   private rootId = PopupIds.root + getRandomID();
@@ -358,6 +360,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
   private menuNavigatedByUser = false;
+  private requestId = 0;
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -367,7 +370,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   }
 
-  public componentDidUpdate(prevProps: TokenInputProps<T> & DefaultProps<T>, prevState: TokenInputState<T>) {
+  public componentDidUpdate(prevProps: TokenInputProps<T> & DefaultProps<T>, prevState: TokenInputInternalState<T>) {
     if (prevState.inputValue !== this.state.inputValue) {
       this.updateInputTextWidth();
     }
@@ -401,6 +404,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
+    this.cancelRequest();
     this.globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
@@ -465,7 +469,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
-      logWarning(false, `getItems is required for "Combined" and "WithReference" modes.`);
+      warning(false, `getItems is required for "Combined" and "WithReference" modes.`);
     }
     const { onMouseEnter, onMouseLeave } = this.getProps();
     const { showMobilePopup } = this.state;
@@ -531,8 +535,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const { selectedItems, menuWidth, menuAlign, renderItem } = this.getProps();
     const isMobileFooter = variant === 'mobileFooter';
-    const { inFocus, inputValueWidth, inputValueHeight, inputValue, reservedInputValue, autocompleteItems, loading } =
-      this.state;
+    const { inFocus, inputValueWidth, inputValueHeight, inputValue, reservedInputValue, loading } = this.state;
 
     const theme = this.theme;
 
@@ -587,6 +590,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           aria-label={isMobileFooter || interactive ? ariaLabel : undefined}
           aria-describedby={isMobileFooter || interactive ? ariaDescribedby : undefined}
           aria-hidden={!interactive ? true : undefined}
+          aria-busy={interactive && loading ? true : undefined}
           autoFocus={isMobileFooter}
         />
       </TokenView>
@@ -603,7 +607,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           <TokenInputMenu
             popupMenuId={this.rootId}
             ref={this.tokensInputMenuRef}
-            items={autocompleteItems}
+            items={this.getMenuItems()}
             loading={loading}
             opened={showMenu}
             maxMenuHeight={maxMenuHeight}
@@ -618,6 +622,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             renderTotalCount={renderTotalCount}
             totalCount={totalCount}
             size={this.size}
+            requestStatus={this.state.requestStatus}
+            repeatRequest={this.repeatRequest}
           />
         )}
         {this.renderTokensEnd(interactive)}
@@ -671,7 +677,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { maxMenuHeight, renderNotFound, renderTotalCount, totalCount } = this.props;
 
     const { renderItem } = this.getProps();
-    const { autocompleteItems, loading } = this.state;
+    const { loading } = this.state;
 
     return (
       <TokenInputMobileMenu
@@ -679,7 +685,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         ref={(node) => {
           this.tokensInputMenuRef(node);
         }}
-        items={autocompleteItems}
+        items={this.getMenuItems()}
         loading={loading}
         opened
         maxMenuHeight={maxMenuHeight}
@@ -690,12 +696,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         renderTotalCount={renderTotalCount}
         totalCount={totalCount}
         size={this.size}
+        requestStatus={this.state.requestStatus}
+        repeatRequest={this.repeatRequest}
         mobileFooterComponent={this.renderMobilePopupFooter()}
-        onCloseRequest={() =>
+        onCloseRequest={() => {
+          this.cancelRequest();
           this.dispatch({
             type: 'SET_CLOSE_MOBILE_POPUP',
-          })
-        }
+          });
+        }}
       />
     );
   };
@@ -791,6 +800,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
+  private getMenuItems() {
+    if (this.state.requestStatus === ComboBoxRequestStatus.Failed) {
+      return null;
+    }
+    return this.state.autocompleteItems;
+  }
+
   private dispatch = (action: TokenInputAction, cb?: () => void) => {
     this.setState((prevState) => tokenInputReducer(prevState, action), cb);
   };
@@ -841,6 +857,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
+      this.cancelRequest();
       this.dispatch({ type: 'BLUR' });
       this.getProps().onBlur(event);
     }
@@ -861,6 +878,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // если не изменилось значение токена при редактировании
     if (this.isEditingMode && !this.isTokenValueChanged) {
       this.finishTokenEdit();
+      return;
+    }
+
+    if (this.state.loading || this.state.requestStatus === ComboBoxRequestStatus.Failed) {
       return;
     }
 
@@ -1110,11 +1131,34 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
+  private repeatRequest = () => {
+    this.tryGetItems(this.state.inputValue);
+    this.input?.focus();
+  };
+
+  private cancelRequest = () => {
+    this.requestId += 1;
+  };
+
   private tryGetItems = async (query = '') => {
     if (this.props.getItems && (this.isInputValueChanged || !this.props.hideMenuIfEmptyInputValue)) {
+      this.requestId += 1;
+      const expectingId = this.requestId;
       this.dispatch({ type: 'SET_LOADING', payload: true });
-      const autocompleteItems = await this.props.getItems(query);
-      this.dispatch({ type: 'SET_LOADING', payload: false });
+      let autocompleteItems: Array<TokenInputExtendedItem<T>>;
+      try {
+        autocompleteItems = await this.props.getItems(query);
+      } catch {
+        if (expectingId !== this.requestId) {
+          return;
+        }
+        this.dispatch({ type: 'SET_REQUEST_FAILURE' });
+        this.globalObject.requestAnimationFrame?.(() => this.menuRef?.highlightItem(0));
+        return;
+      }
+      if (expectingId !== this.requestId) {
+        return;
+      }
 
       const { selectedItems, valueToItem, valueToString } = this.getProps();
       const isSelectedItem = (item: T) => this.hasValueInItems(selectedItems, item);
@@ -1143,6 +1187,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           LayoutEvents.emit();
           this.highlightMenuItem();
         });
+      } else {
+        this.dispatch({ type: 'SET_LOADING', payload: false });
       }
       const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
@@ -1192,7 +1238,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     }
     const isRightmostTokenNotDisabled = !this.isTokenDisabled(this.getProps().selectedItems.length - 1);
-    const canSetValueToInput = this.showAddItemHint || (this.state.autocompleteItems?.length ?? 0) > 0;
+    const canSetValueToInput =
+      this.showAddItemHint ||
+      (this.state.autocompleteItems?.length ?? 0) > 0 ||
+      this.state.requestStatus === ComboBoxRequestStatus.Failed;
 
     switch (true) {
       case isKeyEnter(e):
