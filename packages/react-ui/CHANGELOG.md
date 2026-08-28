@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.1...@skbkontur/react-ui@6.3.2) (2026-08-28)
+
+
+### Bug Fixes
+
+* **Tooltip:** hover on bridge area don't close Popup ([15d1e4d](https://github.com/skbkontur/retail-ui/commit/15d1e4d4a81f6f94747f4d52bb476608cb9982e3))
+
+
+
+
+
 ## [6.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.0...@skbkontur/react-ui@6.3.1) (2026-08-21)
 
 
