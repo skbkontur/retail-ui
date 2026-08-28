@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.2...@skbkontur/react-ui@6.3.3) (2026-08-28)
+
+
+### Bug Fixes
+
+* **ComboBox:** show menu on arrow click ([69b1807](https://github.com/skbkontur/retail-ui/commit/69b18073db1e5eaa79d36926c154f0977735f9ab))
+
+
+
+
+
 ## [6.3.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.1...@skbkontur/react-ui@6.3.2) (2026-08-28)
 
 
