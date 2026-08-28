@@ -92,6 +92,7 @@ interface ComboBoxViewProps<T>
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
+  onArrowClick?: () => void;
   onClearCrossClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
@@ -130,6 +131,7 @@ type DefaultProps<T> = Required<
 
 export const ComboBoxViewIds = {
   menu: 'ComboBoxView__menu',
+  arrow: 'ComboBoxView__arrow',
 };
 
 interface ComboBoxViewState {
@@ -524,7 +526,16 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     if (rightIcon || drawArrow) {
-      return rightIcon || <ArrowDownIcon size={size} />;
+      return (
+        rightIcon || (
+          <ArrowDownIcon
+            data-tid={ComboBoxViewIds.arrow}
+            size={size}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={this.handleArrowClick}
+          />
+        )
+      );
     }
 
     return null;
@@ -532,5 +543,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   private refMobileInput = (input: Nullable<Input>) => {
     this.mobileInput = input;
+  };
+
+  private handleArrowClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    this.props.onArrowClick?.();
   };
 }

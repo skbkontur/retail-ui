@@ -313,6 +313,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
+      onArrowClick: this.handleArrowClick,
       onClearCrossClick: () => this.dispatch({ type: 'ClearCrossClick' }),
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
@@ -474,5 +475,17 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (!this.cancelationToken) {
       this.dispatch({ type: 'InputClick' });
     }
+  };
+
+  private handleArrowClick = () => {
+    if (this.props.disabled) {
+      return;
+    }
+
+    if (!this.focused) {
+      this.focus({ withoutOpenDropdown: true });
+    }
+
+    this.dispatch({ type: 'ArrowClick', isRequestActive: Boolean(this.cancelationToken) });
   };
 }

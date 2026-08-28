@@ -926,6 +926,100 @@ describe('ComboBox', () => {
     });
   });
 
+  describe('click on arrow', () => {
+    const getItems = vi.fn(() => Promise.resolve(testValues));
+
+    beforeEach(() => {
+      getItems.mockClear();
+    });
+
+    const renderComboBox = () => {
+      render(<ComboBox getItems={getItems} ref={comboboxRef} />);
+    };
+
+    it('opens menu, focuses input and allows keyboard navigation when input is not focused', async () => {
+      const onValueChange = vi.fn();
+      render(<ComboBox getItems={getItems} onValueChange={onValueChange} />);
+
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+      await delay(0);
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
+      expect(getItems).toHaveBeenCalledWith('');
+      expect(getItems).toHaveBeenCalledTimes(1);
+
+      await userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{enter}');
+
+      expect(onValueChange).toHaveBeenCalledWith(testValues[0]);
+    });
+
+    it('opens menu when input is focused', async () => {
+      renderComboBox();
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(0);
+      comboboxRef.current?.close();
+      getItems.mockClear();
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+      await delay(0);
+
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
+      expect(getItems).toHaveBeenCalledWith('');
+    });
+
+    it('closes menu when input is focused', async () => {
+      renderComboBox();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await delay(0);
+      getItems.mockClear();
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+      await delay(0);
+
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+      expect(getItems).not.toHaveBeenCalled();
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('cancels pending search on second click', async () => {
+      let resolveItems: (items: typeof testValues) => void = () => undefined;
+      const getItems = vi.fn(
+        () =>
+          new Promise<typeof testValues>((resolve) => {
+            resolveItems = resolve;
+          }),
+      );
+      render(<ComboBox getItems={getItems} />);
+
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+
+      await act(async () => resolveItems(testValues));
+      await delay(0);
+
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+    });
+
+    it('does not open menu when disabled', async () => {
+      render(<ComboBox disabled getItems={getItems} />);
+
+      await userEvent.click(screen.getByTestId(ComboBoxViewIds.arrow));
+      await delay(0);
+
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+      expect(getItems).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Search', () => {
     const query = 'One';
 

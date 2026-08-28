@@ -24,6 +24,7 @@ export type CustomComboBoxAction<T> =
   | { type: 'Mount' }
   | { type: 'Focus'; searchOnFocus?: boolean }
   | { type: 'InputClick' }
+  | { type: 'ArrowClick'; isRequestActive: boolean }
   | { type: 'ClearCrossClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
@@ -357,6 +358,12 @@ export function reducer<T>(
         return [newState, [Effect.search('')]];
       }
       return state;
+    }
+    case 'ArrowClick': {
+      if (state.opened || action.isRequestActive) {
+        return [{ opened: false, items: null }, [Effect.cancelRequest]];
+      }
+      return [state, [Effect.search('')]];
     }
     case 'ClearCrossClick': {
       const newState = {
