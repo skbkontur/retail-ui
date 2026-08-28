@@ -8,10 +8,18 @@ MDX, and stories that power the interactive documentation.
 
 - `llms.txt` — a compact index of guides and components;
 - `llms-full.txt` — the complete text corpus;
+- `llms-components.txt` — a component-only corpus;
+- `llms-guides.txt` — a guide-only corpus;
 - `docs/components/*.md` — one Markdown document per component;
 - `docs/guides/*.md` — one Markdown document per guide;
 - `api/components.json` — a versioned JSON component index;
-- `api/components/*.json` — structured API data for individual components.
+- `api/components/*.json` — structured API data for individual components;
+- `sitemap.xml` and `robots.txt` — crawler discovery files.
+
+Links between documented components are rewritten to direct Markdown URLs when
+the target is known. Storybook remains linked from each page as the interactive
+playground, but an agent can traverse the documentation without rendering the
+Storybook application.
 
 The package version is read from `package.json`. Public prop names, types,
 defaults, and descriptions are extracted by the TypeScript compiler through

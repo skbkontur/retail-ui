@@ -380,7 +380,23 @@ function formatExamples(examples: ExampleDocumentation[]): string {
     .join('\n\n');
 }
 
-function formatComponentMarkdown(component: ComponentDocumentation, version: string): string {
+function replaceLinks(markdown: string, replacements: Map<string, string>): string {
+  let result = markdown;
+  for (const [source, target] of replacements) {
+    result = result.replaceAll(source, target);
+  }
+  return result;
+}
+
+function escapeXml(value: string): string {
+  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+}
+
+function formatComponentMarkdown(
+  component: ComponentDocumentation,
+  version: string,
+  linkReplacements: Map<string, string>,
+): string {
   const header = [
     `# ${component.name}`,
     '',
@@ -392,7 +408,7 @@ function formatComponentMarkdown(component: ComponentDocumentation, version: str
 
   const propsMarkdown = formatProps(component.props);
   const examplesMarkdown = formatExamples(component.examples);
-  let contentMarkdown = component.markdown;
+  let contentMarkdown = replaceLinks(component.markdown, linkReplacements);
   const hasPropsPlaceholder = contentMarkdown.includes('<!-- AI_PROPS -->');
   const hasExamplesPlaceholder = contentMarkdown.includes('<!-- AI_EXAMPLES -->');
   contentMarkdown = contentMarkdown
@@ -424,6 +440,9 @@ function writeOutputs(
   guides: GuideDocumentation[],
   version: string,
 ): void {
+  const linkReplacements = new Map(
+    components.map((component) => [component.storybookUrl, `${baseUrl}/docs/components/${component.slug}.md`]),
+  );
   const componentIndex = components.map((component) => ({
     name: component.name,
     slug: component.slug,
@@ -441,7 +460,7 @@ function writeOutputs(
   for (const component of components) {
     write(
       join(options.outputDirectory, 'docs', 'components', `${component.slug}.md`),
-      formatComponentMarkdown(component, version),
+      formatComponentMarkdown(component, version, linkReplacements),
     );
     write(
       join(options.outputDirectory, 'api', 'components', `${component.slug}.json`),
@@ -454,7 +473,8 @@ function writeOutputs(
   }
 
   for (const guide of guides) {
-    const markdown = guide.markdown.startsWith('# ') ? guide.markdown : `# ${guide.name}\n\n${guide.markdown}`;
+    const linkedMarkdown = replaceLinks(guide.markdown, linkReplacements);
+    const markdown = linkedMarkdown.startsWith('# ') ? linkedMarkdown : `# ${guide.name}\n\n${linkedMarkdown}`;
     write(join(options.outputDirectory, 'docs', 'guides', `${guide.slug}.md`), cleanMarkdown(markdown) + '\n');
   }
 
@@ -474,7 +494,10 @@ function writeOutputs(
     '## Documentation bundles',
     '',
     `- [Full documentation](${baseUrl}/llms-full.txt): All guides, component APIs, and examples in one file.`,
+    `- [Components bundle](${baseUrl}/llms-components.txt): Component APIs and examples without the guides.`,
+    `- [Guides bundle](${baseUrl}/llms-guides.txt): Cross-component setup, migration, and usage guides.`,
     `- [Component API manifest](${baseUrl}/api/components.json): Structured JSON index of public components and props.`,
+    `- [Sitemap](${baseUrl}/sitemap.xml): Crawlable index of the published documentation.`,
     '',
     '## Guides',
     '',
@@ -493,6 +516,22 @@ function writeOutputs(
     '',
   ].join('\n');
 
+  const guidesDocumentation = [
+    '# @skbkontur/react-ui',
+    '',
+    `> Guides | Version: ${version} | Homepage: ${baseUrl}`,
+    '',
+    ...guides.flatMap((guide) => ['---', '', replaceLinks(guide.markdown, linkReplacements), '']),
+  ].join('\n');
+
+  const componentsDocumentation = [
+    '# @skbkontur/react-ui',
+    '',
+    `> Components | Version: ${version} | Homepage: ${baseUrl}`,
+    '',
+    ...components.flatMap((component) => ['---', '', formatComponentMarkdown(component, version, linkReplacements)]),
+  ].join('\n');
+
   const fullDocumentation = [
     '# @skbkontur/react-ui',
     '',
@@ -504,12 +543,40 @@ function writeOutputs(
     'npm install @skbkontur/react-ui',
     '```',
     '',
-    ...guides.flatMap((guide) => ['---', '', guide.markdown, '']),
-    ...components.flatMap((component) => ['---', '', formatComponentMarkdown(component, version)]),
+    guidesDocumentation,
+    componentsDocumentation,
   ].join('\n');
+
+  const sitemapUrls = [
+    `${baseUrl}/`,
+    `${baseUrl}/llms.txt`,
+    `${baseUrl}/llms-full.txt`,
+    `${baseUrl}/llms-components.txt`,
+    `${baseUrl}/llms-guides.txt`,
+    `${baseUrl}/api/components.json`,
+    ...guides.map(({ slug }) => `${baseUrl}/docs/guides/${slug}.md`),
+    ...components.flatMap(({ slug, storybookUrl }) => [
+      `${baseUrl}/docs/components/${slug}.md`,
+      `${baseUrl}/api/components/${slug}.json`,
+      storybookUrl,
+    ]),
+  ];
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...[...new Set(sitemapUrls)].map((url) => `  <url><loc>${escapeXml(url)}</loc></url>`),
+    '</urlset>',
+    '',
+  ].join('\n');
+
+  const robots = ['User-agent: *', 'Allow: /', '', `Sitemap: ${baseUrl}/sitemap.xml`, ''].join('\n');
 
   write(join(options.outputDirectory, 'llms.txt'), llmsIndex);
   write(join(options.outputDirectory, 'llms-full.txt'), cleanMarkdown(fullDocumentation) + '\n');
+  write(join(options.outputDirectory, 'llms-components.txt'), cleanMarkdown(componentsDocumentation) + '\n');
+  write(join(options.outputDirectory, 'llms-guides.txt'), cleanMarkdown(guidesDocumentation) + '\n');
+  write(join(options.outputDirectory, 'sitemap.xml'), sitemap);
+  write(join(options.outputDirectory, 'robots.txt'), robots);
 }
 
 function validate(components: ComponentDocumentation[], strict: boolean): void {
