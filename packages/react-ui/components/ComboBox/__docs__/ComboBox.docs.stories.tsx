@@ -657,7 +657,7 @@ export const ExampleAddButton: Story = () => {
       }
       return (
         <MenuItem onClick={this.addItem} icon={<IconPlusLight16 />}>
-          Добавить "{this.state.query}"
+          Добавить «{this.state.query}»
         </MenuItem>
       );
     }

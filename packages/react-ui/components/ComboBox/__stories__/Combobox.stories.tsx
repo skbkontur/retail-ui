@@ -1222,7 +1222,7 @@ export const PreventIconsOffset: Story = () => {
           { value: 2, label: 'Второй' },
           { value: 3, label: 'Третий' },
         ]}
-        renderAddButton={(query) => query && <MenuItem icon={<IconPlusRegular16 />}>Добавить "{query}"</MenuItem>}
+        renderAddButton={(query) => query && <MenuItem icon={<IconPlusRegular16 />}>Добавить «{query}»</MenuItem>}
       />
     </div>
   );
