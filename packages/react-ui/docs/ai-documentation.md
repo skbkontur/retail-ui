@@ -6,6 +6,13 @@ MDX, and stories that power the interactive documentation.
 
 ## Published files
 
+Each package version is published under
+`https://tech.skbkontur.ru/kontur-ui/packages/react-ui/<version>/`. Generated
+links use that same versioned base URL, so an older documentation corpus never
+silently points at files from a newer release. An unversioned `llms.txt` alias,
+if provided by the hosting site, is maintained separately from this package
+build.
+
 - `llms.txt` — a compact index of guides and components;
 - `llms-full.txt` — the complete text corpus;
 - `llms-components.txt` — a component-only corpus;

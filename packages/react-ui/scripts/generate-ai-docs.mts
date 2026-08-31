@@ -11,7 +11,7 @@ const componentsDirectory = join(packageDirectory, 'components');
 const guidesDirectory = join(packageDirectory, '.storybook-docs', 'docsPages');
 const packageJsonPath = join(packageDirectory, 'package.json');
 const defaultOutputDirectory = join(packageDirectory, '.storybook', 'build');
-const baseUrl = 'https://tech.skbkontur.ru/kontur-ui';
+const siteBaseUrl = 'https://tech.skbkontur.ru/kontur-ui';
 
 interface PropDocumentation {
   name: string;
@@ -157,7 +157,11 @@ function getStoryTitle(storiesPath: string): string {
   return readFileSync(storiesPath, 'utf8').match(/\btitle:\s*['"]([^'"]+)['"]/)?.[1] ?? '';
 }
 
-function getStorybookUrl(storyTitle: string, componentName: string): string {
+function getPublishedBaseUrl(version: string): string {
+  return `${siteBaseUrl}/packages/react-ui/${version}`;
+}
+
+function getStorybookUrl(publishedBaseUrl: string, storyTitle: string, componentName: string): string {
   const storyId = storyTitle
     ? `react-ui_${storyTitle
         .toLowerCase()
@@ -165,7 +169,7 @@ function getStorybookUrl(storyTitle: string, componentName: string): string {
         .replace(/^-|-$/g, '')}--docs`
     : `react-ui_${componentName.toLowerCase()}--docs`;
 
-  return `${baseUrl}/?path=/docs/${storyId}`;
+  return `${publishedBaseUrl}/?path=/docs/${storyId}`;
 }
 
 function findComponentSource(componentDirectory: string, componentName: string): string | undefined {
@@ -305,6 +309,7 @@ function extractExamples(storiesPath: string): ExampleDocumentation[] {
 function createComponentDocumentation(
   componentName: string,
   componentApis: Map<string, ComponentApi>,
+  publishedBaseUrl: string,
 ): ComponentDocumentation | undefined {
   const componentDirectory = join(componentsDirectory, componentName);
   const documentationPath = join(componentDirectory, '__docs__', `${componentName}.mdx`);
@@ -325,7 +330,7 @@ function createComponentDocumentation(
     slug: toSlug(componentName),
     description,
     importStatement: `import { ${componentName} } from '@skbkontur/react-ui';`,
-    storybookUrl: getStorybookUrl(getStoryTitle(storiesPath), componentName),
+    storybookUrl: getStorybookUrl(publishedBaseUrl, getStoryTitle(storiesPath), componentName),
     sourcePath: toPosixPath(relative(packageDirectory, sourcePath)),
     markdown: stripMdxComponents(readFileSync(documentationPath, 'utf8')),
     props,
@@ -440,10 +445,28 @@ function writeOutputs(
   guides: GuideDocumentation[],
   version: string,
 ): void {
-  const linkReplacements = new Map(
-    components.map((component) => [component.storybookUrl, `${baseUrl}/docs/components/${component.slug}.md`]),
-  );
-  const componentIndex = components.map((component) => ({
+  const publishedBaseUrl = getPublishedBaseUrl(version);
+  const linkReplacements = new Map<string, string>();
+  for (const component of components) {
+    const documentationUrl = `${publishedBaseUrl}/docs/components/${component.slug}.md`;
+    linkReplacements.set(component.storybookUrl, documentationUrl);
+    linkReplacements.set(component.storybookUrl.replace(publishedBaseUrl, siteBaseUrl), documentationUrl);
+  }
+  linkReplacements.set(`${siteBaseUrl}/?path=`, `${publishedBaseUrl}/?path=`);
+  const linkedComponents = components.map((component) => ({
+    ...component,
+    description: replaceLinks(component.description, linkReplacements),
+    markdown: replaceLinks(component.markdown, linkReplacements),
+    props: component.props.map((prop) => ({
+      ...prop,
+      description: replaceLinks(prop.description, linkReplacements),
+    })),
+    examples: component.examples.map((example) => ({
+      ...example,
+      description: replaceLinks(example.description, linkReplacements),
+    })),
+  }));
+  const componentIndex = linkedComponents.map((component) => ({
     name: component.name,
     slug: component.slug,
     description: component.description,
@@ -451,13 +474,13 @@ function writeOutputs(
     version,
     import: component.importStatement,
     storybookUrl: component.storybookUrl,
-    documentationUrl: `${baseUrl}/docs/components/${component.slug}.md`,
+    documentationUrl: `${publishedBaseUrl}/docs/components/${component.slug}.md`,
     sourcePath: component.sourcePath,
     props: component.props,
     examples: component.examples.map(({ name, title, description }) => ({ name, title, description })),
   }));
 
-  for (const component of components) {
+  for (const component of linkedComponents) {
     write(
       join(options.outputDirectory, 'docs', 'components', `${component.slug}.md`),
       formatComponentMarkdown(component, version, linkReplacements),
@@ -489,37 +512,39 @@ function writeOutputs(
     '',
     '> React component library by SKB Kontur with components, validation tools, and design-system utilities.',
     '',
-    `> Version: ${version} | Homepage: ${baseUrl} | npm: @skbkontur/react-ui`,
+    `> Version: ${version} | Homepage: ${publishedBaseUrl} | npm: @skbkontur/react-ui`,
     '',
     '## Documentation bundles',
     '',
-    `- [Full documentation](${baseUrl}/llms-full.txt): All guides, component APIs, and examples in one file.`,
-    `- [Components bundle](${baseUrl}/llms-components.txt): Component APIs and examples without the guides.`,
-    `- [Guides bundle](${baseUrl}/llms-guides.txt): Cross-component setup, migration, and usage guides.`,
-    `- [Component API manifest](${baseUrl}/api/components.json): Structured JSON index of public components and props.`,
-    `- [Sitemap](${baseUrl}/sitemap.xml): Crawlable index of the published documentation.`,
+    `- [Full documentation](${publishedBaseUrl}/llms-full.txt): All guides, component APIs, and examples in one file.`,
+    `- [Components bundle](${publishedBaseUrl}/llms-components.txt): Component APIs and examples without the guides.`,
+    `- [Guides bundle](${publishedBaseUrl}/llms-guides.txt): Cross-component setup, migration, and usage guides.`,
+    `- [Component API manifest](${publishedBaseUrl}/api/components.json): Structured JSON index of public components and props.`,
+    `- [Sitemap](${publishedBaseUrl}/sitemap.xml): Crawlable index of the published documentation.`,
     '',
     '## Guides',
     '',
-    ...guides.map(({ name, slug }) => `- [${name}](${baseUrl}/docs/guides/${slug}.md): ${name} documentation.`),
+    ...guides.map(
+      ({ name, slug }) => `- [${name}](${publishedBaseUrl}/docs/guides/${slug}.md): ${name} documentation.`,
+    ),
     '',
     '## Components',
     '',
-    ...components.map(({ name, slug, description }) => {
+    ...linkedComponents.map(({ name, slug, description }) => {
       const summary = description ? `: ${description.replace(/\s+/g, ' ').slice(0, 180)}` : '';
-      return `- [${name}](${baseUrl}/docs/components/${slug}.md)${summary}`;
+      return `- [${name}](${publishedBaseUrl}/docs/components/${slug}.md)${summary}`;
     }),
     '',
     '## Optional',
     '',
-    `- [Storybook](${baseUrl}): Interactive playground with rendered examples.`,
+    `- [Storybook](${publishedBaseUrl}): Interactive playground with rendered examples.`,
     '',
   ].join('\n');
 
   const guidesDocumentation = [
     '# @skbkontur/react-ui',
     '',
-    `> Guides | Version: ${version} | Homepage: ${baseUrl}`,
+    `> Guides | Version: ${version} | Homepage: ${publishedBaseUrl}`,
     '',
     ...guides.flatMap((guide) => ['---', '', replaceLinks(guide.markdown, linkReplacements), '']),
   ].join('\n');
@@ -527,15 +552,19 @@ function writeOutputs(
   const componentsDocumentation = [
     '# @skbkontur/react-ui',
     '',
-    `> Components | Version: ${version} | Homepage: ${baseUrl}`,
+    `> Components | Version: ${version} | Homepage: ${publishedBaseUrl}`,
     '',
-    ...components.flatMap((component) => ['---', '', formatComponentMarkdown(component, version, linkReplacements)]),
+    ...linkedComponents.flatMap((component) => [
+      '---',
+      '',
+      formatComponentMarkdown(component, version, linkReplacements),
+    ]),
   ].join('\n');
 
   const fullDocumentation = [
     '# @skbkontur/react-ui',
     '',
-    `> Version: ${version} | Homepage: ${baseUrl} | npm: @skbkontur/react-ui`,
+    `> Version: ${version} | Homepage: ${publishedBaseUrl} | npm: @skbkontur/react-ui`,
     '',
     '## Installation',
     '',
@@ -548,16 +577,16 @@ function writeOutputs(
   ].join('\n');
 
   const sitemapUrls = [
-    `${baseUrl}/`,
-    `${baseUrl}/llms.txt`,
-    `${baseUrl}/llms-full.txt`,
-    `${baseUrl}/llms-components.txt`,
-    `${baseUrl}/llms-guides.txt`,
-    `${baseUrl}/api/components.json`,
-    ...guides.map(({ slug }) => `${baseUrl}/docs/guides/${slug}.md`),
-    ...components.flatMap(({ slug, storybookUrl }) => [
-      `${baseUrl}/docs/components/${slug}.md`,
-      `${baseUrl}/api/components/${slug}.json`,
+    `${publishedBaseUrl}/`,
+    `${publishedBaseUrl}/llms.txt`,
+    `${publishedBaseUrl}/llms-full.txt`,
+    `${publishedBaseUrl}/llms-components.txt`,
+    `${publishedBaseUrl}/llms-guides.txt`,
+    `${publishedBaseUrl}/api/components.json`,
+    ...guides.map(({ slug }) => `${publishedBaseUrl}/docs/guides/${slug}.md`),
+    ...linkedComponents.flatMap(({ slug, storybookUrl }) => [
+      `${publishedBaseUrl}/docs/components/${slug}.md`,
+      `${publishedBaseUrl}/api/components/${slug}.json`,
       storybookUrl,
     ]),
   ];
@@ -569,7 +598,7 @@ function writeOutputs(
     '',
   ].join('\n');
 
-  const robots = ['User-agent: *', 'Allow: /', '', `Sitemap: ${baseUrl}/sitemap.xml`, ''].join('\n');
+  const robots = ['User-agent: *', 'Allow: /', '', `Sitemap: ${publishedBaseUrl}/sitemap.xml`, ''].join('\n');
 
   write(join(options.outputDirectory, 'llms.txt'), llmsIndex);
   write(join(options.outputDirectory, 'llms-full.txt'), cleanMarkdown(fullDocumentation) + '\n');
@@ -610,6 +639,7 @@ function validate(components: ComponentDocumentation[], strict: boolean): void {
 function main(): void {
   const options = parseArguments();
   const { version } = readJson<{ version: string }>(packageJsonPath);
+  const publishedBaseUrl = getPublishedBaseUrl(version);
   const componentNames = readdirSync(componentsDirectory)
     .filter((entry) => statSync(join(componentsDirectory, entry)).isDirectory())
     .filter((entry) => existsSync(join(componentsDirectory, entry, '__docs__', `${entry}.mdx`)));
@@ -619,7 +649,7 @@ function main(): void {
       .filter((path): path is string => path !== undefined),
   );
   const components = componentNames
-    .map((name) => createComponentDocumentation(name, componentApis))
+    .map((name) => createComponentDocumentation(name, componentApis, publishedBaseUrl))
     .filter((component): component is ComponentDocumentation => component !== undefined)
     .sort((left, right) => left.name.localeCompare(right.name));
   const guides = readGuides();
