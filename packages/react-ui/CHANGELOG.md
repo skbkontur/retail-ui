@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.3...@skbkontur/react-ui@6.3.4) (2026-09-01)
+
+
+### Bug Fixes
+
+* **MenuItem:** update comment color for disabled item ([0fb613f](https://github.com/skbkontur/retail-ui/commit/0fb613f161a730da3bfb46cf6b6c8c3d404773b7))
+
+
+
+
+
 ## [6.3.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.2...@skbkontur/react-ui@6.3.3) (2026-08-28)
 
 
