@@ -1303,9 +1303,7 @@ describe('<TokenInput />', () => {
           rejectGetItems = reject;
         }),
     );
-    render(
-      <TokenInput ref={tokenInputRef} getItems={getItemsMock} selectedItems={[]} hideMenuIfEmptyInputValue />,
-    );
+    render(<TokenInput ref={tokenInputRef} getItems={getItemsMock} selectedItems={[]} hideMenuIfEmptyInputValue />);
 
     await userEvent.click(screen.getByRole('textbox'));
     await userEvent.type(screen.getByRole('textbox'), 'a');
