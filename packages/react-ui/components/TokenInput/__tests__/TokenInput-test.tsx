@@ -1294,6 +1294,34 @@ describe('<TokenInput />', () => {
     expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
   });
 
+  it('ignores getItems rejection after clearing input with hideMenuIfEmptyInputValue', async () => {
+    const tokenInputRef = React.createRef<TokenInput>();
+    let rejectGetItems: (reason?: unknown) => void = () => undefined;
+    const getItemsMock = vi.fn(
+      () =>
+        new Promise<string[]>((_, reject) => {
+          rejectGetItems = reject;
+        }),
+    );
+    render(
+      <TokenInput ref={tokenInputRef} getItems={getItemsMock} selectedItems={[]} hideMenuIfEmptyInputValue />,
+    );
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.type(screen.getByRole('textbox'), 'a');
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    await userEvent.clear(screen.getByRole('textbox'));
+    await act(async () => {
+      rejectGetItems();
+    });
+
+    expect(tokenInputRef.current?.state.requestStatus).toBe(ComboBoxRequestStatus.Unknown);
+    expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
+  });
+
   it('shows items after retry succeeds without not-found state', async () => {
     let shouldReject = true;
     const getItemsMock = vi.fn(() => (shouldReject ? Promise.reject() : Promise.resolve(['aaa'])));
@@ -1523,6 +1551,33 @@ describe('mobile TokenInput', () => {
 
     expect(screen.getByTestId(MobilePopupDataTids.container)).toBeInTheDocument();
     expect(onValueChange).toHaveBeenCalledWith(['Second']);
+  });
+
+  it('ignores getItems rejection after clearing input with hideMenuIfEmptyInputValue', async () => {
+    let rejectGetItems: (reason?: unknown) => void = () => undefined;
+    const getItemsMock = vi.fn(
+      () =>
+        new Promise<string[]>((_, reject) => {
+          rejectGetItems = reject;
+        }),
+    );
+    render(<TokenInput getItems={getItemsMock} selectedItems={[]} hideMenuIfEmptyInputValue />);
+
+    await openMobilePopup();
+
+    const popupTextarea = within(screen.getByTestId(MobilePopupDataTids.container)).getByRole('textbox');
+    await userEvent.type(popupTextarea, 'a');
+    await waitFor(() => {
+      expect(popupTextarea).toHaveAttribute('aria-busy', 'true');
+    });
+
+    await userEvent.clear(popupTextarea);
+    await act(async () => {
+      rejectGetItems();
+    });
+
+    expect(screen.getByTestId(MobilePopupDataTids.container)).toBeInTheDocument();
+    expect(screen.queryByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).not.toBeInTheDocument();
   });
 });
 

@@ -1142,68 +1142,70 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private tryGetItems = async (query = '') => {
-    if (this.props.getItems && (this.isInputValueChanged || !this.props.hideMenuIfEmptyInputValue)) {
-      this.requestId += 1;
-      const expectingId = this.requestId;
-      this.dispatch({ type: 'SET_LOADING', payload: true });
-      let autocompleteItems: Array<TokenInputExtendedItem<T>>;
-      try {
-        autocompleteItems = await this.props.getItems(query);
-      } catch {
-        if (expectingId !== this.requestId) {
-          return;
-        }
-        this.dispatch({ type: 'SET_REQUEST_FAILURE' });
-        this.globalObject.requestAnimationFrame?.(() => this.menuRef?.highlightItem(0));
-        return;
-      }
+    if (!this.props.getItems || (!this.isInputValueChanged && this.props.hideMenuIfEmptyInputValue)) {
+      this.cancelRequest();
+      return;
+    }
+    this.requestId += 1;
+    const expectingId = this.requestId;
+    this.dispatch({ type: 'SET_LOADING', payload: true });
+    let autocompleteItems: Array<TokenInputExtendedItem<T>>;
+    try {
+      autocompleteItems = await this.props.getItems(query);
+    } catch {
       if (expectingId !== this.requestId) {
         return;
       }
+      this.dispatch({ type: 'SET_REQUEST_FAILURE' });
+      this.globalObject.requestAnimationFrame?.(() => this.menuRef?.highlightItem(0));
+      return;
+    }
+    if (expectingId !== this.requestId) {
+      return;
+    }
 
-      const { selectedItems, valueToItem, valueToString } = this.getProps();
-      const isSelectedItem = (item: T) => this.hasValueInItems(selectedItems, item);
-      const isEditingItem = (item: T) => {
-        const editingItem = selectedItems[this.state.editingTokenIndex];
-        return !!editingItem && this.isEqual(item, editingItem);
-      };
+    const { selectedItems, valueToItem, valueToString } = this.getProps();
+    const isSelectedItem = (item: T) => this.hasValueInItems(selectedItems, item);
+    const isEditingItem = (item: T) => {
+      const editingItem = selectedItems[this.state.editingTokenIndex];
+      return !!editingItem && this.isEqual(item, editingItem);
+    };
 
-      const autocompleteItemsUnique = autocompleteItems.filter((item) =>
-        isSimpleItem(item) ? !isSelectedItem(item) || isEditingItem(item) : true,
-      );
-      const autocompleteItemsUniqueSimple = autocompleteItemsUnique.filter(isSimpleItem);
+    const autocompleteItemsUnique = autocompleteItems.filter((item) =>
+      isSimpleItem(item) ? !isSelectedItem(item) || isEditingItem(item) : true,
+    );
+    const autocompleteItemsUniqueSimple = autocompleteItemsUnique.filter(isSimpleItem);
 
-      if (this.isEditingMode) {
-        const editingItem = selectedItems[this.state.editingTokenIndex];
-        if (
-          this.isEqual(editingItem, valueToItem(this.state.inputValue)) &&
-          !this.hasValueInItems(autocompleteItemsUniqueSimple, editingItem)
-        ) {
-          autocompleteItemsUnique.unshift(editingItem);
-        }
+    if (this.isEditingMode) {
+      const editingItem = selectedItems[this.state.editingTokenIndex];
+      if (
+        this.isEqual(editingItem, valueToItem(this.state.inputValue)) &&
+        !this.hasValueInItems(autocompleteItemsUniqueSimple, editingItem)
+      ) {
+        autocompleteItemsUnique.unshift(editingItem);
       }
+    }
 
-      if (query === '' || this.isInputValueChanged) {
-        this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: autocompleteItemsUnique }, () => {
-          LayoutEvents.emit();
-          this.highlightMenuItem();
-        });
-      } else {
-        this.dispatch({ type: 'SET_LOADING', payload: false });
-      }
-      const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
-        (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
-      );
-      let highlightIndex: number | null = null;
-      if (selectItemIndex >= 0) {
-        highlightIndex = selectItemIndex;
-      } else {
-        highlightIndex = 0;
-      }
-      if (highlightIndex !== null) {
-        const applyMenuHighlight = () => this.menuRef?.highlightItem(highlightIndex);
-        this.globalObject.requestAnimationFrame?.(applyMenuHighlight);
-      }
+    if (query === '' || this.isInputValueChanged) {
+      this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: autocompleteItemsUnique }, () => {
+        LayoutEvents.emit();
+        this.highlightMenuItem();
+      });
+    } else {
+      this.dispatch({ type: 'SET_LOADING', payload: false });
+    }
+    const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
+      (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+    );
+    let highlightIndex: number | null = null;
+    if (selectItemIndex >= 0) {
+      highlightIndex = selectItemIndex;
+    } else {
+      highlightIndex = 0;
+    }
+    if (highlightIndex !== null) {
+      const applyMenuHighlight = () => this.menuRef?.highlightItem(highlightIndex);
+      this.globalObject.requestAnimationFrame?.(applyMenuHighlight);
     }
   };
 
