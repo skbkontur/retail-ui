@@ -201,7 +201,8 @@ export interface TokenInputProps<T>
   /** Проверяет, можно ли создать токен из свободного ввода.
    * Верните `false`, чтобы не создавать токен (поле мигнёт), пункт «Добавить» при этом станет неактивным.
    * Функция должна быть без побочных эффектов; сообщения об ошибке показывайте через ValidationWrapper.
-   * Не применяется при выборе значения из справочника. */
+   * Не применяется при выборе значения из справочника. Значение, возвращённое из `onUnexpectedInput`,
+   * проверяется по результату `valueToString`. */
   isTokenValid?: (value: string) => boolean;
 
   /** Задаёт типы вводимых данных. Передаёт браузеру информацию о том, какой набор символов показать при вводе данных в конкретное поле на устройствах с экранной клавиатурой. */
@@ -1519,6 +1520,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
 
     if (returnedValue) {
+      const returnedInputValue = this.getProps().valueToString(returnedValue);
+      if (this.rejectIfInvalidToken(returnedInputValue)) {
+        return;
+      }
       this.selectItem(returnedValue);
     }
   };

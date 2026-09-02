@@ -576,6 +576,34 @@ describe('<TokenInput />', () => {
       expect(isTokenValidSpy).toHaveBeenCalledWith('foo bar');
     });
 
+    it('should not add invalid token returned from onUnexpectedInput on blur', async () => {
+      const isTokenValidSpy = vi.fn(isTokenValid);
+      render(<StatefulTokenInput isTokenValid={isTokenValidSpy} onUnexpectedInput={() => 'invalid token'} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.type(tokenInput, 'unexpected');
+      await userEvent.tab();
+
+      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+      expect(tokenInput).toHaveValue('unexpected');
+      expect(isTokenValidSpy).toHaveBeenCalledTimes(1);
+      expect(isTokenValidSpy).toHaveBeenCalledWith('invalid token');
+    });
+
+    it('should add valid normalized token returned from onUnexpectedInput on blur', async () => {
+      const isTokenValidSpy = vi.fn(isTokenValid);
+      render(<StatefulTokenInput isTokenValid={isTokenValidSpy} onUnexpectedInput={() => 'normalized'} />);
+
+      const tokenInput = screen.getByRole('textbox');
+      await userEvent.type(tokenInput, 'unexpected value');
+      await userEvent.tab();
+
+      expect(screen.getByText('normalized')).toBeInTheDocument();
+      expect(tokenInput).toHaveValue('');
+      expect(isTokenValidSpy).toHaveBeenCalledTimes(1);
+      expect(isTokenValidSpy).toHaveBeenCalledWith('normalized');
+    });
+
     it('should add valid tokens and keep invalid remainder on delimiter', async () => {
       render(<StatefulTokenInput type={TokenInputType.Combined} getItems={getItems} />);
 
