@@ -643,8 +643,9 @@ export const ExampleExtendedItems: Story = () => {
 };
 ExampleExtendedItems.storyName = 'Шапка, разделитель и футер в списке';
 
-/** Проп `isTokenValid` задаёт функцию, которая проверяет, можно ли сделать токен из введённого текста. Если текст не проходит проверку, токен не создаётся — поле мигает, текст остаётся. На выбор из справочника проверка не производится.
- *
+/** Проп `isTokenValid` задаёт функцию, которая проверяет, можно ли сделать токен из введённого текста. Если текст не проходит проверку, токен не создаётся — поле мигает, текст остаётся.
+ * На выбор из справочника проверка не производится. Функция должна быть без побочных эффектов.
+ * Значение, возвращённое из `onUnexpectedInput`, проверяется по результату `isTokenValid`.
  * Сообщение об ошибке на поле — в разделе [Валидация](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-tokeninput--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F). */
 export const ExampleIsTokenValid: Story = () => {
   const [selectedItems, setSelectedItems] = React.useState<string[]>([
