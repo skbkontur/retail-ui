@@ -17,7 +17,7 @@ export class CurrencyInputPlayground extends React.Component<Partial<CurrencyInp
       <div>
         <CurrencyInput
           {...this.props}
-          placeholder={'currency'}
+          placeholder={'Сумма'}
           value={this.state.value}
           onValueChange={this.handleChange}
           width={150}

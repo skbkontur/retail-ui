@@ -6,12 +6,12 @@ import type { RadioProps } from '../../components/Radio/index.js';
 import { getComponentsFromPropsList } from './helpers.js';
 
 const propsList: Array<RadioProps<string>> = [
-  { value: '', children: 'Default', checked: false },
-  { value: '', children: 'Checked' },
-  { value: '', children: 'Disabled', disabled: true },
-  { value: '', children: 'Focused', focused: true },
-  { value: '', children: 'Error', error: true },
-  { value: '', children: 'Warning', warning: true },
+  { value: '', children: 'Обычный', checked: false },
+  { value: '', children: 'Выбран' },
+  { value: '', children: 'Отключён', disabled: true },
+  { value: '', children: 'В фокусе', focused: true },
+  { value: '', children: 'Ошибка', error: true },
+  { value: '', children: 'Предупреждение', warning: true },
 ];
 
 export const RadioPlayground = () => {

@@ -3,11 +3,11 @@ import React from 'react';
 import { Token } from '../../components/Token/index.js';
 import { TokenInput } from '../../components/TokenInput/index.js';
 
+const colors = ['Красный', 'Оранжевый', 'Жёлтый', 'Зелёный', 'Голубой', 'Синий', 'Фиолетовый'];
+
 async function getItems(query: string) {
   return Promise.resolve(
-    ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-      (x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query,
-    ),
+    colors.filter((x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query),
   ).then((res: string[]) => new Promise<string[]>((resolve) => setTimeout(resolve.bind(null, res), 500)));
 }
 
@@ -15,7 +15,7 @@ interface TokenInputPlaygroundState {
   selectedItems: string[];
 }
 export class TokenInputPlayground extends React.Component {
-  public state: TokenInputPlaygroundState = { selectedItems: ['First', 'Second'] };
+  public state: TokenInputPlaygroundState = { selectedItems: ['Красный', 'Синий'] };
 
   public render() {
     return (

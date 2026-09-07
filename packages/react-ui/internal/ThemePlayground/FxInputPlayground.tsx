@@ -9,7 +9,7 @@ interface FxInputPlaygroundState {
 export class FxInputPlayground extends React.Component {
   public state: FxInputPlaygroundState = {
     auto: true,
-    value: 'auto',
+    value: 'авто',
   };
 
   public render(): JSX.Element {
@@ -31,7 +31,7 @@ export class FxInputPlayground extends React.Component {
 
   private handleRestore = () => {
     this.setState({
-      value: 'auto',
+      value: 'авто',
       auto: true,
     });
   };

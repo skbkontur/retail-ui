@@ -15,26 +15,37 @@ import { Input } from '../../components/Input/index.js';
 import type { InputProps } from '../../components/Input/index.js';
 import { Link } from '../../components/Link/index.js';
 import type { LinkProps } from '../../components/Link/index.js';
+import { Loader } from '../../components/Loader/index.js';
+import { MaskedInput, MaskedInputMasks } from '../../components/MaskedInput/index.js';
+import { Spinner } from '../../components/Spinner/index.js';
 import { Sticky } from '../../components/Sticky/index.js';
 import { Tabs } from '../../components/Tabs/index.js';
+import { Textarea } from '../../components/Textarea/index.js';
 import { Tooltip } from '../../components/Tooltip/index.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { DatePickerPlayground } from './AnotherInputsPlayground.js';
+import { DatePickerPlayground, DateRangePickerPlayground } from './AnotherInputsPlayground.js';
+import { AutocompletePlayground } from './AutocompletePlayground.js';
 import { CheckboxPlayground } from './CheckboxPlayground.js';
+import { ComboBoxPlayground } from './ComboBoxPlayground.js';
 import { ComponentsGroup } from './ComponentsGroup.js';
 import { ThemeType } from './constants.js';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground.js';
+import { DateInputPlayground } from './DateInputPlayground.js';
 import { FxInputPlayground } from './FxInputPlayground.js';
 import { getComponentsFromPropsList } from './helpers.js';
 import { HintPlayground } from './HintPlayground.js';
 import { PagingPlayground } from './PagingPlayground.js';
+import { PasswordInputPlayground } from './PasswordInputPlayground.js';
 import { getStyles } from './Playground.styles.js';
 import { RadioPlayground } from './RadioPlayground.js';
+import { SelectPlayground } from './SelectPlayground.js';
 import { SizesGroup } from './SizesGroup.js';
 import { SwitcherPlayground } from './SwitcherPlayground.js';
+import { TimePickerPlayground } from './TimePickerPlayground.js';
+import { ToastPlayground } from './ToastPlayground.js';
 import { TogglePlayground } from './TogglePlayground.js';
 import { TokenInputPlayground } from './TokenInputPlayground.js';
 
@@ -70,24 +81,40 @@ export class Playground extends React.Component<PlaygroundProps> {
     const wrapperClassName = this.cx(this.styles.playground(), this.styles.playgroundWrapper(this.theme));
     return (
       <div className={wrapperClassName}>
-        <Gapped vertical gap={50}>
+        <div className={this.styles.stack()}>
           {this.renderTabsGroup()}
           {this.renderSizesGroup()}
           {this.renderLinksGroup()}
           {this.renderButtonsGroup()}
+          {this.renderSelectGroup()}
           {this.renderInputsGroup()}
-          {this.renderOtherInputsGroup()}
+          {this.renderPasswordInputGroup()}
+          {this.renderTextareaGroup()}
+          {this.renderMaskedInputGroup()}
+          {this.renderAutocompleteGroup()}
+          {this.renderComboBoxGroup()}
           {this.renderTokenInputsGroup()}
+          {this.renderDateInputGroup()}
+          {this.renderDatePickerGroup()}
+          {this.renderDateRangePickerGroup()}
+          {this.renderTimePickerGroup()}
+          {this.renderCurrencyInputGroup()}
+          {this.renderFxInputGroup()}
           {this.renderSwitchersGroup()}
-          {this.renderControlsGroup()}
-        </Gapped>
+          {this.renderCheckboxGroup()}
+          {this.renderRadioGroup()}
+          {this.renderToggleGroup()}
+        </div>
         {this.renderStickyStopElement()}
-        <Gapped vertical gap={50}>
+        <div className={this.styles.stack()}>
           {this.renderHintsGroup()}
           {this.renderTooltip()}
+          {this.renderToastGroup()}
           {this.renderPaging()}
           {this.renderFileUploader()}
-        </Gapped>
+          {this.renderSpinner()}
+          {this.renderLoader()}
+        </div>
       </div>
     );
   }
@@ -140,24 +167,26 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderSizesGroup = () => {
     return (
-      <ComponentsGroup title={'Размеры'} theme={this.theme}>
-        <SizesGroup size={'small'} />
-        <SizesGroup size={'medium'} />
-        <SizesGroup size={'large'} />
+      <ComponentsGroup title={'Sizes'} theme={this.theme}>
+        <Gapped gap={24} verticalAlign="top">
+          <SizesGroup size={'small'} />
+          <SizesGroup size={'medium'} />
+          <SizesGroup size={'large'} />
+        </Gapped>
       </ComponentsGroup>
     );
   };
 
   private renderLinksGroup = () => {
     const propsList: LinkProps[] = [
-      { icon: <IconAttachLinkRegular16 />, children: 'Enabled' },
-      { icon: <IconCheckARegular16 />, use: 'success', children: 'Success' },
-      { icon: <IconMinusCircleRegular16 />, use: 'danger', children: 'Danger' },
-      { icon: <IconTrashCanRegular16 />, use: 'grayed', children: 'Grayed' },
-      { icon: <IconTrashCanRegular16 />, children: 'Disabled', disabled: true },
+      { icon: <IconAttachLinkRegular16 />, children: 'Перейти' },
+      { icon: <IconCheckARegular16 />, use: 'success', children: 'Принять' },
+      { icon: <IconMinusCircleRegular16 />, use: 'danger', children: 'Удалить' },
+      { icon: <IconTrashCanRegular16 />, use: 'grayed', children: 'Перейти' },
+      { icon: <IconTrashCanRegular16 />, children: 'Перейти', disabled: true },
     ];
     return (
-      <ComponentsGroup title={'Ссылки'} theme={this.theme}>
+      <ComponentsGroup title={'Link'} theme={this.theme}>
         <Gapped wrap verticalAlign="middle" gap={10}>
           {getComponentsFromPropsList(<Link />, propsList)}
         </Gapped>
@@ -175,13 +204,13 @@ export class Playground extends React.Component<PlaygroundProps> {
       { children: 'Success', use: 'success' },
       { children: 'Pay', use: 'pay' },
       { children: 'Disabled', disabled: true },
-      { children: 'Back', arrow: 'left', size: 'medium', width: 110 },
-      { children: 'Forward', arrow: true, size: 'medium', use: 'accent', width: 110 },
+      { children: 'Назад', arrow: 'left', size: 'medium', width: 110 },
+      { children: 'Далее', arrow: true, size: 'medium', use: 'accent', width: 110 },
       { children: 'Loading', size: 'medium', loading: true },
     ];
 
     return (
-      <ComponentsGroup title={'Кнопки'} theme={this.theme}>
+      <ComponentsGroup title={'Button'} theme={this.theme}>
         {getComponentsFromPropsList(<Button width={140} size={'small'} />, propsList)}
       </ComponentsGroup>
     );
@@ -189,14 +218,14 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderInputsGroup = () => {
     const propsList: InputProps[] = [
-      { placeholder: 'Enabled' },
-      { placeholder: 'Error', error: true },
-      { placeholder: 'Warning', warning: true },
-      { placeholder: 'Disabled', disabled: true },
+      { placeholder: 'Обычное' },
+      { placeholder: 'Ошибка', error: true },
+      { placeholder: 'Предупреждение', warning: true },
+      { placeholder: 'Отключено', disabled: true },
     ];
-    const fromProps = getComponentsFromPropsList(<Input width={120} />, propsList);
+    const fromProps = getComponentsFromPropsList(<Input width={160} />, propsList);
     return (
-      <ComponentsGroup title={'Поле ввода'} theme={this.theme}>
+      <ComponentsGroup title={'Input'} theme={this.theme}>
         <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<IconSearchLoupeRegular16 />} />
         <div>
           <Gapped gap={10}>{fromProps}</Gapped>
@@ -205,48 +234,160 @@ export class Playground extends React.Component<PlaygroundProps> {
     );
   };
 
+  private renderPasswordInputGroup = () => {
+    return (
+      <ComponentsGroup title={'PasswordInput'} theme={this.theme}>
+        <PasswordInputPlayground />
+      </ComponentsGroup>
+    );
+  };
+
   private renderTokenInputsGroup = () => {
     return (
-      <ComponentsGroup title={'Поле с токеном'} theme={this.theme}>
+      <ComponentsGroup title={'TokenInput'} theme={this.theme}>
         <TokenInputPlayground />
       </ComponentsGroup>
     );
   };
 
-  private renderOtherInputsGroup = () => {
+  private renderTextareaGroup = () => {
     return (
-      <ComponentsGroup title={'Прочие поля'} theme={this.theme}>
-        <CurrencyInputPlayground />
-        <FxInputPlayground />
+      <ComponentsGroup title={'Textarea'} theme={this.theme}>
+        <Textarea width={380} placeholder="Используйте многострочное поле для ввода больших текстов" />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderMaskedInputGroup = () => {
+    return (
+      <ComponentsGroup title={'MaskedInput'} theme={this.theme}>
+        <MaskedInput width={200} mask={MaskedInputMasks.PhoneRU} placeholder="+7" type="tel" />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderAutocompleteGroup = () => {
+    return (
+      <ComponentsGroup title={'Autocomplete'} theme={this.theme}>
+        <AutocompletePlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderComboBoxGroup = () => {
+    return (
+      <ComponentsGroup title={'ComboBox'} theme={this.theme}>
+        <ComboBoxPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderSelectGroup = () => {
+    const items = ['Счёт-фактура', 'Акт', 'Накладная', 'Договор'];
+    return (
+      <ComponentsGroup title={'Select'} theme={this.theme}>
+        <SelectPlayground width={160} items={items} value="Счёт-фактура" />
+        <SelectPlayground width={160} items={items} value="Счёт-фактура" error />
+        <SelectPlayground width={160} items={items} value="Счёт-фактура" warning />
+        <SelectPlayground width={160} items={items} value="Счёт-фактура" disabled />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderDateInputGroup = () => {
+    return (
+      <ComponentsGroup title={'DateInput'} theme={this.theme}>
+        <DateInputPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderDatePickerGroup = () => {
+    return (
+      <ComponentsGroup title={'DatePicker'} theme={this.theme}>
         <DatePickerPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderDateRangePickerGroup = () => {
+    return (
+      <ComponentsGroup title={'DateRangePicker'} theme={this.theme}>
+        <DateRangePickerPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderTimePickerGroup = () => {
+    return (
+      <ComponentsGroup title={'TimePicker'} theme={this.theme}>
+        <TimePickerPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderCurrencyInputGroup = () => {
+    return (
+      <ComponentsGroup title={'CurrencyInput'} theme={this.theme}>
+        <CurrencyInputPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderFxInputGroup = () => {
+    return (
+      <ComponentsGroup title={'FxInput'} theme={this.theme}>
+        <FxInputPlayground />
       </ComponentsGroup>
     );
   };
 
   private renderSwitchersGroup = () => {
     return (
-      <ComponentsGroup title={'Переключатели'} theme={this.theme}>
+      <ComponentsGroup title={'Switcher'} theme={this.theme}>
         <SwitcherPlayground />
       </ComponentsGroup>
     );
   };
 
-  private renderControlsGroup = () => {
+  private renderCheckboxGroup = () => {
     return (
-      <ComponentsGroup title={'Радио, чекбоксы'} theme={this.theme}>
-        <Gapped verticalAlign={'top'} gap={60}>
-          <CheckboxPlayground />
-          <RadioPlayground />
-          <TogglePlayground />
-        </Gapped>
+      <ComponentsGroup title={'Checkbox'} theme={this.theme}>
+        <CheckboxPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderRadioGroup = () => {
+    return (
+      <ComponentsGroup title={'Radio'} theme={this.theme}>
+        <RadioPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderToggleGroup = () => {
+    return (
+      <ComponentsGroup title={'Toggle'} theme={this.theme}>
+        <TogglePlayground />
       </ComponentsGroup>
     );
   };
 
   private renderHintsGroup = () => {
     return (
-      <ComponentsGroup title={'Тултип'} theme={this.theme}>
-        <HintPlayground />
+      <div className={this.styles.hintGroup()}>
+        <ComponentsGroup title={'Hint'} theme={this.theme}>
+          <HintPlayground />
+        </ComponentsGroup>
+      </div>
+    );
+  };
+
+  private renderToastGroup = () => {
+    return (
+      <ComponentsGroup title={'Toast'} theme={this.theme}>
+        <ToastPlayground />
       </ComponentsGroup>
     );
   };
@@ -258,17 +399,19 @@ export class Playground extends React.Component<PlaygroundProps> {
       </div>
     );
     return (
-      <ComponentsGroup title={'Тултип'} theme={this.theme}>
-        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
-          <Link icon={<IconQuestionCircleRegular16 />} />
-        </Tooltip>
-      </ComponentsGroup>
+      <div className={this.styles.tooltipGroup()}>
+        <ComponentsGroup title={'Tooltip'} theme={this.theme}>
+          <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
+            <Link icon={<IconQuestionCircleRegular16 />} />
+          </Tooltip>
+        </ComponentsGroup>
+      </div>
     );
   };
 
   private renderPaging = () => {
     return (
-      <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
+      <ComponentsGroup title={'Paging'} theme={this.theme}>
         <PagingPlayground />
       </ComponentsGroup>
     );
@@ -282,8 +425,32 @@ export class Playground extends React.Component<PlaygroundProps> {
     );
   };
 
+  private renderSpinner = () => {
+    return (
+      <ComponentsGroup title={'Spinner'} theme={this.theme}>
+        <Gapped gap={16} verticalAlign="top">
+          <Spinner size="small" caption="small" />
+          <Spinner size="medium" caption="medium" />
+          <Spinner size="large" caption="large" />
+        </Gapped>
+      </ComponentsGroup>
+    );
+  };
+
+  private renderLoader = () => {
+    return (
+      <ComponentsGroup title={'Loader'} theme={this.theme}>
+        <Loader active delayBeforeSpinnerShow={0} caption="Загрузка">
+          <div style={{ width: 280, minHeight: 48, padding: 8 }}>
+            Заполнение бумажных платежных поручений требует внимания к реквизитам и кодам бюджетной классификации.
+          </div>
+        </Loader>
+      </ComponentsGroup>
+    );
+  };
+
   private renderStickyStopElement = () => {
-    return <div ref={this.stopEl} style={{ height: 50 }} />;
+    return <div ref={this.stopEl} style={{ height: 30 }} />;
   };
 
   private getStickyStop = () => this.stopEl.current;

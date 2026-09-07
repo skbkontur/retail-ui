@@ -16,7 +16,7 @@ export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement
   const { title, children, style, theme } = props;
   const styles = useStyles(getStyles);
   return (
-    <Gapped wrap verticalAlign="top" gap={40}>
+    <Gapped wrap verticalAlign="top" gap={24}>
       <div className={styles.title(theme)} style={style}>
         {title}
       </div>

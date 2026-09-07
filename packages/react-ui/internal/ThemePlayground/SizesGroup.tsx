@@ -13,14 +13,14 @@ export interface SizesGroupProps {
 }
 
 export const SizesGroup = ({ size }: SizesGroupProps) => (
-  <Gapped wrap verticalAlign="middle" gap={10}>
+  <Gapped vertical gap={10}>
     <SelectPlayground width={120} size={size} />
-    <Input rightIcon={<IconIdCardRegular16 />} placeholder={'Text value'} size={size} />
+    <Input rightIcon={<IconIdCardRegular16 />} placeholder={'Текст'} size={size} width={120} />
     <Button width={120} size={size}>
-      Button
+      Кнопка
     </Button>
     <Button icon={<IconAttachLinkRegular16 />} use={'link'} size={size}>
-      Button like a link
+      Кнопка как ссылка
     </Button>
   </Gapped>
 );

@@ -14,7 +14,8 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
 
   title(t: Theme) {
     return css`
-      width: 110px;
+      width: 140px;
+      flex-shrink: 0;
       color: ${t.textColorDefault};
     `;
   },
@@ -23,6 +24,27 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       max-width: 700px;
       color: ${t.textColorDefault};
+    `;
+  },
+
+  stack() {
+    return css`
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    `;
+  },
+
+  hintGroup() {
+    return css`
+      padding-top: 28px;
+    `;
+  },
+
+  tooltipGroup() {
+    return css`
+      padding-top: 64px;
+      padding-bottom: 64px;
     `;
   },
 

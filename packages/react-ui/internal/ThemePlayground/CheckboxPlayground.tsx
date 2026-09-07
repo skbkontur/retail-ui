@@ -7,13 +7,13 @@ import { getComponentsFromPropsList } from './helpers.js';
 
 type CheckboxProp = CheckboxProps & { focused?: boolean };
 const propsList: CheckboxProp[] = [
-  { children: 'Default' },
-  { children: 'Checked', checked: true },
-  { children: 'Disabled', checked: true, disabled: true },
-  { children: 'Semichecked', initialIndeterminate: true },
-  { children: 'Focused', focused: true },
-  { children: 'Error', error: true },
-  { children: 'Warning', warning: true },
+  { children: 'Обычный' },
+  { children: 'Выбран', checked: true },
+  { children: 'Отключён', checked: true, disabled: true },
+  { children: 'Частично выбран', initialIndeterminate: true },
+  { children: 'В фокусе', focused: true },
+  { children: 'Ошибка', error: true },
+  { children: 'Предупреждение', warning: true },
 ];
 
 export const CheckboxPlayground = () => {

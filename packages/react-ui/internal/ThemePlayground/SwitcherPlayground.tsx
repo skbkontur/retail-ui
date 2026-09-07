@@ -3,7 +3,7 @@ import React from 'react';
 import { Switcher } from '../../components/Switcher/index.js';
 import type { SwitcherProps } from '../../components/Switcher/index.js';
 
-const defaultItems = ['Default', 'Error'];
+const defaultItems = ['Обычный', 'Ошибка'];
 
 interface SwitcherPlaygroundProps {
   items?: SwitcherProps['items'];
@@ -32,6 +32,6 @@ export class SwitcherPlayground extends React.Component<SwitcherPlaygroundProps>
   }
 
   private handleValueChange = (value: string) => {
-    this.setState({ value, error: value === 'Error' });
+    this.setState({ value, error: value === 'Ошибка' });
   };
 }

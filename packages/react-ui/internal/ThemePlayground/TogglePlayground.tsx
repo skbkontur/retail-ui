@@ -9,11 +9,11 @@ export class TogglePlayground extends React.Component {
       <Gapped vertical>
         <Gapped gap={10}>
           <Toggle />
-          <div>Toggle</div>
+          <div>Обычный</div>
         </Gapped>
         <Gapped gap={10}>
           <Toggle disabled />
-          <div>Disabled toggle</div>
+          <div>Отключён</div>
         </Gapped>
       </Gapped>
     );

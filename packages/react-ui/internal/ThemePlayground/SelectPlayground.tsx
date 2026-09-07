@@ -9,11 +9,32 @@ type SelectPlaygroundProps = SelectProps<SelectPlaygroundValue, SelectPlayground
 interface SelectPlaygroundState {
   value: string;
 }
+
+const defaultItems = ['Small', 'Medium', 'Large'];
+
+const getSelectItems = (props: SelectPlaygroundProps): string[] => {
+  if (props.items?.length) {
+    return props.items.filter((item): item is string => typeof item === 'string');
+  }
+  return defaultItems;
+};
+
+const getInitialValue = (props: SelectPlaygroundProps): string => {
+  if (typeof props.value === 'string' && props.value) {
+    return props.value;
+  }
+  const items = getSelectItems(props);
+  if (props.items?.length) {
+    return items[0] ?? '';
+  }
+  return capitalize(props.size);
+};
+
 export class SelectPlayground extends React.Component<SelectPlaygroundProps> {
   public state: SelectPlaygroundState = {
-    value: capitalize(this.props.size),
+    value: getInitialValue(this.props),
   };
-  private readonly selectItems = ['Small', 'Medium', 'Large'];
+  private readonly selectItems = getSelectItems(this.props);
 
   public render() {
     return (

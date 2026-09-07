@@ -2,6 +2,7 @@ import React from 'react';
 
 import { DatePicker } from '../../components/DatePicker/index.js';
 import type { DatePickerProps } from '../../components/DatePicker/index.js';
+import { DateRangePicker } from '../../components/DateRangePicker/index.js';
 import { Tooltip } from '../../components/Tooltip/index.js';
 import type { Nullable } from '../../typings/utility-types.js';
 
@@ -65,5 +66,35 @@ export class DatePickerPlayground extends React.Component<DatePickerPlaygroundPr
     this.setState({
       tooltip: false,
     });
+  };
+}
+
+interface DateRangePickerPlaygroundState {
+  valueStart: string;
+  valueEnd: string;
+}
+
+export class DateRangePickerPlayground extends React.Component {
+  public state: DateRangePickerPlaygroundState = {
+    valueStart: '01.06.2019',
+    valueEnd: '17.06.2019',
+  };
+
+  public render() {
+    return (
+      <DateRangePicker enableTodayLink width={320}>
+        <DateRangePicker.Start value={this.state.valueStart} onValueChange={this.handleStartChange} />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End value={this.state.valueEnd} onValueChange={this.handleEndChange} />
+      </DateRangePicker>
+    );
+  }
+
+  private handleStartChange = (value: string) => {
+    this.setState({ valueStart: value });
+  };
+
+  private handleEndChange = (value: string) => {
+    this.setState({ valueEnd: value });
   };
 }
