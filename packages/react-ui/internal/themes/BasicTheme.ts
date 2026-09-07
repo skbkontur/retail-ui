@@ -807,6 +807,10 @@ export class BasicThemeClass {
   public static btnWithIconPaddingMedium = '10px';
   public static btnWithIconPaddingLarge = '12px';
 
+  public static btnWithIconOnlyPaddingSmall = '7px';
+  public static btnWithIconOnlyPaddingMedium = '9px';
+  public static btnWithIconOnlyPaddingLarge = '11px';
+
   public static btnIconColor = '';
   public static btnIconHoverColor = '';
   public static btnIconDisabledColor = '';

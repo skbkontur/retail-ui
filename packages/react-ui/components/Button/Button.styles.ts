@@ -245,26 +245,23 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
     },
 
     sizeSmallWithIconOnly(t: Theme) {
-      const padding = `calc((${t.btnHeightSmall} - ${t.btnIconSizeSmall}) / 2 - ${t.btnBorderWidth})`;
       return emotion.css`
-        padding-left: ${padding};
-        padding-right: ${padding};
+        padding-left: ${t.btnWithIconOnlyPaddingSmall};
+        padding-right: ${t.btnWithIconOnlyPaddingSmall};
       `;
     },
 
     sizeMediumWithIconOnly(t: Theme) {
-      const padding = `calc((${t.btnHeightMedium} - ${t.btnIconSizeMedium}) / 2 - ${t.btnBorderWidth})`;
       return emotion.css`
-        padding-left: ${padding};
-        padding-right: ${padding};
+        padding-left: ${t.btnWithIconOnlyPaddingMedium};
+        padding-right: ${t.btnWithIconOnlyPaddingMedium};
       `;
     },
 
     sizeLargeWithIconOnly(t: Theme) {
-      const padding = `calc((${t.btnHeightLarge} - ${t.btnIconSizeLarge}) / 2 - ${t.btnBorderWidth})`;
       return emotion.css`
-        padding-left: ${padding};
-        padding-right: ${padding};
+        padding-left: ${t.btnWithIconOnlyPaddingLarge};
+        padding-right: ${t.btnWithIconOnlyPaddingLarge};
       `;
     },
 
