@@ -244,27 +244,6 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
     `;
     },
 
-    sizeSmallWithIconOnly(t: Theme) {
-      return emotion.css`
-        padding-left: ${t.btnWithIconOnlyPaddingSmall};
-        padding-right: ${t.btnWithIconOnlyPaddingSmall};
-      `;
-    },
-
-    sizeMediumWithIconOnly(t: Theme) {
-      return emotion.css`
-        padding-left: ${t.btnWithIconOnlyPaddingMedium};
-        padding-right: ${t.btnWithIconOnlyPaddingMedium};
-      `;
-    },
-
-    sizeLargeWithIconOnly(t: Theme) {
-      return emotion.css`
-        padding-left: ${t.btnWithIconOnlyPaddingLarge};
-        padding-right: ${t.btnWithIconOnlyPaddingLarge};
-      `;
-    },
-
     /** @deprecated */
     link(t: Theme) {
       return emotion.css`
