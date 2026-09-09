@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.4...@skbkontur/react-ui@6.4.0) (2026-09-09)
+
+
+### Bug Fixes
+
+* **Button:** give icon-only buttons square shape ([7d08f70](https://github.com/skbkontur/retail-ui/commit/7d08f706dcf485bdfa1f37bd6cb93cbfdaeff002))
+* **Input:** change prefix and suffix color to text neutral soft ([831cab3](https://github.com/skbkontur/retail-ui/commit/831cab37060dda443e3ae92eb152d9c405ca9909))
+* **Radio:** match visuals to Figma ([e174015](https://github.com/skbkontur/retail-ui/commit/e174015e1d4c67a5bcf193df373577ec6e77a8ff))
+* **SidePageHeader:** fix close button click area ([701f0c0](https://github.com/skbkontur/retail-ui/commit/701f0c03b0d0925e2de73d3b84c8c49e4ab4a277))
+* **TokenInput:** cancel in-flight getItems when empty input hides the menu ([401b1be](https://github.com/skbkontur/retail-ui/commit/401b1be8bbe72f99d71fe0d4cae52ecc681b104c))
+* **TokenInput:** update gap between field and menu ([31c41dc](https://github.com/skbkontur/retail-ui/commit/31c41dc1ab08023fdaf5db277d844253bbd8fdff))
+* **TokenInput:** validate unexpected input result ([95c984c](https://github.com/skbkontur/retail-ui/commit/95c984c351a8ea319e43da632b6c5539f04f494c))
+
+
+### Features
+
+* **TokenInput:** add exception handling to getItems ([201c1f6](https://github.com/skbkontur/retail-ui/commit/201c1f620362e53e87d4e922e135c596cd935f05))
+* **TokenInput:** prevent free-text input that fails format check from becoming tokens ([57f5e5b](https://github.com/skbkontur/retail-ui/commit/57f5e5b5fd7d814fa1807d2df809d591a866e60f))
+
+
+### Reverts
+
+* Revert "fix(Button): give icon-only buttons square shape" ([1634a6c](https://github.com/skbkontur/retail-ui/commit/1634a6c108cab256d7a97522440ac0971931f2c9))
+* Revert "refactor(Button): use calc instead of new vars for button-icon" ([b3734b8](https://github.com/skbkontur/retail-ui/commit/b3734b80ca12d8c7e633984f3cb7ae0e0cbb5af9))
+
+
+
+
+
 ## [6.3.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.3...@skbkontur/react-ui@6.3.4) (2026-09-01)
 
 
