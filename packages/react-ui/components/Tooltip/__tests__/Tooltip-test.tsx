@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
 import { PopupDataTids } from '../../../internal/Popup/index.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import { clickOutside, delay } from '../../../lib/utils.js';
 import { Button } from '../../Button/index.js';
 import { Tooltip, TooltipDataTids } from '../Tooltip.js';
@@ -669,6 +670,33 @@ describe('Tooltip', () => {
         expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
       });
     });
+  });
+
+  it('keeps hover trigger in a narrow viewport when the device supports hover', async () => {
+    const oldMatchMedia = window.matchMedia;
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: query === LIGHT_THEME.mobileMediaQuery || query === '(hover: hover)',
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }));
+
+    try {
+      render(
+        <Tooltip trigger="hover" disableAnimations render={() => <div>Content</div>}>
+          <button type="button">Anchor</button>
+        </Tooltip>,
+      );
+
+      await userEvent.hover(screen.getByRole('button', { name: 'Anchor' }));
+      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(screen.getByTestId(TooltipDataTids.crossIcon)).toBeInTheDocument();
+    } finally {
+      window.matchMedia = oldMatchMedia;
+    }
   });
 
   it('clears hoverTimeout timer after unmount', async () => {

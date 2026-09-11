@@ -182,6 +182,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private isMobileLayout = false;
+  private isMobileInteraction = false;
   private globalObject!: GlobalObject;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
@@ -243,9 +244,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
                 theme,
               )}
             >
-              <ResponsiveLayout>
+              <ResponsiveLayout customMediaQueries={{ canHover: '(hover: hover)' }}>
                 {(layout) => {
                   this.isMobileLayout = layout.isMobile;
+                  this.isMobileInteraction = layout.isMobile && !layout.canHover;
                   return this.renderMain();
                 }}
               </ResponsiveLayout>
@@ -277,7 +279,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton(): React.JSX.Element | null {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.getTrigger())
+        ? this.isMobileLayout || !Tooltip.triggersWithoutCloseButton.includes(this.getTrigger())
         : this.props.closeButton;
 
     if (!hasCross) {
@@ -388,7 +390,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private getTrigger = (): TooltipTrigger => {
     const trigger = this.getProps().trigger;
-    return this.isMobileLayout && Tooltip.triggersToOverrideOnMobile.includes(trigger) ? 'click' : trigger;
+    return this.isMobileInteraction && Tooltip.triggersToOverrideOnMobile.includes(trigger) ? 'click' : trigger;
   };
 
   private getPos = (): TooltipProps['pos'] => {
@@ -521,7 +523,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private handleMouseEnter = (event: MouseEventType) => {
-    if (this.isMobileLayout) {
+    if (this.isMobileInteraction) {
       return;
     }
 
@@ -535,7 +537,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    if (this.isMobileLayout) {
+    if (this.isMobileInteraction) {
       return;
     }
 
@@ -581,14 +583,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private handleClick = () => {
     const toggleOpenState = () => {
-      if (this.isMobileLayout && this.state.opened) {
+      if (this.isMobileInteraction && this.state.opened) {
         this.close();
         return;
       }
       this.open();
     };
 
-    if (this.isMobileLayout) {
+    if (this.isMobileInteraction) {
       // Don't lose change event of Checkbox/RadioGroup/Toggle on mobile tap
       this.clickTimeout = this.globalObject.requestAnimationFrame?.(() => {
         this.clickTimeout = null;
