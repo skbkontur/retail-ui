@@ -1,5 +1,4 @@
 import type { TooltipProps } from '@skbkontur/react-ui/components/Tooltip/Tooltip';
-import { getElementRef } from '@skbkontur/react-ui/lib/getElementRef';
 import { mergeRefs } from '@skbkontur/react-ui/lib/mergeRefs';
 import React from 'react';
 import type { ReactInstance } from 'react';
@@ -37,6 +36,19 @@ export interface ValidationTooltipProps {
 
 interface ValidationTooltipState {
   anchorElement: Nullable<HTMLElement>;
+}
+
+// TODO: Удалить получение ref для React < 19 в следующей мажорной версии вместе с поддержкой react-ui@5.
+function getElementRef(element: React.ReactElement): React.Ref<unknown> {
+  if (
+    Number.parseInt(React.version, 10) >= 19 &&
+    element.props &&
+    typeof element.props === 'object' &&
+    'ref' in element.props
+  ) {
+    return element.props.ref as React.Ref<unknown>;
+  }
+  return (element as any).ref;
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps, ValidationTooltipState> {
