@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.0...@skbkontur/react-ui-validations@3.1.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** fix capability with `@skbkontur/react-ui@5`, inline getElementRef utilify ([2015456](https://github.com/skbkontur/retail-ui/commit/20154566f120a79cedf5614545ba25661ab53192))
+
+
+
+
+
 # [3.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.4...@skbkontur/react-ui-validations@3.1.0) (2026-08-14)
 
 

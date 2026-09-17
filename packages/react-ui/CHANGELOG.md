@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.0...@skbkontur/react-ui@6.4.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **docs:** load Context7 widget asynchronously ([bee0d02](https://github.com/skbkontur/retail-ui/commit/bee0d02dd552a9237e93a3c3beaa92e4178d521d))
+* **Tooltip:** keep hover trigger on zoomed desktop ([82e91a9](https://github.com/skbkontur/retail-ui/commit/82e91a952178a924c2172abe55357d3e09324897))
+
+
+
+
+
 # [6.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.3.4...@skbkontur/react-ui@6.4.0) (2026-09-09)
 
 
