@@ -275,7 +275,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
       jsStyles.size(theme),
       sizeClassName,
       jsViewStyles.size(theme),
-      isTileView && disabled && jsTileStyles.sizeDisabled(theme),
+      isTileView && (disabled || isLoading) && jsTileStyles.sizeDisabled(theme),
     );
 
     const sizeFileTypeIconClass = useFileUploaderSize(size, {
@@ -303,7 +303,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
       sizeNameBlockClass,
       sizeViewNameBlockClass,
       jsStyles.nameBlock(),
-      disabled && jsViewStyles.disabled(theme),
+      (disabled || isLoading) && jsViewStyles.disabled(theme),
       jsViewStyles.nameBlock(),
     );
 

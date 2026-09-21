@@ -29,4 +29,10 @@ kind('FileUploaderFile', () => {
       });
     });
   });
+
+  story('FileUploaderFileLoading', () => {
+    test('idle', async (context) => {
+      await context.matchImage(await context.takeScreenshot(), 'idle');
+    });
+  });
 });

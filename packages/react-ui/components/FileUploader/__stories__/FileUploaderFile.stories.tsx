@@ -57,6 +57,30 @@ export const DifferentSizes = () => {
   );
 };
 
+export const FileUploaderFileLoading: Story = () => {
+  return (
+    <Gapped vertical gap={24}>
+      <div style={{ position: 'relative', padding: '4px 0', width: '250px' }}>
+        <FileUploaderFile
+          file={createFileUploaderFile({ status: FileUploaderFileStatus.Loading })}
+          showSize
+          size="small"
+          onRemove={action('onRemove')}
+        />
+      </div>
+      <div style={{ position: 'relative', padding: '4px 0', width: '100px' }}>
+        <FileUploaderFile
+          file={createFileUploaderFile({ status: FileUploaderFileStatus.Loading })}
+          showSize
+          size="small"
+          view="tile"
+          onRemove={action('onRemove')}
+        />
+      </div>
+    </Gapped>
+  );
+};
+
 export const FileUploaderFileWithValidationError: Story = () => {
   return (
     <div style={{ width: '250px' }}>
