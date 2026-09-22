@@ -1,6 +1,6 @@
 import { test, describe, expect } from 'vitest';
 
-import { getColors } from '../lib/get-colors';
+import { getColors } from '../lib/get-colors.js';
 
 test('should return both themes with HEX values by default', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light' });
@@ -51,7 +51,7 @@ test('should merge custom tokens via overrides', () => {
     brand: 'blue',
     accent: 'brand',
     theme: 'light',
-    overrides: (base) => ({ light: { customBrand: base?.gray[20] } }) as any,
+    overrides: (base) => ({ light: { customBrand: base?.neutralSolid[20] } }) as any,
   }) as any;
   expect(res.customBrand).toBe('#161616');
 });

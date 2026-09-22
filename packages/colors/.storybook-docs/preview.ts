@@ -34,6 +34,7 @@ import { differenceEuclidean, parse } from 'culori';
 
 import { getColors } from '../get-colors.js';
 import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
+import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens.js';
 import { getColorsBase } from '../lib/get-colors-base.js';
 import { storybookTheme } from './theme';
 
@@ -73,6 +74,7 @@ addons.setConfig({
       ThemeContext,
       DARK_THEME,
       LIGHT_THEME,
+      DEPRECATED_TOKENS,
     },
   },
 } as unknown as LiveConfig);

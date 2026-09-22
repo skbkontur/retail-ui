@@ -546,11 +546,11 @@ export const ColorsPaletteOverridesStory = () => {
 
   const overrides = (base?: TokensBase) => ({
     light: {
-      textCustom1: base?.accent?.palette?.normal[40] || base?.whiteAlpha[20],
+      textCustom1: base?.accent?.palette?.normal[40] || base?.neutralWhiteAlpha[44],
       textCustom2: base?.brand.palette.normal[56],
     },
     dark: {
-      textCustom1: base?.accent?.palette?.vivid[72] || base?.blackAlpha[20],
+      textCustom1: base?.accent?.palette?.vivid[72] || base?.neutralBlackAlpha[84],
       textCustom2: base?.brand.palette?.vivid[88],
     },
   });
@@ -990,7 +990,7 @@ export const BaseTokensStory = () => {
     const uniqueKeys = new Set<string>();
 
     const formatKey = (flatKey: string) => {
-      const scaleMatch = flatKey.match(/^(gray|whiteAlpha|blackAlpha|onBrand|onAccent)-(\d+)$/);
+      const scaleMatch = flatKey.match(/^(neutralSolid|neutralWhiteAlpha|neutralBlackAlpha|onBrand|onAccent)-(\d+)$/);
       if (scaleMatch) {
         return `${kebabCaseToCamelCase(scaleMatch[1])}[${scaleMatch[2]}]`;
       }
@@ -1068,9 +1068,9 @@ export const BaseTokensStory = () => {
     'warning',
     'error',
     'success',
-    'gray',
-    'whiteAlpha',
-    'blackAlpha',
+    'neutralSolid',
+    'neutralWhiteAlpha',
+    'neutralBlackAlpha',
     'onBrand',
     'customizable',
   ];

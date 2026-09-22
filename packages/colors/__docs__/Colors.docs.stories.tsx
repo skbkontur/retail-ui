@@ -31,6 +31,7 @@ import React from 'react';
 
 import { getColors } from '../get-colors.js';
 import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
+import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens.js';
 import type { ThemeKey } from '../lib/types/tokens.js';
 import type { ColorFormat } from '../lib/utils/convert-color.js';
 
@@ -40,6 +41,7 @@ interface TokenPair {
     light: string;
     dark: string;
   };
+  deprecated?: string;
 }
 
 interface TokenPairWithMeta extends TokenPair {
@@ -637,6 +639,7 @@ export const ColorsPaletteStory = () => {
             light: light[key],
             dark: dark[key],
           },
+          deprecated: DEPRECATED_TOKENS[key],
         });
       }
     }
@@ -834,6 +837,18 @@ export const ColorsPaletteStory = () => {
       border-radius: 4px;
       background: rgba(0, 0, 0, 0.04);
       color: #555;
+      font-weight: 600;
+      white-space: nowrap;
+    `,
+    deprecatedBadge: css`
+      position: relative;
+      top: -1px;
+      font-size: 10px;
+      padding: 2px 5px;
+      margin-left: 8px;
+      border-radius: 4px;
+      background: #fff3cd;
+      color: #856404;
       font-weight: 600;
       white-space: nowrap;
     `,
@@ -1195,7 +1210,7 @@ export const ColorsPaletteStory = () => {
           <div className={styles.groupHeader} style={{ margin: i !== 0 ? '24px 0 16px' : '12px 0 0' }}>
             {rootKey}
           </div>
-          {tokens.map(({ key, value, isFuzzy, matchPercent }) => {
+          {tokens.map(({ key, value, isFuzzy, matchPercent, deprecated }) => {
             const convertHexAlphaToWebFormat = (color: string) =>
               color.length === 9 ? '#' + color.slice(3, 9) + color.slice(1, 3) : color;
             const displayLightValue = value?.light;
@@ -1214,7 +1229,14 @@ export const ColorsPaletteStory = () => {
                         opacity: isFuzzy && matchPercent ? opacityFromMatchPercent(matchPercent) : undefined,
                       }}
                     >
-                      {key}
+                      <span
+                        style={{
+                          textDecoration: deprecated ? 'line-through' : undefined,
+                        }}
+                      >
+                        {key}
+                      </span>
+                      {deprecated && <span className={styles.deprecatedBadge}>→ {deprecated}</span>}
                       {isFuzzy && matchPercent && (
                         <Hint text="Процент совпадения">
                           <span className={styles.matchBadge}>{matchPercent}%</span>

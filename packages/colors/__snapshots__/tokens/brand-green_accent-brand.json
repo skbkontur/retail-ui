@@ -121,12 +121,12 @@
   },
   "textInvertedNeutralFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "textInvertedNeutralHeavy": {
@@ -141,8 +141,8 @@
   },
   "textInvertedNeutralPale": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.46)",
+      "hex": "rgba(255, 255, 255, 0.46)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.4)",
@@ -155,8 +155,8 @@
       "hex": "rgba(255, 255, 255, 0.64)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.56)",
-      "hex": "rgba(0, 0, 0, 0.56)"
+      "oklch": "oklch(0% 0 0 / 0.54)",
+      "hex": "rgba(0, 0, 0, 0.54)"
     }
   },
   "textInvertedSuccessHeavy": {
@@ -219,24 +219,14 @@
       "hex": "#9a6836"
     }
   },
-  "textLogo": {
-    "light": {
-      "oklch": "oklch(65.7% 0.174 148.6)",
-      "hex": "#26AD50"
-    },
-    "dark": {
-      "oklch": "oklch(65.7% 0.174 148.6)",
-      "hex": "#26AD50"
-    }
-  },
   "textNeutralFaint": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     }
   },
   "textNeutralHeavy": {
@@ -255,14 +245,14 @@
       "hex": "rgba(0, 0, 0, 0.4)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.46)",
+      "hex": "rgba(255, 255, 255, 0.46)"
     }
   },
   "textNeutralSoft": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.56)",
-      "hex": "rgba(0, 0, 0, 0.56)"
+      "oklch": "oklch(0% 0 0 / 0.54)",
+      "hex": "rgba(0, 0, 0, 0.54)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.64)",
@@ -331,22 +321,22 @@
   },
   "textConstFaintBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "textConstFaintWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     }
   },
   "textConstHeavyBlack": {
@@ -381,22 +371,22 @@
   },
   "textConstPaleWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.46)",
+      "hex": "rgba(255, 255, 255, 0.46)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.46)",
+      "hex": "rgba(255, 255, 255, 0.46)"
     }
   },
   "textConstSoftBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.56)",
-      "hex": "rgba(0, 0, 0, 0.56)"
+      "oklch": "oklch(0% 0 0 / 0.54)",
+      "hex": "rgba(0, 0, 0, 0.54)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.56)",
-      "hex": "rgba(0, 0, 0, 0.56)"
+      "oklch": "oklch(0% 0 0 / 0.54)",
+      "hex": "rgba(0, 0, 0, 0.54)"
     }
   },
   "textConstSoftWhite": {
@@ -411,32 +401,32 @@
   },
   "textOnAccentBoldFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     }
   },
   "textOnAccentBoldHeavy": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.96)",
-      "hex": "rgba(255, 255, 255, 0.96)"
+      "oklch": "oklch(100% 0 0 / 0.94)",
+      "hex": "rgba(255, 255, 255, 0.94)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.96)",
-      "hex": "rgba(255, 255, 255, 0.96)"
+      "oklch": "oklch(100% 0 0 / 0.94)",
+      "hex": "rgba(255, 255, 255, 0.94)"
     }
   },
   "textOnAccentBoldPale": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.52)",
+      "hex": "rgba(255, 255, 255, 0.52)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     }
   },
   "textOnAccentBoldSoft": {
@@ -445,38 +435,38 @@
       "hex": "rgba(255, 255, 255, 0.64)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.56)",
-      "hex": "rgba(255, 255, 255, 0.56)"
+      "oklch": "oklch(100% 0 0 / 0.57)",
+      "hex": "rgba(255, 255, 255, 0.57)"
     }
   },
   "textOnBrandOriginalFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.4)",
-      "hex": "rgba(255, 255, 255, 0.4)"
+      "oklch": "oklch(100% 0 0 / 0.41)",
+      "hex": "rgba(255, 255, 255, 0.41)"
     }
   },
   "textOnBrandOriginalHeavy": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.96)",
-      "hex": "rgba(255, 255, 255, 0.96)"
+      "oklch": "oklch(100% 0 0 / 0.94)",
+      "hex": "rgba(255, 255, 255, 0.94)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.96)",
-      "hex": "rgba(255, 255, 255, 0.96)"
+      "oklch": "oklch(100% 0 0 / 0.94)",
+      "hex": "rgba(255, 255, 255, 0.94)"
     }
   },
   "textOnBrandOriginalPale": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.52)",
+      "hex": "rgba(255, 255, 255, 0.52)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.48)",
-      "hex": "rgba(255, 255, 255, 0.48)"
+      "oklch": "oklch(100% 0 0 / 0.52)",
+      "hex": "rgba(255, 255, 255, 0.52)"
     }
   },
   "textOnBrandOriginalSoft": {
@@ -579,7 +569,37 @@
       "hex": "#a74541"
     }
   },
-  "shapeBoldNeutral": {
+  "shapeBoldNeutralAlpha": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.68)",
+      "hex": "rgba(0, 0, 0, 0.68)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.70)",
+      "hex": "rgba(255, 255, 255, 0.7)"
+    }
+  },
+  "shapeBoldNeutralAlphaHover": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.76)",
+      "hex": "rgba(0, 0, 0, 0.76)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.82)",
+      "hex": "rgba(255, 255, 255, 0.82)"
+    }
+  },
+  "shapeBoldNeutralAlphaPressed": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.54)",
+      "hex": "rgba(0, 0, 0, 0.54)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.57)",
+      "hex": "rgba(255, 255, 255, 0.57)"
+    }
+  },
+  "shapeBoldNeutralSolid": {
     "light": {
       "oklch": "oklch(44% 0 0)",
       "hex": "#525252"
@@ -589,7 +609,7 @@
       "hex": "#bebebe"
     }
   },
-  "shapeBoldNeutralHover": {
+  "shapeBoldNeutralSolidHover": {
     "light": {
       "oklch": "oklch(36% 0 0)",
       "hex": "#3d3d3d"
@@ -599,14 +619,14 @@
       "hex": "#d7d7d7"
     }
   },
-  "shapeBoldNeutralPressed": {
+  "shapeBoldNeutralSolidPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.56)",
-      "hex": "rgba(0, 0, 0, 0.56)"
+      "oklch": "oklch(56% 0 0)",
+      "hex": "#747474"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.56)",
-      "hex": "rgba(255, 255, 255, 0.56)"
+      "oklch": "oklch(72% 0 0)",
+      "hex": "#a4a4a4"
     }
   },
   "shapeBoldSuccess": {
@@ -761,22 +781,22 @@
   },
   "shapeFaintNeutralAlpha": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeFaintNeutralAlphaHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeFaintNeutralAlphaPressed": {
@@ -785,8 +805,38 @@
       "hex": "rgba(0, 0, 0, 0.16)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.04)",
-      "hex": "rgba(255, 255, 255, 0.04)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
+    }
+  },
+  "shapeFaintNeutralSolid": {
+    "light": {
+      "oklch": "oklch(96% 0 0)",
+      "hex": "#f2f2f2"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
+    }
+  },
+  "shapeFaintNeutralSolidHover": {
+    "light": {
+      "oklch": "oklch(92% 0 0)",
+      "hex": "#e4e4e4"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "shapeFaintNeutralSolidPressed": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
     }
   },
   "shapeFaintSuccess": {
@@ -859,7 +909,17 @@
       "hex": "#ffdadd"
     }
   },
-  "shapeHeavyNeutral": {
+  "shapeHeavyNeutralAlpha": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.84)",
+      "hex": "rgba(0, 0, 0, 0.84)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.94)",
+      "hex": "rgba(255, 255, 255, 0.94)"
+    }
+  },
+  "shapeHeavyNeutralSolid": {
     "light": {
       "oklch": "oklch(28% 0 0)",
       "hex": "#292929"
@@ -891,32 +951,52 @@
   },
   "shapeOtherAccentBoldDisabled": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     }
   },
-  "shapeOtherBacklessHover": {
+  "shapeOtherBacklessAlphaHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
-  "shapeOtherBacklessPressed": {
+  "shapeOtherBacklessAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.16)",
-      "hex": "rgba(0, 0, 0, 0.16)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.04)",
-      "hex": "rgba(255, 255, 255, 0.04)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
+    }
+  },
+  "shapeOtherBacklessSolidHover": {
+    "light": {
+      "oklch": "oklch(96% 0 0)",
+      "hex": "#f2f2f2"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "shapeOtherBacklessSolidPressed": {
+    "light": {
+      "oklch": "oklch(92% 0 0)",
+      "hex": "#e4e4e4"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
     }
   },
   "shapeOtherBase": {
@@ -925,8 +1005,8 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeOtherBaseHover": {
@@ -935,28 +1015,28 @@
       "hex": "rgba(255, 255, 255, 0.64)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeOtherBasePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.04)",
-      "hex": "rgba(255, 255, 255, 0.04)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeOtherDisabled": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeOtherField": {
@@ -975,8 +1055,8 @@
       "hex": "#f2f2f2"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.04)",
-      "hex": "rgba(0, 0, 0, 0.04)"
+      "oklch": "oklch(0% 0 0 / 0.03)",
+      "hex": "rgba(0, 0, 0, 0.03)"
     }
   },
   "shapeOtherFieldPressed": {
@@ -985,24 +1065,24 @@
       "hex": "#e4e4e4"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     }
   },
   "shapeOtherLow": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeOtherLowHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.08)",
-      "hex": "rgba(0, 0, 0, 0.08)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.16)",
@@ -1011,102 +1091,12 @@
   },
   "shapeOtherLowPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.16)",
+      "hex": "rgba(0, 0, 0, 0.16)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
-    }
-  },
-  "shapeOtherNeutralFaintSolid": {
-    "light": {
-      "oklch": "oklch(96% 0 0)",
-      "hex": "#f2f2f2"
-    },
-    "dark": {
-      "oklch": "oklch(32% 0 0)",
-      "hex": "#333333"
-    }
-  },
-  "shapeOtherNeutralFaintSolidHover": {
-    "light": {
-      "oklch": "oklch(92% 0 0)",
-      "hex": "#e4e4e4"
-    },
-    "dark": {
-      "oklch": "oklch(36% 0 0)",
-      "hex": "#3d3d3d"
-    }
-  },
-  "shapeOtherNeutralFaintSolidPressed": {
-    "light": {
-      "oklch": "oklch(88% 0 0)",
-      "hex": "#d7d7d7"
-    },
-    "dark": {
-      "oklch": "oklch(32% 0 0)",
-      "hex": "#333333"
-    }
-  },
-  "shapeOtherNeutralPaleSolid": {
-    "light": {
-      "oklch": "oklch(92% 0 0)",
-      "hex": "#e4e4e4"
-    },
-    "dark": {
-      "oklch": "oklch(36% 0 0)",
-      "hex": "#3d3d3d"
-    }
-  },
-  "shapeOtherNeutralPaleSolidHover": {
-    "light": {
-      "oklch": "oklch(88% 0 0)",
-      "hex": "#d7d7d7"
-    },
-    "dark": {
-      "oklch": "oklch(40% 0 0)",
-      "hex": "#484848"
-    }
-  },
-  "shapeOtherNeutralPaleSolidPressed": {
-    "light": {
-      "oklch": "oklch(84% 0 0)",
-      "hex": "#cacaca"
-    },
-    "dark": {
-      "oklch": "oklch(32% 0 0)",
-      "hex": "#333333"
-    }
-  },
-  "shapeOtherNeutralSoftSolid": {
-    "light": {
-      "oklch": "oklch(88% 0 0)",
-      "hex": "#d7d7d7"
-    },
-    "dark": {
-      "oklch": "oklch(40% 0 0)",
-      "hex": "#484848"
-    }
-  },
-  "shapeOtherNeutralSoftSolidHover": {
-    "light": {
-      "oklch": "oklch(80% 0 0)",
-      "hex": "#bebebe"
-    },
-    "dark": {
-      "oklch": "oklch(48% 0 0)",
-      "hex": "#5d5d5d"
-    }
-  },
-  "shapeOtherNeutralSoftSolidPressed": {
-    "light": {
-      "oklch": "oklch(76% 0 0)",
-      "hex": "#b1b1b1"
-    },
-    "dark": {
-      "oklch": "oklch(36% 0 0)",
-      "hex": "#3d3d3d"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "shapePaleAccent": {
@@ -1201,12 +1191,12 @@
   },
   "shapePaleNeutralAlpha": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapePaleNeutralAlphaHover": {
@@ -1215,18 +1205,48 @@
       "hex": "rgba(0, 0, 0, 0.16)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
+    }
+  },
+  "shapePaleNeutralSolid": {
+    "light": {
+      "oklch": "oklch(92% 0 0)",
+      "hex": "#e4e4e4"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "shapePaleNeutralSolidHover": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(40% 0 0)",
+      "hex": "#484848"
+    }
+  },
+  "shapePaleNeutralSolidPressed": {
+    "light": {
+      "oklch": "oklch(84% 0 0)",
+      "hex": "#cacaca"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
     }
   },
   "shapePaleSuccess": {
@@ -1385,14 +1405,14 @@
       "hex": "rgba(0, 0, 0, 0.16)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "shapeSoftNeutralAlphaHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.24)",
@@ -1401,12 +1421,42 @@
   },
   "shapeSoftNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
+    }
+  },
+  "shapeSoftNeutralSolid": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(40% 0 0)",
+      "hex": "#484848"
+    }
+  },
+  "shapeSoftNeutralSolidHover": {
+    "light": {
+      "oklch": "oklch(80% 0 0)",
+      "hex": "#bebebe"
+    },
+    "dark": {
+      "oklch": "oklch(48% 0 0)",
+      "hex": "#5d5d5d"
+    }
+  },
+  "shapeSoftNeutralSolidPressed": {
+    "light": {
+      "oklch": "oklch(76% 0 0)",
+      "hex": "#b1b1b1"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
     }
   },
   "shapeSoftSuccess": {
@@ -1471,58 +1521,58 @@
   },
   "shapeInvertedBacklessHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     }
   },
   "shapeInvertedBacklessPressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.04)",
-      "hex": "rgba(255, 255, 255, 0.04)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.16)",
-      "hex": "rgba(0, 0, 0, 0.16)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeInvertedDisabled": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     }
   },
   "shapeInvertedNeutralFaintAlpha": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     }
   },
   "shapeInvertedNeutralFaintAlphaHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeInvertedNeutralFaintAlphaPressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.04)",
-      "hex": "rgba(255, 255, 255, 0.04)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.16)",
@@ -1535,7 +1585,7 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.8)",
+      "oklch": "oklch(0% 0 0 / 0.80)",
       "hex": "rgba(0, 0, 0, 0.8)"
     }
   },
@@ -1551,8 +1601,8 @@
   },
   "shapeInvertedNeutralHeavyPressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.72)",
-      "hex": "rgba(255, 255, 255, 0.72)"
+      "oklch": "oklch(100% 0 0 / 0.70)",
+      "hex": "rgba(255, 255, 255, 0.7)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.72)",
@@ -1561,18 +1611,18 @@
   },
   "shapeInvertedNeutralPaleAlpha": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeInvertedNeutralPaleAlphaHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.16)",
@@ -1581,18 +1631,18 @@
   },
   "shapeInvertedNeutralPaleAlphaPressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeInvertedNeutralSoftAlpha": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.16)",
@@ -1605,88 +1655,88 @@
       "hex": "rgba(255, 255, 255, 0.24)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeInvertedNeutralSoftAlphaPressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "shapeConstBacklessBlackHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeConstBacklessBlackPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.16)",
-      "hex": "rgba(0, 0, 0, 0.16)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.16)",
-      "hex": "rgba(0, 0, 0, 0.16)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeConstBacklessWhiteHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeConstBacklessWhitePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeConstDisabledBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.06)",
-      "hex": "rgba(0, 0, 0, 0.06)"
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
     }
   },
   "shapeConstDisabledWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.06)",
-      "hex": "rgba(255, 255, 255, 0.06)"
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
     }
   },
   "shapeConstFaintBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "shapeConstFaintBlackHover": {
@@ -1701,51 +1751,51 @@
   },
   "shapeConstFaintBlackPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeConstFaintWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeConstFaintWhiteHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "shapeConstFaintWhitePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeConstHeavyBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.8)",
+      "oklch": "oklch(0% 0 0 / 0.80)",
       "hex": "rgba(0, 0, 0, 0.8)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.8)",
+      "oklch": "oklch(0% 0 0 / 0.80)",
       "hex": "rgba(0, 0, 0, 0.8)"
     }
   },
@@ -1761,12 +1811,12 @@
   },
   "shapeConstHeavyBlackPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.64)",
-      "hex": "rgba(0, 0, 0, 0.64)"
+      "oklch": "oklch(0% 0 0 / 0.63)",
+      "hex": "rgba(0, 0, 0, 0.63)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.64)",
-      "hex": "rgba(0, 0, 0, 0.64)"
+      "oklch": "oklch(0% 0 0 / 0.63)",
+      "hex": "rgba(0, 0, 0, 0.63)"
     }
   },
   "shapeConstHeavyWhite": {
@@ -1811,32 +1861,32 @@
   },
   "shapeConstPaleBlackHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeConstPaleBlackPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "shapeConstPaleWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "shapeConstPaleWhiteHover": {
@@ -1851,12 +1901,12 @@
   },
   "shapeConstPaleWhitePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "shapeConstPromo": {
@@ -1871,22 +1921,22 @@
   },
   "shapeConstSoftBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "shapeConstSoftBlackHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "shapeConstSoftBlackPressed": {
@@ -1911,12 +1961,12 @@
   },
   "shapeConstSoftWhiteHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     }
   },
   "shapeConstSoftWhitePressed": {
@@ -2061,12 +2111,12 @@
   },
   "lineNeutralFaint": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.08)",
-      "hex": "rgba(0, 0, 0, 0.08)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "lineNeutralPale": {
@@ -2075,14 +2125,14 @@
       "hex": "rgba(0, 0, 0, 0.16)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "lineNeutralPaleHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.24)",
@@ -2095,18 +2145,18 @@
       "hex": "rgba(0, 0, 0, 0.4)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "lineOnAccentBoldFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "lineOnAccentBoldPale": {
@@ -2121,12 +2171,12 @@
   },
   "lineOnBrandOriginalFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "lineOnBrandOriginalPale": {
@@ -2321,18 +2371,18 @@
   },
   "lineInvertedNeutralFaint": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.08)",
-      "hex": "rgba(0, 0, 0, 0.08)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "lineInvertedNeutralPale": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.16)",
@@ -2345,18 +2395,18 @@
       "hex": "rgba(255, 255, 255, 0.24)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "lineInvertedNeutralPalePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "lineInvertedSuccessBold": {
@@ -2421,42 +2471,42 @@
   },
   "lineConstFaintBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.12)",
-      "hex": "rgba(0, 0, 0, 0.12)"
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
     }
   },
   "lineConstFaintWhite": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.12)",
-      "hex": "rgba(255, 255, 255, 0.12)"
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
     }
   },
   "lineConstPaleBlack": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     }
   },
   "lineConstPaleBlackHover": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(0% 0 0 / 0.32)",
-      "hex": "rgba(0, 0, 0, 0.32)"
+      "oklch": "oklch(0% 0 0 / 0.3)",
+      "hex": "rgba(0, 0, 0, 0.3)"
     }
   },
   "lineConstPaleBlackPressed": {
@@ -2481,22 +2531,22 @@
   },
   "lineConstPaleWhiteHover": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.32)",
-      "hex": "rgba(255, 255, 255, 0.32)"
+      "oklch": "oklch(100% 0 0 / 0.30)",
+      "hex": "rgba(255, 255, 255, 0.3)"
     }
   },
   "lineConstPaleWhitePressed": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.16)",
-      "hex": "rgba(255, 255, 255, 0.16)"
+      "oklch": "oklch(100% 0 0 / 0.15)",
+      "hex": "rgba(255, 255, 255, 0.15)"
     }
   },
   "surfaceBase": {
@@ -2531,8 +2581,8 @@
   },
   "surfaceModalBackdrop": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.24)",
-      "hex": "rgba(0, 0, 0, 0.24)"
+      "oklch": "oklch(0% 0 0 / 0.26)",
+      "hex": "rgba(0, 0, 0, 0.26)"
     },
     "dark": {
       "oklch": "oklch(0% 0 0 / 0.4)",
@@ -2541,12 +2591,12 @@
   },
   "illustrationBlack": {
     "light": {
-      "oklch": "oklch(16% 0 0)",
-      "hex": "#0d0d0d"
+      "oklch": "oklch(0% 0 0)",
+      "hex": "#000000"
     },
     "dark": {
-      "oklch": "oklch(16% 0 0)",
-      "hex": "#0d0d0d"
+      "oklch": "oklch(0% 0 0)",
+      "hex": "#000000"
     }
   },
   "illustrationBrand": {
@@ -2579,6 +2629,16 @@
       "hex": "#000000"
     }
   },
+  "illustrationKonturLogo": {
+    "light": {
+      "oklch": "oklch(25.2% 0 0)",
+      "hex": "#222222"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0)",
+      "hex": "#ffffff"
+    }
+  },
   "illustrationNeutral": {
     "light": {
       "oklch": "oklch(0% 0 0)",
@@ -2591,12 +2651,12 @@
   },
   "illustrationOnBrand": {
     "light": {
-      "oklch": "oklch(100% 0 0 / 1)",
-      "hex": "rgba(255, 255, 255, 1)"
+      "oklch": "oklch(100% 0 0)",
+      "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 1)",
-      "hex": "rgba(255, 255, 255, 1)"
+      "oklch": "oklch(100% 0 0)",
+      "hex": "#ffffff"
     }
   },
   "illustrationOnComplement": {
@@ -2607,6 +2667,16 @@
     "dark": {
       "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
+    }
+  },
+  "illustrationProductLogo": {
+    "light": {
+      "oklch": "oklch(65.7% 0.174 148.6)",
+      "hex": "#26AD50"
+    },
+    "dark": {
+      "oklch": "oklch(65.7% 0.174 148.6)",
+      "hex": "#26AD50"
     }
   },
   "illustrationPromo": {
@@ -3187,6 +3257,166 @@
     "dark": {
       "oklch": "oklch(52% 0.084 72)",
       "hex": "#87602d"
+    }
+  },
+  "shapeBoldNeutral": {
+    "light": {
+      "oklch": "oklch(44% 0 0)",
+      "hex": "#525252"
+    },
+    "dark": {
+      "oklch": "oklch(80% 0 0)",
+      "hex": "#bebebe"
+    }
+  },
+  "shapeBoldNeutralHover": {
+    "light": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    },
+    "dark": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    }
+  },
+  "shapeBoldNeutralPressed": {
+    "light": {
+      "oklch": "oklch(56% 0 0)",
+      "hex": "#747474"
+    },
+    "dark": {
+      "oklch": "oklch(72% 0 0)",
+      "hex": "#a4a4a4"
+    }
+  },
+  "shapeHeavyNeutral": {
+    "light": {
+      "oklch": "oklch(28% 0 0)",
+      "hex": "#292929"
+    },
+    "dark": {
+      "oklch": "oklch(96% 0 0)",
+      "hex": "#f2f2f2"
+    }
+  },
+  "shapeOtherBacklessHover": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.05)",
+      "hex": "rgba(0, 0, 0, 0.05)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.10)",
+      "hex": "rgba(255, 255, 255, 0.1)"
+    }
+  },
+  "shapeOtherBacklessPressed": {
+    "light": {
+      "oklch": "oklch(0% 0 0 / 0.11)",
+      "hex": "rgba(0, 0, 0, 0.11)"
+    },
+    "dark": {
+      "oklch": "oklch(100% 0 0 / 0.05)",
+      "hex": "rgba(255, 255, 255, 0.05)"
+    }
+  },
+  "shapeOtherNeutralFaintSolid": {
+    "light": {
+      "oklch": "oklch(96% 0 0)",
+      "hex": "#f2f2f2"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
+    }
+  },
+  "shapeOtherNeutralFaintSolidHover": {
+    "light": {
+      "oklch": "oklch(92% 0 0)",
+      "hex": "#e4e4e4"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "shapeOtherNeutralFaintSolidPressed": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
+    }
+  },
+  "shapeOtherNeutralPaleSolid": {
+    "light": {
+      "oklch": "oklch(92% 0 0)",
+      "hex": "#e4e4e4"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "shapeOtherNeutralPaleSolidHover": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(40% 0 0)",
+      "hex": "#484848"
+    }
+  },
+  "shapeOtherNeutralPaleSolidPressed": {
+    "light": {
+      "oklch": "oklch(84% 0 0)",
+      "hex": "#cacaca"
+    },
+    "dark": {
+      "oklch": "oklch(32% 0 0)",
+      "hex": "#333333"
+    }
+  },
+  "shapeOtherNeutralSoftSolid": {
+    "light": {
+      "oklch": "oklch(88% 0 0)",
+      "hex": "#d7d7d7"
+    },
+    "dark": {
+      "oklch": "oklch(40% 0 0)",
+      "hex": "#484848"
+    }
+  },
+  "shapeOtherNeutralSoftSolidHover": {
+    "light": {
+      "oklch": "oklch(80% 0 0)",
+      "hex": "#bebebe"
+    },
+    "dark": {
+      "oklch": "oklch(48% 0 0)",
+      "hex": "#5d5d5d"
+    }
+  },
+  "shapeOtherNeutralSoftSolidPressed": {
+    "light": {
+      "oklch": "oklch(76% 0 0)",
+      "hex": "#b1b1b1"
+    },
+    "dark": {
+      "oklch": "oklch(36% 0 0)",
+      "hex": "#3d3d3d"
+    }
+  },
+  "textLogo": {
+    "light": {
+      "oklch": "oklch(65.7% 0.174 148.6)",
+      "hex": "#26AD50"
+    },
+    "dark": {
+      "oklch": "oklch(65.7% 0.174 148.6)",
+      "hex": "#26AD50"
     }
   }
 }

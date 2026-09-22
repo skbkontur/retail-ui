@@ -46,7 +46,7 @@ test('should return hex values when format is "hex-aarrggbb"', () => {
 
 test('should generate onBrand tokens', () => {
   const res = getColorsBase({ brand: '#ffffff', accent: 'brand' });
-  expect(res.onBrand[100]).toContain('0, 0, 0');
+  expect(res.onBrand[100]).toContain('#000000');
 });
 
 test('should provide all customizable palettes', () => {

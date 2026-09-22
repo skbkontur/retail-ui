@@ -1,6 +1,6 @@
 import * as DEFAULT_SWATCH from './consts/default-swatch.js';
 import { getHover, getPressed } from './helpers/get-interactions.js';
-import { getLogo } from './helpers/get-logo.js';
+import { getLogoKontur, getLogoProduct } from './helpers/get-logo.js';
 import { getOnBrand } from './helpers/get-on-brand.js';
 import { getPalette } from './helpers/get-palette.js';
 import { getPromo } from './helpers/get-promo.js';
@@ -63,7 +63,8 @@ export function getColorsBase({
 
   const result = {
     brand: {
-      logo: getLogo(brandColor),
+      logoKontur: getLogoKontur(),
+      logoProduct: getLogoProduct(brandColor),
       promo: getPromo(brandColor),
       original: brandColor,
       interactions: {
@@ -88,9 +89,9 @@ export function getColorsBase({
     warning: getPalette({ color: system.warning, type: 'warning' }) as ColorPalette,
     error: getPalette({ color: system.error }) as ColorPalette,
     success: getPalette({ color: system.success }) as ColorPalette,
-    gray: DEFAULT_SWATCH.gray,
-    whiteAlpha: DEFAULT_SWATCH.whiteAlpha,
-    blackAlpha: DEFAULT_SWATCH.blackAlpha,
+    neutralSolid: DEFAULT_SWATCH.neutralSolid,
+    neutralBlackAlpha: DEFAULT_SWATCH.neutralBlackAlpha,
+    neutralWhiteAlpha: DEFAULT_SWATCH.neutralWhiteAlpha,
     onBrand: getOnBrand(brandColor),
     onAccent: accentColor ? getOnBrand(accentColor) : undefined,
     customizable: customizablePalettes,

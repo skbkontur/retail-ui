@@ -1,5 +1,6 @@
 import { clampChroma, converter, type Oklch } from 'culori';
 
+import { logoKontur, neutralSolid } from '../consts/default-swatch.js';
 import { LOGO_LIGHTNESS_MIN } from '../consts/params/logo-lightness.js';
 import { formatOklch } from '../utils/convert-color.js';
 
@@ -10,7 +11,14 @@ interface LogoColors {
   dark: string;
 }
 
-export function getLogo(color: string): LogoColors {
+export function getLogoKontur() {
+  return {
+    light: logoKontur,
+    dark: neutralSolid[100],
+  };
+}
+
+export function getLogoProduct(color: string): LogoColors {
   const darkColor = toOklch(color) as Oklch;
 
   if (darkColor.l >= LOGO_LIGHTNESS_MIN) {

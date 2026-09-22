@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import * as DEFAULT_SWATCH from '../lib/consts/default-swatch.js';
+import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens.js';
 import type { ConfigOptions } from '../lib/get-colors-base.js';
 import { getColors } from '../lib/get-colors.js';
 import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
@@ -332,6 +333,14 @@ export function saveTokens({
 
         const themeVars = Object.entries(flattenedTokens).map(([key]) => {
           const cssVarName = camelCaseToKebabCase(key);
+          const jsVarNameCamel = kebabCaseToCamelCase(cssVarName);
+          const deprecated = DEPRECATED_TOKENS[jsVarNameCamel];
+          const comment = deprecated ? `/// @deprecated Use ${deprecated} instead\n` : '';
+
+          if (deprecated) {
+            const newCssVarName = camelCaseToKebabCase(deprecated);
+            return `${comment}${varPrefix}${cssVarName}: var(--${cssPrefix}-${newCssVarName});`;
+          }
 
           return `${varPrefix}${cssVarName}: var(--${cssPrefix}-${cssVarName});`;
         });
@@ -356,6 +365,15 @@ export function saveTokens({
         const content = Object.entries(flattenedTokens)
           .map(([key, value]) => {
             const cssVarName = camelCaseToKebabCase(key);
+            const jsVarNameCamel = kebabCaseToCamelCase(cssVarName);
+            const deprecated = DEPRECATED_TOKENS[jsVarNameCamel];
+            const comment = deprecated ? `/// @deprecated Use ${deprecated} instead\n` : '';
+
+            if (deprecated) {
+              const newCssVarName = camelCaseToKebabCase(deprecated);
+              return `${comment}${varPrefix}${cssVarName}: var(--${cssPrefix}-${newCssVarName}, ${value});`;
+            }
+
             return `${varPrefix}${cssVarName}: var(--${cssPrefix}-${cssVarName}, ${value});`;
           })
           .join('\n');
@@ -376,8 +394,10 @@ export function saveTokens({
           const cssVarName = camelCaseToKebabCase(key);
           const jsVarNameCamel = kebabCaseToCamelCase(cssVarName);
           const cssVarReference = `var(--${cssPrefix}-${cssVarName})`;
+          const deprecated = DEPRECATED_TOKENS[jsVarNameCamel];
+          const comment = deprecated ? `/** @deprecated Use ${deprecated} instead */\n` : '';
 
-          return `export const ${jsVarNameCamel} = "${cssVarReference}";`;
+          return `${comment}export const ${jsVarNameCamel} = "${cssVarReference}";`;
         });
 
         jsCssVars.push(...jsVars);
@@ -401,10 +421,12 @@ export function saveTokens({
         const jsVars = Object.entries(flattenedTokens).map(([key, value]) => {
           const cssVarName = camelCaseToKebabCase(key);
           const jsVarNameCamel = kebabCaseToCamelCase(cssVarName);
+          const deprecated = DEPRECATED_TOKENS[jsVarNameCamel];
+          const comment = deprecated ? `/** @deprecated Use ${deprecated} instead */\n` : '';
 
           const cssVarReference = `var(--${cssPrefix}-${cssVarName}, ${value})`;
 
-          return `export const ${jsVarNameCamel} = "${cssVarReference}";`;
+          return `${comment}export const ${jsVarNameCamel} = "${cssVarReference}";`;
         });
 
         jsCssVars.push(...jsVars);

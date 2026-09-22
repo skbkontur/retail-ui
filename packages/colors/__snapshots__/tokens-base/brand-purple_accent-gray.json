@@ -1,9 +1,17 @@
 {
-  "brandLogoLight": {
+  "brandLogoKonturLight": {
+    "oklch": "oklch(25.2% 0 0)",
+    "hex": "#222222"
+  },
+  "brandLogoKonturDark": {
+    "oklch": "oklch(100% 0 0)",
+    "hex": "#ffffff"
+  },
+  "brandLogoProductLight": {
     "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
-  "brandLogoDark": {
+  "brandLogoProductDark": {
     "oklch": "oklch(64% 0.206 319)",
     "hex": "#bf58d9"
   },
@@ -992,413 +1000,333 @@
     "oklch": "oklch(96% 0.026 149)",
     "hex": "#e6f7e8"
   },
-  "gray0": {
+  "neutralSolid0": {
     "oklch": "oklch(0% 0 0)",
     "hex": "#000000"
   },
-  "gray16": {
-    "oklch": "oklch(16% 0 0)",
-    "hex": "#0d0d0d"
-  },
-  "gray20": {
+  "neutralSolid20": {
     "oklch": "oklch(20% 0 0)",
     "hex": "#161616"
   },
-  "gray24": {
+  "neutralSolid24": {
     "oklch": "oklch(24% 0 0)",
     "hex": "#1f1f1f"
   },
-  "gray28": {
+  "neutralSolid28": {
     "oklch": "oklch(28% 0 0)",
     "hex": "#292929"
   },
-  "gray32": {
+  "neutralSolid32": {
     "oklch": "oklch(32% 0 0)",
     "hex": "#333333"
   },
-  "gray36": {
+  "neutralSolid36": {
     "oklch": "oklch(36% 0 0)",
     "hex": "#3d3d3d"
   },
-  "gray40": {
+  "neutralSolid40": {
     "oklch": "oklch(40% 0 0)",
     "hex": "#484848"
   },
-  "gray44": {
+  "neutralSolid44": {
     "oklch": "oklch(44% 0 0)",
     "hex": "#525252"
   },
-  "gray48": {
+  "neutralSolid48": {
     "oklch": "oklch(48% 0 0)",
     "hex": "#5d5d5d"
   },
-  "gray52": {
+  "neutralSolid52": {
     "oklch": "oklch(52% 0 0)",
     "hex": "#696969"
   },
-  "gray56": {
+  "neutralSolid56": {
     "oklch": "oklch(56% 0 0)",
     "hex": "#747474"
   },
-  "gray60": {
+  "neutralSolid60": {
     "oklch": "oklch(60% 0 0)",
     "hex": "#808080"
   },
-  "gray64": {
+  "neutralSolid64": {
     "oklch": "oklch(64% 0 0)",
     "hex": "#8c8c8c"
   },
-  "gray68": {
+  "neutralSolid68": {
     "oklch": "oklch(68% 0 0)",
     "hex": "#989898"
   },
-  "gray72": {
+  "neutralSolid72": {
     "oklch": "oklch(72% 0 0)",
     "hex": "#a4a4a4"
   },
-  "gray76": {
+  "neutralSolid76": {
     "oklch": "oklch(76% 0 0)",
     "hex": "#b1b1b1"
   },
-  "gray80": {
+  "neutralSolid80": {
     "oklch": "oklch(80% 0 0)",
     "hex": "#bebebe"
   },
-  "gray84": {
+  "neutralSolid84": {
     "oklch": "oklch(84% 0 0)",
     "hex": "#cacaca"
   },
-  "gray88": {
+  "neutralSolid88": {
     "oklch": "oklch(88% 0 0)",
     "hex": "#d7d7d7"
   },
-  "gray92": {
+  "neutralSolid92": {
     "oklch": "oklch(92% 0 0)",
     "hex": "#e4e4e4"
   },
-  "gray96": {
+  "neutralSolid96": {
     "oklch": "oklch(96% 0 0)",
     "hex": "#f2f2f2"
   },
-  "gray98": {
-    "oklch": "oklch(98% 0 0)",
-    "hex": "#f8f8f8"
+  "neutralSolid97": {
+    "oklch": "oklch(97% 0 0)",
+    "hex": "#f5f5f5"
   },
-  "gray100": {
+  "neutralSolid100": {
     "oklch": "oklch(100% 0 0)",
     "hex": "#ffffff"
   },
-  "whiteAlpha4": {
-    "oklch": "oklch(100% 0 0 / 0.04)",
-    "hex": "rgba(255, 255, 255, 0.04)"
-  },
-  "whiteAlpha6": {
-    "oklch": "oklch(100% 0 0 / 0.06)",
-    "hex": "rgba(255, 255, 255, 0.06)"
-  },
-  "whiteAlpha8": {
-    "oklch": "oklch(100% 0 0 / 0.08)",
-    "hex": "rgba(255, 255, 255, 0.08)"
-  },
-  "whiteAlpha12": {
-    "oklch": "oklch(100% 0 0 / 0.12)",
-    "hex": "rgba(255, 255, 255, 0.12)"
-  },
-  "whiteAlpha16": {
-    "oklch": "oklch(100% 0 0 / 0.16)",
-    "hex": "rgba(255, 255, 255, 0.16)"
-  },
-  "whiteAlpha20": {
-    "oklch": "oklch(100% 0 0 / 0.2)",
-    "hex": "rgba(255, 255, 255, 0.2)"
-  },
-  "whiteAlpha24": {
-    "oklch": "oklch(100% 0 0 / 0.24)",
-    "hex": "rgba(255, 255, 255, 0.24)"
-  },
-  "whiteAlpha28": {
-    "oklch": "oklch(100% 0 0 / 0.28)",
-    "hex": "rgba(255, 255, 255, 0.28)"
-  },
-  "whiteAlpha32": {
-    "oklch": "oklch(100% 0 0 / 0.32)",
-    "hex": "rgba(255, 255, 255, 0.32)"
-  },
-  "whiteAlpha36": {
-    "oklch": "oklch(100% 0 0 / 0.36)",
-    "hex": "rgba(255, 255, 255, 0.36)"
-  },
-  "whiteAlpha40": {
-    "oklch": "oklch(100% 0 0 / 0.4)",
-    "hex": "rgba(255, 255, 255, 0.4)"
-  },
-  "whiteAlpha44": {
-    "oklch": "oklch(100% 0 0 / 0.44)",
-    "hex": "rgba(255, 255, 255, 0.44)"
-  },
-  "whiteAlpha48": {
-    "oklch": "oklch(100% 0 0 / 0.48)",
-    "hex": "rgba(255, 255, 255, 0.48)"
-  },
-  "whiteAlpha52": {
-    "oklch": "oklch(100% 0 0 / 0.52)",
-    "hex": "rgba(255, 255, 255, 0.52)"
-  },
-  "whiteAlpha56": {
-    "oklch": "oklch(100% 0 0 / 0.56)",
-    "hex": "rgba(255, 255, 255, 0.56)"
-  },
-  "whiteAlpha60": {
-    "oklch": "oklch(100% 0 0 / 0.6)",
-    "hex": "rgba(255, 255, 255, 0.6)"
-  },
-  "whiteAlpha64": {
-    "oklch": "oklch(100% 0 0 / 0.64)",
-    "hex": "rgba(255, 255, 255, 0.64)"
-  },
-  "whiteAlpha68": {
-    "oklch": "oklch(100% 0 0 / 0.68)",
-    "hex": "rgba(255, 255, 255, 0.68)"
-  },
-  "whiteAlpha72": {
-    "oklch": "oklch(100% 0 0 / 0.72)",
-    "hex": "rgba(255, 255, 255, 0.72)"
-  },
-  "whiteAlpha76": {
-    "oklch": "oklch(100% 0 0 / 0.76)",
-    "hex": "rgba(255, 255, 255, 0.76)"
-  },
-  "whiteAlpha80": {
-    "oklch": "oklch(100% 0 0 / 0.8)",
-    "hex": "rgba(255, 255, 255, 0.8)"
-  },
-  "whiteAlpha84": {
-    "oklch": "oklch(100% 0 0 / 0.84)",
-    "hex": "rgba(255, 255, 255, 0.84)"
-  },
-  "whiteAlpha88": {
-    "oklch": "oklch(100% 0 0 / 0.88)",
-    "hex": "rgba(255, 255, 255, 0.88)"
-  },
-  "whiteAlpha92": {
-    "oklch": "oklch(100% 0 0 / 0.92)",
-    "hex": "rgba(255, 255, 255, 0.92)"
-  },
-  "whiteAlpha96": {
-    "oklch": "oklch(100% 0 0 / 0.96)",
-    "hex": "rgba(255, 255, 255, 0.96)"
-  },
-  "whiteAlpha100": {
-    "oklch": "oklch(100% 0 0 / 1)",
-    "hex": "rgba(255, 255, 255, 1)"
-  },
-  "blackAlpha4": {
-    "oklch": "oklch(0% 0 0 / 0.04)",
-    "hex": "rgba(0, 0, 0, 0.04)"
-  },
-  "blackAlpha6": {
-    "oklch": "oklch(0% 0 0 / 0.06)",
-    "hex": "rgba(0, 0, 0, 0.06)"
-  },
-  "blackAlpha8": {
-    "oklch": "oklch(0% 0 0 / 0.08)",
-    "hex": "rgba(0, 0, 0, 0.08)"
-  },
-  "blackAlpha12": {
-    "oklch": "oklch(0% 0 0 / 0.12)",
-    "hex": "rgba(0, 0, 0, 0.12)"
-  },
-  "blackAlpha16": {
-    "oklch": "oklch(0% 0 0 / 0.16)",
-    "hex": "rgba(0, 0, 0, 0.16)"
-  },
-  "blackAlpha20": {
-    "oklch": "oklch(0% 0 0 / 0.2)",
-    "hex": "rgba(0, 0, 0, 0.2)"
-  },
-  "blackAlpha24": {
-    "oklch": "oklch(0% 0 0 / 0.24)",
-    "hex": "rgba(0, 0, 0, 0.24)"
-  },
-  "blackAlpha28": {
-    "oklch": "oklch(0% 0 0 / 0.28)",
-    "hex": "rgba(0, 0, 0, 0.28)"
-  },
-  "blackAlpha32": {
-    "oklch": "oklch(0% 0 0 / 0.32)",
-    "hex": "rgba(0, 0, 0, 0.32)"
-  },
-  "blackAlpha36": {
-    "oklch": "oklch(0% 0 0 / 0.36)",
-    "hex": "rgba(0, 0, 0, 0.36)"
-  },
-  "blackAlpha40": {
-    "oklch": "oklch(0% 0 0 / 0.4)",
-    "hex": "rgba(0, 0, 0, 0.4)"
-  },
-  "blackAlpha44": {
-    "oklch": "oklch(0% 0 0 / 0.44)",
-    "hex": "rgba(0, 0, 0, 0.44)"
-  },
-  "blackAlpha48": {
-    "oklch": "oklch(0% 0 0 / 0.48)",
-    "hex": "rgba(0, 0, 0, 0.48)"
-  },
-  "blackAlpha52": {
-    "oklch": "oklch(0% 0 0 / 0.52)",
-    "hex": "rgba(0, 0, 0, 0.52)"
-  },
-  "blackAlpha56": {
-    "oklch": "oklch(0% 0 0 / 0.56)",
-    "hex": "rgba(0, 0, 0, 0.56)"
-  },
-  "blackAlpha60": {
-    "oklch": "oklch(0% 0 0 / 0.6)",
-    "hex": "rgba(0, 0, 0, 0.6)"
-  },
-  "blackAlpha64": {
-    "oklch": "oklch(0% 0 0 / 0.64)",
-    "hex": "rgba(0, 0, 0, 0.64)"
-  },
-  "blackAlpha68": {
-    "oklch": "oklch(0% 0 0 / 0.68)",
-    "hex": "rgba(0, 0, 0, 0.68)"
-  },
-  "blackAlpha72": {
-    "oklch": "oklch(0% 0 0 / 0.72)",
-    "hex": "rgba(0, 0, 0, 0.72)"
-  },
-  "blackAlpha76": {
-    "oklch": "oklch(0% 0 0 / 0.76)",
-    "hex": "rgba(0, 0, 0, 0.76)"
-  },
-  "blackAlpha80": {
-    "oklch": "oklch(0% 0 0 / 0.8)",
-    "hex": "rgba(0, 0, 0, 0.8)"
-  },
-  "blackAlpha84": {
-    "oklch": "oklch(0% 0 0 / 0.84)",
-    "hex": "rgba(0, 0, 0, 0.84)"
-  },
-  "blackAlpha88": {
-    "oklch": "oklch(0% 0 0 / 0.88)",
-    "hex": "rgba(0, 0, 0, 0.88)"
-  },
-  "blackAlpha92": {
+  "neutralBlackAlpha20": {
     "oklch": "oklch(0% 0 0 / 0.92)",
     "hex": "rgba(0, 0, 0, 0.92)"
   },
-  "blackAlpha96": {
-    "oklch": "oklch(0% 0 0 / 0.96)",
-    "hex": "rgba(0, 0, 0, 0.96)"
+  "neutralBlackAlpha24": {
+    "oklch": "oklch(0% 0 0 / 0.88)",
+    "hex": "rgba(0, 0, 0, 0.88)"
   },
-  "blackAlpha100": {
+  "neutralBlackAlpha28": {
+    "oklch": "oklch(0% 0 0 / 0.84)",
+    "hex": "rgba(0, 0, 0, 0.84)"
+  },
+  "neutralBlackAlpha32": {
+    "oklch": "oklch(0% 0 0 / 0.80)",
+    "hex": "rgba(0, 0, 0, 0.8)"
+  },
+  "neutralBlackAlpha36": {
+    "oklch": "oklch(0% 0 0 / 0.76)",
+    "hex": "rgba(0, 0, 0, 0.76)"
+  },
+  "neutralBlackAlpha40": {
+    "oklch": "oklch(0% 0 0 / 0.72)",
+    "hex": "rgba(0, 0, 0, 0.72)"
+  },
+  "neutralBlackAlpha44": {
+    "oklch": "oklch(0% 0 0 / 0.68)",
+    "hex": "rgba(0, 0, 0, 0.68)"
+  },
+  "neutralBlackAlpha48": {
+    "oklch": "oklch(0% 0 0 / 0.63)",
+    "hex": "rgba(0, 0, 0, 0.63)"
+  },
+  "neutralBlackAlpha52": {
+    "oklch": "oklch(0% 0 0 / 0.59)",
+    "hex": "rgba(0, 0, 0, 0.59)"
+  },
+  "neutralBlackAlpha56": {
+    "oklch": "oklch(0% 0 0 / 0.54)",
+    "hex": "rgba(0, 0, 0, 0.54)"
+  },
+  "neutralBlackAlpha60": {
+    "oklch": "oklch(0% 0 0 / 0.5)",
+    "hex": "rgba(0, 0, 0, 0.5)"
+  },
+  "neutralBlackAlpha64": {
+    "oklch": "oklch(0% 0 0 / 0.45)",
+    "hex": "rgba(0, 0, 0, 0.45)"
+  },
+  "neutralBlackAlpha68": {
+    "oklch": "oklch(0% 0 0 / 0.4)",
+    "hex": "rgba(0, 0, 0, 0.4)"
+  },
+  "neutralBlackAlpha72": {
+    "oklch": "oklch(0% 0 0 / 0.36)",
+    "hex": "rgba(0, 0, 0, 0.36)"
+  },
+  "neutralBlackAlpha76": {
+    "oklch": "oklch(0% 0 0 / 0.3)",
+    "hex": "rgba(0, 0, 0, 0.3)"
+  },
+  "neutralBlackAlpha80": {
+    "oklch": "oklch(0% 0 0 / 0.26)",
+    "hex": "rgba(0, 0, 0, 0.26)"
+  },
+  "neutralBlackAlpha84": {
+    "oklch": "oklch(0% 0 0 / 0.21)",
+    "hex": "rgba(0, 0, 0, 0.21)"
+  },
+  "neutralBlackAlpha88": {
+    "oklch": "oklch(0% 0 0 / 0.16)",
+    "hex": "rgba(0, 0, 0, 0.16)"
+  },
+  "neutralBlackAlpha92": {
+    "oklch": "oklch(0% 0 0 / 0.11)",
+    "hex": "rgba(0, 0, 0, 0.11)"
+  },
+  "neutralBlackAlpha96": {
+    "oklch": "oklch(0% 0 0 / 0.05)",
+    "hex": "rgba(0, 0, 0, 0.05)"
+  },
+  "neutralBlackAlpha97": {
+    "oklch": "oklch(0% 0 0 / 0.03)",
+    "hex": "rgba(0, 0, 0, 0.03)"
+  },
+  "neutralBlackAlpha100": {
     "oklch": "oklch(0% 0 0 / 1)",
     "hex": "rgba(0, 0, 0, 1)"
   },
-  "onBrand4": {
-    "oklch": "oklch(100% 0 0 / 0.04)",
-    "hex": "rgba(255, 255, 255, 0.04)"
+  "neutralWhiteAlpha32": {
+    "oklch": "oklch(100% 0 0 / 0.05)",
+    "hex": "rgba(255, 255, 255, 0.05)"
   },
-  "onBrand6": {
-    "oklch": "oklch(100% 0 0 / 0.06)",
-    "hex": "rgba(255, 255, 255, 0.06)"
+  "neutralWhiteAlpha36": {
+    "oklch": "oklch(100% 0 0 / 0.10)",
+    "hex": "rgba(255, 255, 255, 0.1)"
   },
-  "onBrand8": {
-    "oklch": "oklch(100% 0 0 / 0.08)",
-    "hex": "rgba(255, 255, 255, 0.08)"
+  "neutralWhiteAlpha40": {
+    "oklch": "oklch(100% 0 0 / 0.15)",
+    "hex": "rgba(255, 255, 255, 0.15)"
   },
-  "onBrand12": {
-    "oklch": "oklch(100% 0 0 / 0.12)",
-    "hex": "rgba(255, 255, 255, 0.12)"
+  "neutralWhiteAlpha44": {
+    "oklch": "oklch(100% 0 0 / 0.19)",
+    "hex": "rgba(255, 255, 255, 0.19)"
   },
-  "onBrand16": {
-    "oklch": "oklch(100% 0 0 / 0.16)",
-    "hex": "rgba(255, 255, 255, 0.16)"
-  },
-  "onBrand20": {
-    "oklch": "oklch(100% 0 0 / 0.2)",
-    "hex": "rgba(255, 255, 255, 0.2)"
-  },
-  "onBrand24": {
+  "neutralWhiteAlpha48": {
     "oklch": "oklch(100% 0 0 / 0.24)",
     "hex": "rgba(255, 255, 255, 0.24)"
   },
-  "onBrand28": {
-    "oklch": "oklch(100% 0 0 / 0.28)",
-    "hex": "rgba(255, 255, 255, 0.28)"
+  "neutralWhiteAlpha52": {
+    "oklch": "oklch(100% 0 0 / 0.30)",
+    "hex": "rgba(255, 255, 255, 0.3)"
   },
-  "onBrand32": {
-    "oklch": "oklch(100% 0 0 / 0.32)",
-    "hex": "rgba(255, 255, 255, 0.32)"
+  "neutralWhiteAlpha56": {
+    "oklch": "oklch(100% 0 0 / 0.35)",
+    "hex": "rgba(255, 255, 255, 0.35)"
   },
-  "onBrand36": {
-    "oklch": "oklch(100% 0 0 / 0.36)",
-    "hex": "rgba(255, 255, 255, 0.36)"
+  "neutralWhiteAlpha60": {
+    "oklch": "oklch(100% 0 0 / 0.41)",
+    "hex": "rgba(255, 255, 255, 0.41)"
   },
-  "onBrand40": {
-    "oklch": "oklch(100% 0 0 / 0.4)",
-    "hex": "rgba(255, 255, 255, 0.4)"
+  "neutralWhiteAlpha64": {
+    "oklch": "oklch(100% 0 0 / 0.46)",
+    "hex": "rgba(255, 255, 255, 0.46)"
   },
-  "onBrand44": {
-    "oklch": "oklch(100% 0 0 / 0.44)",
-    "hex": "rgba(255, 255, 255, 0.44)"
-  },
-  "onBrand48": {
-    "oklch": "oklch(100% 0 0 / 0.48)",
-    "hex": "rgba(255, 255, 255, 0.48)"
-  },
-  "onBrand52": {
+  "neutralWhiteAlpha68": {
     "oklch": "oklch(100% 0 0 / 0.52)",
     "hex": "rgba(255, 255, 255, 0.52)"
   },
-  "onBrand56": {
-    "oklch": "oklch(100% 0 0 / 0.56)",
-    "hex": "rgba(255, 255, 255, 0.56)"
+  "neutralWhiteAlpha72": {
+    "oklch": "oklch(100% 0 0 / 0.57)",
+    "hex": "rgba(255, 255, 255, 0.57)"
   },
-  "onBrand60": {
-    "oklch": "oklch(100% 0 0 / 0.6)",
-    "hex": "rgba(255, 255, 255, 0.6)"
-  },
-  "onBrand64": {
+  "neutralWhiteAlpha76": {
     "oklch": "oklch(100% 0 0 / 0.64)",
     "hex": "rgba(255, 255, 255, 0.64)"
   },
-  "onBrand68": {
-    "oklch": "oklch(100% 0 0 / 0.68)",
-    "hex": "rgba(255, 255, 255, 0.68)"
+  "neutralWhiteAlpha80": {
+    "oklch": "oklch(100% 0 0 / 0.70)",
+    "hex": "rgba(255, 255, 255, 0.7)"
   },
-  "onBrand72": {
-    "oklch": "oklch(100% 0 0 / 0.72)",
-    "hex": "rgba(255, 255, 255, 0.72)"
+  "neutralWhiteAlpha84": {
+    "oklch": "oklch(100% 0 0 / 0.76)",
+    "hex": "rgba(255, 255, 255, 0.76)"
   },
-  "onBrand76": {
+  "neutralWhiteAlpha88": {
+    "oklch": "oklch(100% 0 0 / 0.82)",
+    "hex": "rgba(255, 255, 255, 0.82)"
+  },
+  "neutralWhiteAlpha92": {
+    "oklch": "oklch(100% 0 0 / 0.88)",
+    "hex": "rgba(255, 255, 255, 0.88)"
+  },
+  "neutralWhiteAlpha96": {
+    "oklch": "oklch(100% 0 0 / 0.94)",
+    "hex": "rgba(255, 255, 255, 0.94)"
+  },
+  "neutralWhiteAlpha97": {
+    "oklch": "oklch(100% 0 0 / 0.96)",
+    "hex": "rgba(255, 255, 255, 0.96)"
+  },
+  "neutralWhiteAlpha100": {
+    "oklch": "oklch(100% 0 0)",
+    "hex": "#ffffff"
+  },
+  "onBrand5": {
+    "oklch": "oklch(100% 0 0 / 0.05)",
+    "hex": "rgba(255, 255, 255, 0.05)"
+  },
+  "onBrand10": {
+    "oklch": "oklch(100% 0 0 / 0.10)",
+    "hex": "rgba(255, 255, 255, 0.1)"
+  },
+  "onBrand15": {
+    "oklch": "oklch(100% 0 0 / 0.15)",
+    "hex": "rgba(255, 255, 255, 0.15)"
+  },
+  "onBrand20": {
+    "oklch": "oklch(100% 0 0 / 0.19)",
+    "hex": "rgba(255, 255, 255, 0.19)"
+  },
+  "onBrand25": {
+    "oklch": "oklch(100% 0 0 / 0.24)",
+    "hex": "rgba(255, 255, 255, 0.24)"
+  },
+  "onBrand30": {
+    "oklch": "oklch(100% 0 0 / 0.30)",
+    "hex": "rgba(255, 255, 255, 0.3)"
+  },
+  "onBrand35": {
+    "oklch": "oklch(100% 0 0 / 0.35)",
+    "hex": "rgba(255, 255, 255, 0.35)"
+  },
+  "onBrand40": {
+    "oklch": "oklch(100% 0 0 / 0.41)",
+    "hex": "rgba(255, 255, 255, 0.41)"
+  },
+  "onBrand45": {
+    "oklch": "oklch(100% 0 0 / 0.46)",
+    "hex": "rgba(255, 255, 255, 0.46)"
+  },
+  "onBrand50": {
+    "oklch": "oklch(100% 0 0 / 0.52)",
+    "hex": "rgba(255, 255, 255, 0.52)"
+  },
+  "onBrand55": {
+    "oklch": "oklch(100% 0 0 / 0.57)",
+    "hex": "rgba(255, 255, 255, 0.57)"
+  },
+  "onBrand65": {
+    "oklch": "oklch(100% 0 0 / 0.64)",
+    "hex": "rgba(255, 255, 255, 0.64)"
+  },
+  "onBrand70": {
+    "oklch": "oklch(100% 0 0 / 0.70)",
+    "hex": "rgba(255, 255, 255, 0.7)"
+  },
+  "onBrand75": {
     "oklch": "oklch(100% 0 0 / 0.76)",
     "hex": "rgba(255, 255, 255, 0.76)"
   },
   "onBrand80": {
-    "oklch": "oklch(100% 0 0 / 0.8)",
-    "hex": "rgba(255, 255, 255, 0.8)"
+    "oklch": "oklch(100% 0 0 / 0.82)",
+    "hex": "rgba(255, 255, 255, 0.82)"
   },
-  "onBrand84": {
-    "oklch": "oklch(100% 0 0 / 0.84)",
-    "hex": "rgba(255, 255, 255, 0.84)"
-  },
-  "onBrand88": {
+  "onBrand90": {
     "oklch": "oklch(100% 0 0 / 0.88)",
     "hex": "rgba(255, 255, 255, 0.88)"
   },
-  "onBrand92": {
-    "oklch": "oklch(100% 0 0 / 0.92)",
-    "hex": "rgba(255, 255, 255, 0.92)"
-  },
-  "onBrand96": {
-    "oklch": "oklch(100% 0 0 / 0.96)",
-    "hex": "rgba(255, 255, 255, 0.96)"
+  "onBrand95": {
+    "oklch": "oklch(100% 0 0 / 0.94)",
+    "hex": "rgba(255, 255, 255, 0.94)"
   },
   "onBrand100": {
-    "oklch": "oklch(100% 0 0 / 1)",
-    "hex": "rgba(255, 255, 255, 1)"
+    "oklch": "oklch(100% 0 0)",
+    "hex": "#ffffff"
   },
   "onAccent": {},
   "customizableRedVivid20": {

@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest';
 
+import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens';
 import { slashToCamelCase, transformations, extractTokensFromFigma } from '../scripts/create-tokens-from-figma';
 
 const [
@@ -25,20 +26,43 @@ describe('extractTokensFromFigma (Integration)', () => {
       'Incomplete/Token / Dark': 'Value',
     };
 
+    const deprecatedEntries = (theme: string) =>
+      Object.entries(DEPRECATED_TOKENS)
+        .map(([deprecatedKey, newKey]) => [
+          `    /** @deprecated Use ${newKey} instead */`,
+          `    ${deprecatedKey}: ${theme}.${newKey},`,
+        ])
+        .flat()
+        .join('\n');
+
     const expectedCode = `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
-  light: {
-    textPrimary: base.gray[20],
+export const getColorsDefaultTokens = (
+  base: TokensBase
+): { light: Record<string, string>; dark: Record<string, string> } => {
+  const light = {
+    textPrimary: base.neutralSolid[20],
     shapeOnBrandDefault: base.brand.original,
-    lineSoft: base.accent?.palette?.dim[76] || base.blackAlpha[48]
-  },
-  dark: {
-    textPrimary: base.gray[80],
+    lineSoft: base.accent?.palette?.dim[76] || base.neutralBlackAlpha[60],
+  };
+  const dark = {
+    textPrimary: base.neutralSolid[80],
     shapeOnBrandDefault: base.brand.promo,
-    lineSoft: base.accent?.palette?.dim[48] || base.whiteAlpha[48]
-  }
-});
+    lineSoft: base.accent?.palette?.dim[48] || base.neutralWhiteAlpha[64],
+  };
+
+  const deprecatedLight = {
+${deprecatedEntries('light')}
+  };
+  const deprecatedDark = {
+${deprecatedEntries('dark')}
+  };
+
+  return {
+    light: { ...light, ...deprecatedLight },
+    dark: { ...dark, ...deprecatedDark },
+  };
+};
 `;
     const result = extractTokensFromFigma(rawInput);
 
@@ -117,7 +141,7 @@ describe('Pipeline Steps', () => {
       onAccentScale: { light: 'OnAccent/40', dark: 'OnAccent/40' },
     };
     const expected = {
-      standardToken: { light: 'base.gray[100]', dark: 'base.customizable.blue[50]' },
+      standardToken: { light: 'base.neutralSolid[100]', dark: 'base.customizable.blue[50]' },
       brandOriginal: { light: 'base.brand.original', dark: 'base.brand.original' },
       brandPromo: { light: 'base.brand.promo', dark: 'base.brand.promo' },
       customizableColor: { light: 'base.customizable.violet[100]', dark: 'base.customizable.violet[100]' },
@@ -145,18 +169,41 @@ describe('Pipeline Steps', () => {
       ['tokenTwo', { light: 'l2', dark: 'd2' }],
     ];
 
+    const deprecatedEntries = (theme: string) =>
+      Object.entries(DEPRECATED_TOKENS)
+        .map(([deprecatedKey, newKey]) => [
+          `    /** @deprecated Use ${newKey} instead */`,
+          `    ${deprecatedKey}: ${theme}.${newKey},`,
+        ])
+        .flat()
+        .join('\n');
+
     const expected = `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
-  light: {
+export const getColorsDefaultTokens = (
+  base: TokensBase
+): { light: Record<string, string>; dark: Record<string, string> } => {
+  const light = {
     tokenOne: l1,
-    tokenTwo: l2
-  },
-  dark: {
+    tokenTwo: l2,
+  };
+  const dark = {
     tokenOne: d1,
-    tokenTwo: d2
-  }
-});
+    tokenTwo: d2,
+  };
+
+  const deprecatedLight = {
+${deprecatedEntries('light')}
+  };
+  const deprecatedDark = {
+${deprecatedEntries('dark')}
+  };
+
+  return {
+    light: { ...light, ...deprecatedLight },
+    dark: { ...dark, ...deprecatedDark },
+  };
+};
 `;
     expect(generateCodeFn(input).trim()).toBe(expected.trim());
   });

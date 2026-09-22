@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { customizable } from '../lib/consts/default-swatch.js';
+import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens.js';
 import type { ThemeKey } from '../lib/types/tokens.js';
 
 interface Value {
@@ -109,9 +110,40 @@ export const transformations: Rule[] = [
     rule: 'Map to BaseTokens',
     fn: (tokens: Output): Output => {
       const CUSTOMIZABLE_KEYS = Object.keys(customizable);
-      const DIRECT_SCALE_BASE_NAMES = ['onbrand', 'gray', 'whitealpha', 'blackalpha'];
 
       const transformToken = (rawValue: string): string => {
+        const neutralMatch = rawValue.match(/^Neutral\/(Black Alpha|White Alpha|Solid)\/(\d+)(?:\s*∙\s*\d+%)?$/);
+        if (neutralMatch) {
+          const scaleType = neutralMatch[1];
+          const key = Number(neutralMatch[2]);
+          if (scaleType === 'Black Alpha') {
+            return `base.neutralBlackAlpha[${key}]`;
+          }
+          if (scaleType === 'White Alpha') {
+            return `base.neutralWhiteAlpha[${key}]`;
+          }
+          if (scaleType === 'Solid') {
+            return `base.neutralSolid[${key}]`;
+          }
+        }
+
+        const oldAlphaMatch = rawValue.match(/^(Black Alpha|White Alpha)\/(\d+)$/);
+        if (oldAlphaMatch) {
+          const scaleType = oldAlphaMatch[1];
+          const key = Number(oldAlphaMatch[2]);
+          if (scaleType === 'Black Alpha') {
+            return `base.neutralBlackAlpha[${key}]`;
+          }
+          if (scaleType === 'White Alpha') {
+            return `base.neutralWhiteAlpha[${key}]`;
+          }
+        }
+
+        const grayMatch = rawValue.match(/^Gray\/(\d+)$/);
+        if (grayMatch) {
+          return `base.neutralSolid[${grayMatch[1]}]`;
+        }
+
         const parts = rawValue.split('/');
         if (parts.length >= 2) {
           const last = parts[parts.length - 1];
@@ -133,8 +165,8 @@ export const transformations: Rule[] = [
               } else if (camelPart === 'onAccent') {
                 expression += '.onAccent';
                 continue;
-              } else if (DIRECT_SCALE_BASE_NAMES.includes(camelPart)) {
-                expression += '.' + camelPart;
+              } else if (camelPart === 'onBrand') {
+                expression += '.onBrand';
                 continue;
               }
             }
@@ -185,11 +217,20 @@ export const transformations: Rule[] = [
               return 'base.brand.original';
             }
 
-            if (item.includes('Semantic Tokens/Light') && item.includes('Logo')) {
-              return 'base.brand.logo.light';
+            if (item.includes('Semantic Tokens/Light') && item.includes('Logo/Product')) {
+              return 'base.brand.logoProduct.light';
             }
-            if (item.includes('Semantic Tokens/Dark') && item.includes('Logo')) {
-              return 'base.brand.logo.dark';
+
+            if (item.includes('Semantic Tokens/Dark') && item.includes('Logo/Product')) {
+              return 'base.brand.logoProduct.dark';
+            }
+
+            if (item.includes('Semantic Tokens/Light') && item.includes('Logo/Kontur')) {
+              return 'base.brand.logoKontur.light';
+            }
+
+            if (item.includes('Semantic Tokens/Dark') && item.includes('Logo/Kontur')) {
+              return 'base.brand.logoKontur.dark';
             }
 
             if (item.includes('Brand')) {
@@ -315,24 +356,46 @@ export const transformations: Rule[] = [
   {
     rule: 'Generate Code',
     fn: (sorted: Entries): string => {
-      const generateBody = (theme: ThemeKey) =>
-        sorted
-          .map(([key, values], i) => `    ${key}: ${values[theme]}${i === sorted.length - 1 ? '' : ','}`)
-          .join('\n');
+      const generateMain = (theme: ThemeKey) => {
+        const lines = sorted.map(([key, values]) => {
+          return `    ${key}: ${values[theme]},`;
+        });
+        return lines.join('\n');
+      };
 
-      const lightBody = generateBody('light');
-      const darkBody = generateBody('dark');
+      const generateDeprecated = (theme: ThemeKey) => {
+        const lines = Object.entries(DEPRECATED_TOKENS)
+          .map(([deprecatedKey, newKey]) => {
+            return [`    /** @deprecated Use ${newKey} instead */`, `    ${deprecatedKey}: ${theme}.${newKey},`];
+          })
+          .flat();
+        return lines.join('\n');
+      };
 
       return `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
-  light: {
-${lightBody}
-  },
-  dark: {
-${darkBody}
-  }
-});
+export const getColorsDefaultTokens = (
+  base: TokensBase
+): { light: Record<string, string>; dark: Record<string, string> } => {
+  const light = {
+${generateMain('light')}
+  };
+  const dark = {
+${generateMain('dark')}
+  };
+
+  const deprecatedLight = {
+${generateDeprecated('light')}
+  };
+  const deprecatedDark = {
+${generateDeprecated('dark')}
+  };
+
+  return {
+    light: { ...light, ...deprecatedLight },
+    dark: { ...dark, ...deprecatedDark },
+  };
+};
 `;
     },
   },
