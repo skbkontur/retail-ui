@@ -96,7 +96,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public _toast: Nullable<ToastView>;
   private _timeout: SafeTimer;
-  private rootRef = React.createRef<HTMLElement>();
+  private rootRef: React.RefObject<HTMLElement | null> = React.createRef();
 
   constructor(props: ToastProps) {
     super(props);
@@ -144,6 +144,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * @param {ToastPushConfig} config объект с конфигурацией отображения компонента Toast
    */
   public push: ToastPushApi = (notification: React.ReactNode, config?: ToastPushConfig) => {
+    this.rootRef = React.createRef();
+
     if (this.state.notification) {
       this.close();
     }
@@ -208,17 +210,19 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         exit={!isTestEnv}
         nodeRef={this.rootRef}
       >
-        <CommonWrapper rootNodeRef={this.setRootRef} {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootRef(this.rootRef)} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
     );
   }
 
-  private setRootRef = (element: Nullable<Element>) => {
-    this.setRootNode(element);
+  private setRootRef = (ref: React.RefObject<HTMLElement | null>) => (element: Nullable<Element>) => {
+    if (ref === this.rootRef) {
+      this.setRootNode(element);
+    }
     // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
-    this.rootRef.current = element;
+    ref.current = element;
   };
 
   private _clearTimer = () => {

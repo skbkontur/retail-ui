@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
@@ -9,6 +9,38 @@ import { ToastLocaleHelper } from '../../Toast/locale/index.js';
 import { SingleToast } from '../SingleToast.js';
 
 describe('SingleToast', () => {
+  it('uses a new transition node when replacing a toast', () => {
+    vi.useFakeTimers();
+    try {
+      render(<SingleToast />);
+
+      act(() => {
+        SingleToast.push('first', {
+          action: { label: 'Repeat', handler: () => SingleToast.push('second') },
+        });
+      });
+      const firstToast = screen.getByTestId(ToastDataTids.toastView);
+
+      act(() => {
+        SingleToast.push('second');
+      });
+      const secondToast = screen.getByTestId(ToastDataTids.toastView);
+
+      act(() => {
+        SingleToast.push('third');
+      });
+      const thirdToast = screen.getByTestId(ToastDataTids.toastView);
+
+      expect(firstToast).not.toBe(thirdToast);
+      expect(secondToast).not.toBe(thirdToast);
+      expect(thirdToast).toHaveTextContent('third');
+    } finally {
+      vi.clearAllTimers();
+      vi.useRealTimers();
+      SingleToast.close();
+    }
+  });
+
   describe('showCloseIcon', () => {
     it('change showCloseIcon in SingleInput', async () => {
       render(
