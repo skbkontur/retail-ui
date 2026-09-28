@@ -318,6 +318,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   };
 
   private inputValue = (start: number, end: number, value: string) => {
+    if (this.props.readOnly) {
+      return false;
+    }
+
     const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, {
       integerDigits: this.props.integerDigits,
       fractionDigits: this.getProps().fractionDigits,
@@ -353,6 +357,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   };
 
   private handleValueChange = (value: string): void => {
+    if (this.props.readOnly) {
+      return;
+    }
+
     const selection = this.tempSelectionForOnChange;
     const delta = this.getOnChangeDelta(value);
     if (isNonNullable(delta) && !this.inputValue(selection.start, selection.end, delta)) {
@@ -379,6 +387,11 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   };
 
   private handleCut = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    if (this.props.readOnly) {
+      event.preventDefault();
+      return;
+    }
+
     const selection = this.getSelection(event.target);
     if (selection.start !== selection.end) {
       const substring = this.state.formatted.substring(selection.start, selection.end);

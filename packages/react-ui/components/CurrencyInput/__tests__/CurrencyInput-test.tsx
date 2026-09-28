@@ -241,6 +241,59 @@ describe('CurrencyInput', () => {
     expect(onPaste.mock.lastCall?.[0].clipboardData.getData('text/plain')).toBe(PASTE_TEXT);
   });
 
+  describe('readOnly', () => {
+    it.each(['Backspace', 'Delete', 'Comma', 'Period', 'Slash', 'Backslash', 'IntlBackslash', 'NumpadDivide'])(
+      'does not change value with %s',
+      async (key) => {
+        const onValueChange = vi.fn();
+        render(<CurrencyInput value={123} readOnly onValueChange={onValueChange} />);
+        const input = screen.getByRole('textbox') as HTMLInputElement;
+        expect(input).toHaveAttribute('readonly');
+
+        await userEvent.click(input);
+        input.setSelectionRange(0, input.value.length);
+        await userEvent.keyboard(`[${key}]`);
+
+        expect(input).toHaveValue('123,00');
+        expect(onValueChange).not.toHaveBeenCalled();
+      },
+    );
+
+    it('does not change value on paste or cut, but still allows copying', () => {
+      const onValueChange = vi.fn();
+      const onPaste = vi.fn();
+      const clipboardData = { getData: vi.fn(() => '777'), setData: vi.fn() };
+      render(<CurrencyInput value={123} readOnly onValueChange={onValueChange} onPaste={onPaste} />);
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      input.focus();
+      input.setSelectionRange(0, input.value.length);
+
+      expect(fireEvent.paste(input, { clipboardData })).toBe(false);
+      expect(onPaste).toHaveBeenCalledTimes(1);
+      expect(input).toHaveValue('123,00');
+      expect(onValueChange).not.toHaveBeenCalled();
+
+      expect(fireEvent.cut(input, { clipboardData })).toBe(false);
+      expect(clipboardData.setData).not.toHaveBeenCalled();
+      expect(input).toHaveValue('123,00');
+      expect(onValueChange).not.toHaveBeenCalled();
+
+      fireEvent.copy(input, { clipboardData });
+      expect(clipboardData.setData).toHaveBeenCalled();
+    });
+
+    it('does not change value on input change', () => {
+      const onValueChange = vi.fn();
+      render(<CurrencyInput value={123} readOnly onValueChange={onValueChange} />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: '777' } });
+
+      expect(input).toHaveValue('123,00');
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Cursor handles', () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12300.45);
