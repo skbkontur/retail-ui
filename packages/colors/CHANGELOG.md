@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.10](/compare/@skbkontur/colors@2.1.9...@skbkontur/colors@2.1.10) (2026-09-29)
+
+
+### Bug Fixes
+
+* **Colors:** remove color contrast dependencies 7e14fabf
+
+
+
+
+
 ## [2.1.9](/compare/@skbkontur/colors@2.1.8...@skbkontur/colors@2.1.9) (2026-08-14)
 
 
@@ -132,7 +143,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * Color Schemes: Includes specific palettes for every brand color.
 * Semantic Tokens: Built using a semantic logic for easier naming and use.
 * Dark Mode: Full support for dark themes.
-* Accessibility: Color contrast follows APCA W3 standards.
+* Accessibility: Color contrast.
 * Figma Sync: Completely synchronized with Figma Variables.
 * Framework Agnostic: Compatible with any web framework.
 

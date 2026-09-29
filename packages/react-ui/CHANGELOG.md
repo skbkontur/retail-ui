@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.1...@skbkontur/react-ui@6.4.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* **FileUploader:** make loading files neutral ([f54e971](https://github.com/skbkontur/retail-ui/commit/f54e97169dac3f57abf18ef5236dead9d06e3ca8))
+* **Hint:** show next hint immediate after fast hover, add prop `delayBeforeShow` ([574784d](https://github.com/skbkontur/retail-ui/commit/574784dc56f41794243eabe9d36d611a30dc59af))
+* **Toast:** reset transition ref on repeated display ([2c9a115](https://github.com/skbkontur/retail-ui/commit/2c9a1152964bd71f2683a97bd3f0253ad235c52c))
+
+
+
+
+
 ## [6.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.0...@skbkontur/react-ui@6.4.1) (2026-09-17)
 
 
