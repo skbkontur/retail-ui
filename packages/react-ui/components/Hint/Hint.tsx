@@ -11,7 +11,7 @@ import type {
 } from '../../internal/Popup/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
-import type { SafeTimer } from '../../lib/globalObject.js';
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
 import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
@@ -22,6 +22,14 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
 import type { MouseEventType } from '../../typings/event-types.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Hint.styles.js';
+import {
+  getShowDelay,
+  HINT_DEFAULT_DELAY_BEFORE_SHOW,
+  isShowDelaySkipped,
+  markClosed,
+  markDisposed,
+  markOpened,
+} from './HintDelayController.js';
 
 const HINT_BORDER_COLOR = 'transparent';
 
@@ -54,6 +62,12 @@ export interface HintProps extends CommonProps {
   /** Отключает анимацию. */
   disableAnimations?: boolean;
 
+  /** Задержка в миллисекундах до появления подсказки по наведению.
+   * После показа одной подсказки следующие в серии открываются без задержки и анимации
+   * в течение примерно 500 мс после ухода курсора.
+   * @default 400 */
+  delayBeforeShow?: number;
+
   /** Оборачивает вложенные элементы в `<span />`.
    *
    * _Примечание_: при двух и более вложенных элементах обёртка будет добавлена автоматически. */
@@ -71,7 +85,9 @@ export interface HintState {
   position: PopupPinnablePositionsType;
 }
 
-type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
+type DefaultProps = Required<
+  Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
+>;
 
 /** Краткая подсказка, которая объясняет контрол, иконку и добавляет контекста.
  * Всплывает при наведении на элемент. */
@@ -87,6 +103,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     maxWidth: 200,
     disableAnimations: isTestEnv,
     useWrapper: false,
+    delayBeforeShow: HINT_DEFAULT_DELAY_BEFORE_SHOW,
   };
 
   private getProps = createPropsGetter(Hint.defaultProps);
@@ -103,6 +120,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private styles!: ReturnType<typeof getStyles>;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
+  private globalObject!: GlobalObject;
+  private disableAnimationsOnOpen = false;
 
   private popupRef = React.createRef<Popup>();
 
@@ -115,20 +134,14 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     if (!manual) {
       return;
     }
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
+    this.clearTimer();
     if (opened !== prevProps.opened) {
       this.setState({ opened: !!opened });
     }
   }
 
   public componentWillUnmount() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
+    this.closeByHover(true);
   }
 
   public render(): React.JSX.Element {
@@ -175,7 +188,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
               this.setState({ position });
             }
           }}
-          disableAnimations={disableAnimations}
+          disableAnimations={disableAnimations || this.disableAnimationsOnOpen}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           useWrapper={useWrapper}
@@ -215,8 +228,13 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
-    if (!this.getProps().manual && !this.timer) {
-      this.timer = setTimeout(this.open, 400);
+    if (!this.getProps().manual && !this.timer && !this.state.opened) {
+      const delay = getShowDelay(this.globalObject, this.getProps().delayBeforeShow);
+      if (delay > 0) {
+        this.timer = this.globalObject.setTimeout?.(this.open, delay) ?? null;
+      } else {
+        this.open();
+      }
     }
 
     if (this.props.onMouseEnter) {
@@ -225,11 +243,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private handleMouseLeave = (e: MouseEventType) => {
-    if (!this.getProps().manual && this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-      this.setState({ opened: false });
-    }
+    this.closeByHover();
 
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
@@ -237,6 +251,39 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private open = () => {
+    this.clearTimer();
+    this.disableAnimationsOnOpen = isShowDelaySkipped(this.globalObject);
     this.setState({ opened: true });
+    markOpened(this.globalObject);
+  };
+
+  private closeByHover = (isUnmount = false) => {
+    if (this.getProps().manual) {
+      this.clearTimer();
+      return;
+    }
+
+    const wasOpened = this.state.opened;
+
+    this.clearTimer();
+
+    if (!wasOpened) {
+      return;
+    }
+
+    if (isUnmount) {
+      markDisposed(this.globalObject);
+      return;
+    }
+
+    this.setState({ opened: false });
+    markClosed(this.globalObject);
+  };
+
+  private clearTimer = () => {
+    if (this.timer) {
+      this.globalObject.clearTimeout?.(this.timer);
+      this.timer = null;
+    }
   };
 }

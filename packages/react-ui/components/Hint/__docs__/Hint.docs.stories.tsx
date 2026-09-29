@@ -1,4 +1,4 @@
-import { Button, Hint, Gapped } from '@skbkontur/react-ui';
+import { Button, Hint, Gapped, Input } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -119,3 +119,41 @@ export const ExampleCustomWrapper: Story = () => {
   );
 };
 ExampleCustomWrapper.storyName = 'Кастомизация: собственная обёртка';
+
+/**
+ * Проп `delayBeforeShow` задаёт задержку появления подсказки при наведении (по умолчанию 400 мс).
+ * В течение 500 мс все последующие подсказки открываются мгновенно и без анимации после ухода курсора с текущей.
+ */
+export const ExampleDelayBeforeShow: Story = () => {
+  const [delay, setDelay] = React.useState(400);
+
+  const handleDelayChange = (value: string) => {
+    const num = Number(value);
+    setDelay(Number.isNaN(num) || num < 0 ? 0 : num);
+  };
+
+  return (
+    <Gapped vertical gap={8}>
+      <Hint text={`Подсказка с задержкой ${delay} мс`} delayBeforeShow={delay}>
+        Элемент
+      </Hint>
+      <span>
+        Задержка: <Input value={delay.toString()} onValueChange={handleDelayChange} />
+      </span>
+    </Gapped>
+  );
+};
+ExampleDelayBeforeShow.storyName = 'Задержка перед появлением';
+
+/** Наведите на первый элемент, дождитесь появления подсказки, затем в течение ~500 мс переведите курсор на соседний —
+ * вторая подсказка откроется без повторной задержки. */
+export const ExampleHoverSeries: Story = () => {
+  return (
+    <Gapped gap={16}>
+      <Hint text="Первая подсказка">Элемент 1</Hint>
+      <Hint text="Вторая подсказка">Элемент 2</Hint>
+      <Hint text="Третья подсказка">Элемент 3</Hint>
+    </Gapped>
+  );
+};
+ExampleHoverSeries.storyName = 'Быстрые последовательные подсказки';
