@@ -305,18 +305,19 @@
   }
 }
 
+/*
+ * Рамку фокуса рисуем через outline, а не псевдоэлементом: сгенерированный контент
+ * внутри <tr> браузер заворачивает в анонимную ячейку, из-за чего в строке появляется
+ * лишняя колонка и ячейки таблицы сжимаются.
+ *
+ * Геометрия повторяет прежний псевдоэлемент: внешний край рамки отстоит от строки на
+ * 2px, поэтому сдвиг равен 2px минус толщина рамки. Радиус outline браузер считает от
+ * border-radius строки (на отрисовку самой строки он в collapse-таблице не влияет).
+ */
 .TableRow:focus-visible {
-  outline: none;
-  z-index: 3;
-}
-
-.TableRow:focus-visible::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border: var(--table-outline-width) solid var(--table-outline);
-  border-radius: calc(var(--table-radius) + 2px);
-  pointer-events: none;
+  outline: var(--table-outline-width) solid var(--table-outline);
+  outline-offset: calc(2px - var(--table-outline-width));
+  border-radius: var(--table-radius);
   z-index: 3;
 }
 
