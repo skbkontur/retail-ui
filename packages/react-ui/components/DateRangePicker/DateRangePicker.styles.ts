@@ -91,6 +91,10 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
           background: ${t.rangeCalendarCellHoverBg};
         }
       }
+
+      & [data-tid=${CalendarDataTids.dayCell}]:active:enabled:not([data-visual-state-selected]) {
+        background: ${t.calendarCellPressedBgColor};
+      }
     `;
   },
   buttonWrap() {

@@ -145,6 +145,28 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
           }
         }
       }
+      &:enabled:active {
+        :not(:checked) {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgPressed};
+            box-shadow: ${t.toggleContainerBoxShadow};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBg};
+            box-shadow: ${t.toggleHandleBoxShadow};
+          }
+        }
+        :checked {
+          ~ .${globalClasses.container} {
+            background: ${t.toggleContainerBgCheckedPressed};
+            box-shadow: ${t.toggleContainerBoxShadowCheckedPressed};
+          }
+          ~ .${globalClasses.handle} {
+            background: ${t.toggleHandleBgCheckedPressed};
+            box-shadow: ${t.toggleHandleBoxShadowCheckedPressed};
+          }
+        }
+      }
       &:disabled {
         :not(:checked) {
           ~ .${globalClasses.container} {

@@ -25,9 +25,14 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       line-height: ${t.dateSelectLineHeight};
       background-color: transparent;
       box-sizing: content-box;
+      transition: color ${t.transitionDuration} ${t.transitionTimingFunction};
 
       &:hover {
         color: ${t.dateSelectLinkColor};
+      }
+
+      &:active {
+        color: ${t.dateSelectLinkPressedColor};
       }
 
       & .${globalClasses.arrow} {

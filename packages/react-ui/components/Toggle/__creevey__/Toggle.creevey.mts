@@ -21,6 +21,7 @@ kind('Toggle', () => {
       await page.mouse.down();
       await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'pressed');
+      await page.mouse.up();
     });
 
     test('clicked', async (context) => {
@@ -38,6 +39,7 @@ kind('Toggle', () => {
       await page.mouse.down();
       await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'pressed');
+      await page.mouse.up();
     });
   });
 

@@ -323,6 +323,7 @@ export const DarkTheme6_0 = createTheme({
     }
     public static calendarMonthTitleBorderBottomColor = colors.lineNeutralFaint;
     public static calendarCellHoverBgColor = colors.shapeOtherBacklessHover;
+    public static calendarCellPressedBgColor = colors.shapeOtherBacklessPressed;
     //#endregion Calendar
 
     //#region DateRangePicker
@@ -412,6 +413,7 @@ export const DarkTheme6_0 = createTheme({
       return this.textColorDefault;
     }
     public static menuItemHoverBg = colors.shapeOtherBacklessHover;
+    public static menuItemPressedBg = colors.shapeOtherBacklessPressed;
     public static get menuItemHoverColor(): string {
       return this.menuItemTextColor;
     }
@@ -512,6 +514,10 @@ export const DarkTheme6_0 = createTheme({
     }
     public static tokenBgHover = colors.shapeFaintNeutralAlphaHover;
     public static tokenBorderColorHover = colors.lineNeutralPale;
+    public static tokenBgPressed = colors.shapeFaintNeutralAlphaPressed;
+    public static get tokenColorPressed(): string {
+      return this.tokenColor;
+    }
     public static tokenColorActive = colors.textOnAccentBoldHeavy;
     public static tokenBgActive = colors.shapeBoldAccent;
     public static tokenBorderColorActive = 'transparent';
@@ -593,6 +599,9 @@ export const DarkTheme6_0 = createTheme({
     }
     public static get dateSelectLinkColor(): string {
       return this.linkColor;
+    }
+    public static get dateSelectLinkPressedColor(): string {
+      return this.linkActiveColor;
     }
     public static get dateSelectPopupBoxShadow(): string {
       return this.popupBoxShadow;
@@ -894,9 +903,11 @@ export const DarkTheme6_0 = createTheme({
 
     public static fileUploaderErrorBgColor = colors.shapeFaintError;
     public static fileUploaderErrorBgHoverColor = colors.shapeFaintErrorHover;
+    public static fileUploaderErrorBgPressedColor = colors.shapeFaintErrorPressed;
     public static fileUploaderErrorTextColor = colors.textErrorHeavy;
     public static fileUploaderWarningBgColor = colors.shapeFaintWarning;
     public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
+    public static fileUploaderWarningBgPressedColor = colors.shapeFaintWarningPressed;
     public static fileUploaderWarningTextColor = colors.textWarningHeavy;
 
     public static get fileUploaderValidationTextColor(): string {

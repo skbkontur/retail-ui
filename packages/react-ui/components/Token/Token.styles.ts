@@ -18,6 +18,10 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       min-width: 0;
       word-break: break-all;
       user-select: none;
+      transition:
+        background-color ${t.transitionDuration} ${t.transitionTimingFunction},
+        border-color ${t.transitionDuration} ${t.transitionTimingFunction},
+        color ${t.transitionDuration} ${t.transitionTimingFunction};
 
       &:hover {
         cursor: pointer;
@@ -79,6 +83,11 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         color: ${t.tokenColorHover};
         background: ${t.tokenBgHover};
         border: solid ${t.tokenBorderWidth} ${t.tokenBorderColorHover};
+      }
+
+      &:active {
+        color: ${t.tokenColorPressed};
+        background: ${t.tokenBgPressed};
       }
     `;
   },

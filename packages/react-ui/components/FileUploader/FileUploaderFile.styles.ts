@@ -88,6 +88,7 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => ({
       cursor: pointer;
       text-align: center;
       outline: none;
+      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
       &:hover {
         background: ${t.fileUploaderHoveredBg};
       }
@@ -251,6 +252,7 @@ export const getJsTileStyles = memoizeGetStyles(({ css }: Emotion) => {
         border-radius: ${t.fileUploaderBorderRadius};
         opacity: 0;
         background: ${t.fileUploaderTileIconColorBg};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
 
         &:hover {
           background: ${t.fileUploaderTileIconHoverColorBg};

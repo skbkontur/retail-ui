@@ -18,6 +18,9 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       text-decoration: none;
       color: ${t.menuItemTextColor};
       border-radius: ${t.menuItemBorderRadius};
+      transition:
+        background-color ${t.transitionDuration} ${t.transitionTimingFunction},
+        color ${t.transitionDuration} ${t.transitionTimingFunction};
 
       button& {
         min-width: 100%;
@@ -95,6 +98,10 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       background: ${t.menuItemHoverBg} !important;
       color: ${t.menuItemHoverColor} !important;
+
+      &:active {
+        background: ${t.menuItemPressedBg} !important;
+      }
     `;
   },
   selected(t: Theme) {

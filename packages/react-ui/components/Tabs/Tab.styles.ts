@@ -82,7 +82,8 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => ({
 export const getHorizontalStyles = memoizeGetStyles(({ css }: Emotion) => ({
   active(t: Theme) {
     return css`
-      &:hover {
+      &:hover,
+      &:active {
         border-bottom: ${t.tabBorderWidth} solid transparent;
       }
     `;
@@ -132,7 +133,8 @@ export const getHorizontalStyles = memoizeGetStyles(({ css }: Emotion) => ({
 export const getVerticalStyles = memoizeGetStyles(({ css }: Emotion) => ({
   active(t: Theme) {
     return css`
-      &:hover {
+      &:hover,
+      &:active {
         border-left: ${t.tabBorderWidth} solid transparent;
       }
     `;
@@ -201,6 +203,10 @@ function tabRoot(t: Theme, size: SizeProp, { css }: Emotion) {
       border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
     }
 
+    &:active {
+      border-bottom-color: ${t.tabColorPressed};
+    }
+
     &:focus {
       outline: inherit;
     }
@@ -220,6 +226,10 @@ function tabVertical(t: Theme, size: SizeProp, { css }: Emotion) {
     &:hover {
       border-bottom: none;
       border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
+    }
+
+    &:active {
+      border-left-color: ${t.tabColorPressed};
     }
 
     .${globalClasses.focus} {

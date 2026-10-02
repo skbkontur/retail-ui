@@ -52,7 +52,8 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         opacity: 0.5;
         pointer-events: none;
       }
-      &:active:hover:enabled {
+      &:active:enabled:not([data-visual-state-selected]) {
+        background-color: ${t.calendarCellPressedBgColor};
         color: ${t.calendarCellActiveHoverColor};
       }
     `;

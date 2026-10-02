@@ -17,6 +17,11 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
         border: ${t.fileUploaderBorderWidth} solid transparent;
         box-shadow: 0 0 0 1px transparent;
         cursor: pointer;
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
+
+        &:active {
+          background: ${t.fileUploaderActiveBg};
+        }
 
         &::before {
           position: absolute;
@@ -51,9 +56,13 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       return css`
         background: ${t.fileUploaderWarningBgColor};
         color: ${t.fileUploaderValidationTextColor};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
         &:hover {
           background: ${t.fileUploaderWarningBgHoverColor};
           border-radius: ${t.fileUploaderBorderRadius};
+        }
+        &:active {
+          background: ${t.fileUploaderWarningBgPressedColor};
         }
         &::before {
           background: ${t.fileUploaderWarningBgColor};
@@ -65,9 +74,13 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       return css`
         background: ${t.fileUploaderErrorBgColor};
         color: ${t.fileUploaderValidationTextColor};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
         &:hover {
           background: ${t.fileUploaderErrorBgHoverColor};
           border-radius: ${t.fileUploaderBorderRadius};
+        }
+        &:active {
+          background: ${t.fileUploaderErrorBgPressedColor};
         }
         &::before {
           background: ${t.fileUploaderErrorBgColor};

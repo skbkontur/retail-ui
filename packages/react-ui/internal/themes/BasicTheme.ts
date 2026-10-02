@@ -223,6 +223,10 @@ export class BasicThemeClass {
     return this.tokenColor;
   }
   public static tokenBorderColorHover = colors.lineNeutralPale;
+  public static tokenBgPressed = colors.shapeFaintNeutralAlphaHover;
+  public static get tokenColorPressed(): string {
+    return this.tokenColor;
+  }
   public static tokenBgActive = colors.shapeBoldAccent;
   public static tokenColorActive = colors.textOnAccentBoldHeavy;
   public static tokenBorderColorActive = 'transparent';
@@ -1221,6 +1225,7 @@ export class BasicThemeClass {
   }
   public static calendarMonthTitleBorderBottomColor = colors.lineNeutralFaint;
   public static calendarCellHoverBgColor = colors.shapeOtherBacklessHover;
+  public static calendarCellPressedBgColor = colors.shapeOtherBacklessPressed;
   public static calendarPaddingX = '18px';
   public static calendarMonthTitleLineHeight = '20px';
   public static calendarMonthTitlePaddingTop = '12px';
@@ -1373,6 +1378,9 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static get dateSelectLinkColor(): string {
+    return this.linkColor;
+  }
+  public static get dateSelectLinkPressedColor(): string {
     return this.linkColor;
   }
   public static get dateSelectPopupBoxShadow(): string {
@@ -1613,6 +1621,7 @@ export class BasicThemeClass {
   }
   public static menuItemSelectedBg = colors.shapeOtherBacklessPressed;
   public static menuItemHoverBg = colors.shapeOtherBacklessHover;
+  public static menuItemPressedBg = colors.shapeOtherBacklessHover;
   public static get menuItemHoverColor(): string {
     return this.menuItemTextColor;
   }
@@ -1977,6 +1986,7 @@ export class BasicThemeClass {
 
   public static toggleBaseBg = 'transparent';
   public static toggleBgHover = colors.shapeOtherFieldHover;
+  public static toggleBgPressed = colors.shapeOtherFieldPressed;
   public static toggleBorderColor = colors.lineNeutralPale;
   public static get toggleBorderColorDisabled(): string {
     return this.toggleBorderColor;
@@ -2044,6 +2054,11 @@ export class BasicThemeClass {
     return this.toggleBgHover;
   }
 
+  // idle :active
+  public static get toggleContainerBgPressed(): string {
+    return this.toggleBgPressed;
+  }
+
   // checked
   public static toggleContainerBoxShadowChecked = 'none';
   public static toggleHandleBoxShadowChecked = 'none';
@@ -2058,6 +2073,12 @@ export class BasicThemeClass {
   public static toggleContainerBgCheckedHover = colors.shapeBoldAccentHover;
   public static toggleHandleBoxShadowCheckedHover = 'none';
   public static toggleHandleBgCheckedHover = colors.shapeInvertedNeutralHeavyHover;
+
+  // checked :active
+  public static toggleContainerBoxShadowCheckedPressed = 'none';
+  public static toggleContainerBgCheckedPressed = colors.shapeBoldAccentPressed;
+  public static toggleHandleBoxShadowCheckedPressed = 'none';
+  public static toggleHandleBgCheckedPressed = colors.shapeInvertedNeutralHeavyPressed;
 
   // disabled
   public static toggleContainerBgDisabled = colors.shapeOtherDisabled;
@@ -2602,6 +2623,9 @@ export class BasicThemeClass {
   public static get radioCheckedHoverBgColor(): string {
     return this.checkboxCheckedHoverBg;
   }
+  public static get radioCheckedActiveBgColor(): string {
+    return this.radioCheckedHoverBgColor;
+  }
 
   public static get radioDisabledBg(): string {
     return this.checkboxBgDisabled;
@@ -2686,6 +2710,7 @@ export class BasicThemeClass {
   public static tabColorHoverWarning = colors.shapeBoldWarningHover;
   public static tabColorHoverSuccess = colors.shapeBoldSuccessHover;
   public static tabColorHoverPrimary = colors.lineAccentPale;
+  public static tabColorPressed = colors.lineNeutralPalePressed;
 
   public static tabIndicatorBorderRadius = '2px';
   //#endregion Tab/Tabs
@@ -2997,10 +3022,12 @@ export class BasicThemeClass {
 
   public static fileUploaderErrorBgColor = colors.shapeFaintError;
   public static fileUploaderErrorBgHoverColor = colors.shapeFaintErrorHover;
+  public static fileUploaderErrorBgPressedColor = colors.shapeFaintErrorPressed;
   public static fileUploaderErrorTextColor = colors.textErrorHeavy;
 
   public static fileUploaderWarningBgColor = colors.shapeFaintWarning;
   public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
+  public static fileUploaderWarningBgPressedColor = colors.shapeFaintWarningHover;
   public static fileUploaderWarningTextColor = colors.textWarningHeavy;
 
   public static get fileUploaderValidationTextColor(): string {

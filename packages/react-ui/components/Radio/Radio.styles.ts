@@ -69,6 +69,9 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       &:hover .${globalClasses.circle} {
         background: ${t.radioCheckedHoverBgColor};
       }
+      &:active .${globalClasses.circle} {
+        background: ${t.radioCheckedActiveBgColor};
+      }
     `;
   },
 

@@ -157,9 +157,13 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     warningFile(t: Theme) {
       return css`
         background: ${t.fileUploaderWarningBgColor};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
         color: ${t.fileUploaderValidationTextColor};
         &:hover {
           background: ${t.fileUploaderWarningBgHoverColor};
+        }
+        &:active {
+          background: ${t.fileUploaderWarningBgPressedColor};
         }
       `;
     },
@@ -174,9 +178,13 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     errorFile(t: Theme) {
       return css`
         background: ${t.fileUploaderErrorBgColor};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
         color: ${t.fileUploaderValidationTextColor};
         &:hover {
           background: ${t.fileUploaderErrorBgHoverColor};
+        }
+        &:active {
+          background: ${t.fileUploaderErrorBgPressedColor};
         }
       `;
     },
@@ -184,6 +192,11 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     hovered(t: Theme) {
       return css`
         background: ${t.fileUploaderHoveredBg};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
+
+        &:active {
+          background: ${t.fileUploaderActiveBg};
+        }
       `;
     },
 
