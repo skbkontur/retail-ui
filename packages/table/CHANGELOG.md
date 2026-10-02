@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](/compare/@skbkontur/table@1.0.5...@skbkontur/table@1.0.6) (2026-10-02)
+
+
+### Bug Fixes
+
+* **table:** draw the row focus ring with outline 3a5afac
+
+
+
+
+
 ## [1.0.5](/compare/@skbkontur/table@1.0.3...@skbkontur/table@1.0.5) (2026-09-29)
 
 **Note:** Version bump only for package @skbkontur/table
