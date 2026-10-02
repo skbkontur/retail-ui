@@ -2699,22 +2699,46 @@ export class BasicThemeClass {
   public static get tabColorFocus(): string {
     return this.borderColorFocus;
   }
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static get tabColorError(): string {
     return this.btnDangerBg;
   }
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static get tabColorWarning(): string {
     return this.btnPayBg;
   }
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static get tabColorSuccess(): string {
     return this.btnSuccessBg;
   }
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static get tabColorPrimary(): string {
     return this.btnPrimaryBg;
   }
   public static tabColorHover = colors.lineNeutralPale;
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static tabColorHoverError = colors.shapeBoldErrorHover;
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static tabColorHoverWarning = colors.shapeBoldWarningHover;
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static tabColorHoverSuccess = colors.shapeBoldSuccessHover;
+  /**
+   * @deprecated Состояние не соответствует Контур.Гайдам, переменная будет удалена в 7.0.
+   */
   public static tabColorHoverPrimary = colors.lineAccentPale;
   public static tabColorPressed = colors.lineNeutralPalePressed;
 
