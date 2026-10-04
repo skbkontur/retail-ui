@@ -12,8 +12,9 @@ export async function smoothScrollIntoView(element: Element, scrollOffset: Scrol
   const parentRects = scrollableParent.getBoundingClientRect();
   const clientRects = element.getBoundingClientRect();
 
-  const topOffset = scrollOffset.top || 0;
-  const bottomOffset = scrollOffset.bottom || 0;
+  // Inset moves the visible edge, scrollOffset is a gap from that edge, so they add up
+  const topOffset = (scrollOffset.top || 0) + getScrollInset(scrollableParent, 'top');
+  const bottomOffset = (scrollOffset.bottom || 0) + getScrollInset(scrollableParent, 'bottom');
 
   if (scrollableParent === activeDocument.body) {
     const html = activeDocument.documentElement || { clientHeight: 0, clientWidth: 0 };
@@ -36,7 +37,7 @@ export async function smoothScrollIntoView(element: Element, scrollOffset: Scrol
       top: clientRects.top - topOffset,
     });
   } else {
-    if (clientRects.top - topOffset + 50 > parentRects.top && clientRects.bottom < parentRects.bottom) {
+    if (clientRects.top - topOffset + 50 > parentRects.top && clientRects.bottom < parentRects.bottom - bottomOffset) {
       return;
     }
 
@@ -51,6 +52,12 @@ export async function smoothScrollIntoView(element: Element, scrollOffset: Scrol
       top: parentRects.top,
     });
   }
+}
+
+function getScrollInset(element: Element, side: 'top' | 'bottom'): number {
+  const inset = Number.parseFloat(element.getAttribute(`data-scroll-inset-${side}`) || '');
+
+  return Number.isNaN(inset) ? 0 : inset;
 }
 
 function smoothScroll(element: Element, x: number, y: number): Promise<void> {

@@ -91,6 +91,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
     }
     this.context.setHasFooter?.(false);
     this.context.setHasPanel?.(false);
+    this.context.setStickyFooterHeight?.(0);
   }
 
   public getSticky(): boolean {
@@ -181,6 +182,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
       const contentRect = getDOMRect(this.content);
       const fixed = wrapperRect.top > contentRect.top;
       this.setState({ fixed });
+      this.context.setStickyFooterHeight?.(this.getSticky() ? contentRect.height : 0);
     }
   };
 

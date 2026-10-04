@@ -6,9 +6,37 @@ import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { componentsLocales as SidePageLocalesEn } from '../locale/locales/en.js';
 import { componentsLocales as SidePageLocalesRu } from '../locale/locales/ru.js';
 import { SidePage, SidePageDataTids } from '../SidePage.js';
+import { SidePageFooterDataTids } from '../SidePageFooter.js';
 import { SidePageHeaderDataTids } from '../SidePageHeader.js';
 
+const mockStickyHeights = ({ header = 0, footer = 0 }: { header?: number; footer?: number }) => {
+  const stickyHeights = [
+    [SidePageHeaderDataTids.root, header],
+    [SidePageFooterDataTids.root, footer],
+  ] as const;
+
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+    const rectHeight = stickyHeights.find(([tid]) => this.closest(`[data-tid~="${tid}"]`) !== null)?.[1] ?? 0;
+
+    return {
+      width: 0,
+      height: rectHeight,
+      x: 0,
+      y: 0,
+      top: 0,
+      right: 0,
+      bottom: rectHeight,
+      left: 0,
+      toJSON: () => ({}),
+    };
+  });
+};
+
 describe('SidePage', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('onClose event performs an action on click', async () => {
     const onClose = vi.fn();
     render(
@@ -111,6 +139,40 @@ describe('SidePage', () => {
     expect(headerRoot).toHaveStyle({ position: 'sticky' });
     fireEvent.scroll(scrollableElement, { target: { scrollTop: 200 } });
     expect(headerRoot).toHaveStyle({ position: 'sticky' });
+  });
+
+  it('reports the sticky header and footer heights as scroll insets', () => {
+    mockStickyHeights({ header: 48, footer: 64 });
+
+    render(
+      <SidePage>
+        <SidePage.Header sticky>Title</SidePage.Header>
+        <SidePage.Body>Content</SidePage.Body>
+        <SidePage.Footer sticky>Footer</SidePage.Footer>
+      </SidePage>,
+    );
+
+    const container = screen.getByTestId(SidePageDataTids.container);
+
+    expect(container).toHaveAttribute('data-scroll-inset-top', '48');
+    expect(container).toHaveAttribute('data-scroll-inset-bottom', '64');
+  });
+
+  it('does not report scroll insets when the header and footer are not sticky', () => {
+    mockStickyHeights({ header: 48, footer: 64 });
+
+    render(
+      <SidePage>
+        <SidePage.Header sticky={false}>Title</SidePage.Header>
+        <SidePage.Body>Content</SidePage.Body>
+        <SidePage.Footer sticky={false}>Footer</SidePage.Footer>
+      </SidePage>,
+    );
+
+    const container = screen.getByTestId(SidePageDataTids.container);
+
+    expect(container).not.toHaveAttribute('data-scroll-inset-top');
+    expect(container).not.toHaveAttribute('data-scroll-inset-bottom');
   });
 
   describe('onOutsideClick', () => {

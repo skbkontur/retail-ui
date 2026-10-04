@@ -4,6 +4,7 @@ import React, { type JSX } from 'react';
 
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
@@ -83,12 +84,14 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     getRootNode(this)?.parentNode?.addEventListener?.('scroll', this.throttleHandleScroll, true);
     this.context.setHasHeader?.();
     this.context.headerRef(this);
+    this.updateStickyHeight();
   };
 
   public componentWillUnmount = () => {
     getRootNode(this)?.parentNode?.removeEventListener?.('scroll', this.throttleHandleScroll, true);
     this.context.setHasHeader?.(false);
     this.context.headerRef(null);
+    this.context.setStickyHeaderHeight?.(0);
   };
 
   private throttleHandleScroll = throttle((event: Event) => {
@@ -97,10 +100,16 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       this.setState({ isNativeStuck: target.scrollTop === 0 });
     }
     this.update();
+    this.updateStickyHeight();
   }, 5);
 
   public update = (): void => {
     this.sticky?.reflow();
+  };
+
+  private updateStickyHeight = () => {
+    const height = this.getStickyProp() ? getDOMRect(getRootNode(this)).height : 0;
+    this.context.setStickyHeaderHeight?.(height);
   };
 
   public render(): JSX.Element {

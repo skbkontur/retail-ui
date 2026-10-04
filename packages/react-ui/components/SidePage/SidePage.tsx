@@ -88,6 +88,8 @@ export interface SidePageState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
+  stickyHeaderHeight: number;
+  stickyFooterHeight: number;
 }
 
 export const SidePageDataTids = {
@@ -124,6 +126,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasHeader: false,
     hasFooter: false,
     hasPanel: false,
+    stickyHeaderHeight: 0,
+    stickyFooterHeight: 0,
   };
 
   private globalObject!: GlobalObject;
@@ -275,6 +279,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 [this.styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
                 [this.styles.shadow(this.theme)]: this.state.hasShadow,
               })}
+              data-scroll-inset-top={this.state.stickyHeaderHeight || undefined}
+              data-scroll-inset-bottom={this.state.stickyFooterHeight || undefined}
               ref={this.layoutRef}
             >
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
@@ -300,6 +306,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
+      setStickyHeaderHeight: this.setStickyHeaderHeight,
+      setStickyFooterHeight: this.setStickyFooterHeight,
     };
   };
 
@@ -417,5 +425,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+  };
+
+  private setStickyHeaderHeight = (stickyHeaderHeight = 0) => {
+    if (this.state.stickyHeaderHeight !== stickyHeaderHeight) {
+      this.setState({ stickyHeaderHeight });
+    }
+  };
+
+  private setStickyFooterHeight = (stickyFooterHeight = 0) => {
+    if (this.state.stickyFooterHeight !== stickyFooterHeight) {
+      this.setState({ stickyFooterHeight });
+    }
   };
 }
