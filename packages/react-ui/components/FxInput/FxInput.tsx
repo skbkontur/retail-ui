@@ -224,6 +224,7 @@ export class FxInput extends React.Component<FxInputProps> {
           signed={signed}
           integerDigits={integerDigits}
           fractionDigits={fractionDigits}
+          hideTrailingZeros={hideTrailingZeros}
           value={value as CurrencyInputProps['value']}
           onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
         />

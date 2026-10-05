@@ -49,6 +49,20 @@ describe('FxInput', () => {
     expect(input).toHaveValue('123');
   });
 
+  describe('type="currency"', () => {
+    it('shows trailing zeros when hideTrailingZeros is not set', () => {
+      render(<FxInput type="currency" value={1.2} fractionDigits={2} onValueChange={vi.fn()} />);
+
+      expect(screen.getByRole('textbox')).toHaveValue('1,20');
+    });
+
+    it('hides trailing zeros when hideTrailingZeros is set', () => {
+      render(<FxInput type="currency" value={1.2} fractionDigits={2} hideTrailingZeros onValueChange={vi.fn()} />);
+
+      expect(screen.getByRole('textbox')).toHaveValue('1,2');
+    });
+  });
+
   describe('a11y', () => {
     it('sets value for aria-label attribute (input)', () => {
       const ariaLabel = 'aria-label';
