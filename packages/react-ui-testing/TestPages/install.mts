@@ -1,8 +1,11 @@
 import { appendFileSync, createReadStream, createWriteStream, existsSync, mkdirSync } from 'fs';
 import { exec } from 'child_process';
-import { join } from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 import { reactUiLocalVersionStub, versions } from './versions.mts';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getPackageNameAndVersion = function(name: string, version: string) {
   return `${name}@${version}`;

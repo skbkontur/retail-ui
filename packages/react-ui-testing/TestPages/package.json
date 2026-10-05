@@ -1,6 +1,7 @@
 {
   "name": "react-ui-test-pages",
   "version": "0.0.1",
+  "type": "module",
   "description": "Test pages for @skbkontur/react-ui controls",
   "private": true,
   "scripts": {

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { appendFileSync, copyFileSync, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
-import less = require('less');
+
+import less from 'less';
 
 const ARGS = process.argv.slice(2);
 const VARIABLES_ARGUMENT_NAME = 'variables';

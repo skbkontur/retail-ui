@@ -16,6 +16,7 @@
       "@skbkontur/table/@skbkontur/icons"
     ]
   },
+  "type": "module",
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",

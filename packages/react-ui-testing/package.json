@@ -2,6 +2,7 @@
   "name": "react-ui-testing",
   "private": true,
   "version": "4.2.0",
+  "type": "module",
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
@@ -9,8 +10,8 @@
     "postbuild": "yarn --cwd ./TestPages install",
     "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
     "start": "yarn --cwd ./TestPages start",
-    "styleguide": "styleguidist server --config ./docs/.styleguide/config/base.config.js",
-    "styleguide:build": "styleguidist build --config ./docs/.styleguide/config/base.config.js"
+    "styleguide": "styleguidist server --config ./docs/.styleguide/config/base.config.cjs",
+    "styleguide:build": "styleguidist build --config ./docs/.styleguide/config/base.config.cjs"
   },
   "devDependencies": {
     "react-styleguidist": "^11.1.6"

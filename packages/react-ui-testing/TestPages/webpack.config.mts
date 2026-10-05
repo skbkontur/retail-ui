@@ -1,9 +1,11 @@
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import { DefinePlugin } from 'webpack';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { satisfies } from 'semver';
+
+const { DefinePlugin } = webpack;
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -64,6 +66,8 @@ function createConfig(reactVersion: string, reactUIVersion: string) {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
+          // test-page-template/index.js imports '../src/index' without an extension, which ESM packages forbid by default.
+          resolve: { fullySpecified: false },
           use: {
             loader: 'babel-loader',
             options: {

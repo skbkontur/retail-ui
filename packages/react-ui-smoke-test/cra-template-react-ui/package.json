@@ -1,6 +1,7 @@
 {
   "name": "cra-template-react-ui",
   "version": "0.0.1",
+  "type": "module",
   "keywords": [
     "react",
     "create-react-app",

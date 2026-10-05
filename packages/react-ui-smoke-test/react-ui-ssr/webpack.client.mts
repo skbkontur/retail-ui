@@ -1,6 +1,9 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 import config from './webpack.config.mts';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default {
   ...config,

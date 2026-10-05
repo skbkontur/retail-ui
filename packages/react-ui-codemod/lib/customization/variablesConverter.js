@@ -1,8 +1,7 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
 // @ts-nocheck
-const fs_1 = require('fs');
-const less = require('less');
+import { appendFileSync, copyFileSync, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
+
+import less from 'less';
 const ARGS = process.argv.slice(2);
 const VARIABLES_ARGUMENT_NAME = 'variables';
 const OUTPUT_ARGUMENT_NAME = 'output';
@@ -39,7 +38,7 @@ function parseArguments() {
 }
 function parseVariablesArgument(arg) {
   const [, pathToFile] = arg.split('=').map((s) => s.trim());
-  const isValidFile = pathToFile && (0, fs_1.existsSync)(pathToFile) && pathToFile.endsWith('.less');
+  const isValidFile = pathToFile && existsSync(pathToFile) && pathToFile.endsWith('.less');
   if (isValidFile) {
     variablesFilePath = pathToFile;
   } else {
@@ -56,14 +55,14 @@ async function processFile() {
 }
 function writeTempFile() {
   var _a;
-  (0, fs_1.copyFileSync)(variablesFilePath, TEMP_FILE_PATH);
-  const tempFileContent = (0, fs_1.readFileSync)(TEMP_FILE_PATH, { encoding: ENCODING });
+  copyFileSync(variablesFilePath, TEMP_FILE_PATH);
+  const tempFileContent = readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
   const variables = (_a = tempFileContent.match(LESS_VARIABLE_REGEXP)) !== null && _a !== void 0 ? _a : [];
   const locals = getLocals(variables);
   writeLocalsToFile(locals, TEMP_FILE_PATH);
 }
 async function processTempFile() {
-  const tempFileContent = (0, fs_1.readFileSync)(TEMP_FILE_PATH, { encoding: ENCODING });
+  const tempFileContent = readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
   const renderResult = await less.render(tempFileContent);
   const outputToWrite = getJsObjectFromLocals(renderResult.css);
   writeThemeToOutput(outputToWrite);
@@ -84,10 +83,10 @@ function parseField(field) {
   return `${key}: "${value}"`;
 }
 function writeThemeToOutput(content) {
-  (0, fs_1.writeFileSync)(output, content, ENCODING);
+  writeFileSync(output, content, ENCODING);
 }
 function removeTempFile() {
-  (0, fs_1.unlinkSync)(TEMP_FILE_PATH);
+  unlinkSync(TEMP_FILE_PATH);
 }
 function writeLocalsToFile(camelizedVarialbesObject, filePath) {
   const entries = Object.entries(camelizedVarialbesObject);
@@ -96,7 +95,7 @@ function writeLocalsToFile(camelizedVarialbesObject, filePath) {
     const [key, value] = i;
     localsArr.push(`@value ${key}: ${value};`);
   });
-  (0, fs_1.appendFileSync)(filePath, localsArr.join('\n'), ENCODING);
+  appendFileSync(filePath, localsArr.join('\n'), ENCODING);
 }
 function getLocals(variablesList) {
   const result = {};
