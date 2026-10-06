@@ -308,6 +308,19 @@ describe('<Input />', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
+  it('does not blink when deleting from an empty readOnly field', async () => {
+    const blinkMock = vi.fn();
+    const refInput = React.createRef<Input>();
+    render(<Input ref={refInput} readOnly />);
+
+    if (refInput.current) {
+      refInput.current.blink = blinkMock;
+    }
+    await userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(blinkMock).not.toHaveBeenCalled();
+  });
+
   it('does not call onUnexpectedInput when deleting from an empty field', async () => {
     const unexpectedInputHandlerMock = vi.fn();
     render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
@@ -623,6 +636,49 @@ describe('<Input />', () => {
       await userEvent.click(getClearCross());
       expect(queryClearCross()).toBeNull();
       expect(queryRightIcon()).toBeInTheDocument();
+    });
+
+    it.each(['always', 'auto'] as const)('hides showClearIcon=%s while readOnly', async (showClearIcon) => {
+      const onValueChange = vi.fn();
+      render(<Input readOnly showClearIcon={showClearIcon} defaultValue="z" onValueChange={onValueChange} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+      await userEvent.click(getTextbox());
+      expect(queryClearCross()).not.toBeInTheDocument();
+      expect(getTextbox()).toHaveValue('z');
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      ['always', 'readOnly'],
+      ['auto', 'readOnly'],
+      ['always', 'disabled'],
+      ['auto', 'disabled'],
+    ] as const)('updates showClearIcon=%s when %s changes', async (showClearIcon, stateProp) => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(
+        <Input showClearIcon={showClearIcon} defaultValue="z" onValueChange={onValueChange} />,
+      );
+      await userEvent.click(getTextbox());
+      expect(getClearCross()).toBeInTheDocument();
+
+      rerender(
+        <Input
+          {...{ [stateProp]: true }}
+          showClearIcon={showClearIcon}
+          defaultValue="z"
+          onValueChange={onValueChange}
+        />,
+      );
+      expect(queryClearCross()).not.toBeInTheDocument();
+      expect(getTextbox()).toHaveValue('z');
+      expect(onValueChange).not.toHaveBeenCalled();
+
+      rerender(<Input showClearIcon={showClearIcon} defaultValue="z" onValueChange={onValueChange} />);
+      expect(getClearCross()).toBeInTheDocument();
+      await userEvent.click(getClearCross());
+      expect(getTextbox()).toHaveValue('');
+      expect(onValueChange).toHaveBeenCalledWith('');
     });
 
     it('tests showClearIcon when disabled', async () => {

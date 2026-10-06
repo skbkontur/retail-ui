@@ -228,7 +228,7 @@ export class Input extends React.Component<InputProps, InputState> {
     hovered?: boolean;
     hasInitialValue?: boolean;
   }): boolean => {
-    if (this.props.disabled) {
+    if (this.props.disabled || this.props.readOnly) {
       return false;
     }
     return calculateClearCrossShowedState({
@@ -248,6 +248,12 @@ export class Input extends React.Component<InputProps, InputState> {
       hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
     }),
   };
+
+  public componentDidUpdate(prevProps: InputProps) {
+    if (prevProps.readOnly !== this.props.readOnly || prevProps.disabled !== this.props.disabled) {
+      this.setState({ clearCrossShowed: this.getClearCrossShowed(this.state) });
+    }
+  }
 
   public componentWillUnmount() {
     this.cancelDelayedSelectAll();
@@ -506,6 +512,10 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleClearInput = () => {
+    if (this.props.readOnly || this.props.disabled) {
+      return;
+    }
+
     if (this.input) {
       this.input.value = '';
     }
@@ -577,7 +587,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
-    if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
+    if (!this.props.readOnly && !e.currentTarget.value && isDeleteKey && !e.repeat) {
       this.blink();
     }
   };
