@@ -1,7 +1,19 @@
-import { Gapped, MenuFooter, MenuHeader, MenuSeparator, Token, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+import * as colors from '@skbkontur/colors/tokens-default/light';
+import {
+  Gapped,
+  MenuFooter,
+  MenuHeader,
+  MenuSeparator,
+  ThemeContext,
+  ThemeFactory,
+  Token,
+  TokenInput,
+  TokenInputType,
+} from '@skbkontur/react-ui';
 import React from 'react';
 
 import { LocaleContext } from '../../../lib/locale/index.js';
+import type { ThemeIn } from '../../../lib/theming/Theme.js';
 import type { Meta, Story } from '../../../typings/stories.js';
 import { cities } from '../../ComboBox/__mocks__/cities.js';
 
@@ -465,29 +477,82 @@ export const ExampleError: Story = () => {
 };
 ExampleError.storyName = 'Состояние ошибки';
 
-/** Проп `renderToken` задаёт функцию, которая отображает токен и даёт возможность кастомизировать внешний вид и поведение токена. */
+/** Проп `renderToken` задаёт функцию, которая отображает токен и даёт возможность кастомизировать внешний вид и поведение токена.
+ * В примере цвет токена зависит от значения и задаётся переменными темы `tokenBg`, `tokenBgHover`, `tokenBgActive` и `tokenColorActive`. */
 export const ExampleRenderToken: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState(['Красный', 'Синий', 'Зелёный']);
+  const items = ['Красный', 'Оранжевый', 'Жёлтый', 'Зелёный', 'Голубой', 'Синий', 'Фиолетовый'];
+  const tokenThemes: Record<string, ThemeIn> = {
+    Красный: {
+      tokenBg: colors.customizableFaintRed,
+      tokenBgHover: colors.customizablePaleRed,
+      tokenBgActive: colors.customizableBoldRed,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Оранжевый: {
+      tokenBg: colors.customizableFaintOrange,
+      tokenBgHover: colors.customizablePaleOrange,
+      tokenBgActive: colors.customizableBoldOrange,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Жёлтый: {
+      tokenBg: colors.customizableFaintYellow,
+      tokenBgHover: colors.customizablePaleYellow,
+      tokenBgActive: colors.customizableBoldYellow,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Зелёный: {
+      tokenBg: colors.customizableFaintGreen,
+      tokenBgHover: colors.customizablePaleGreen,
+      tokenBgActive: colors.customizableBoldGreen,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Голубой: {
+      tokenBg: colors.customizableFaintBlue,
+      tokenBgHover: colors.customizablePaleBlue,
+      tokenBgActive: colors.customizableBoldBlue,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Синий: {
+      tokenBg: colors.customizableFaintBlueDeep,
+      tokenBgHover: colors.customizablePaleBlueDeep,
+      tokenBgActive: colors.customizableBoldBlueDeep,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+    Фиолетовый: {
+      tokenBg: colors.customizableFaintViolet,
+      tokenBgHover: colors.customizablePaleViolet,
+      tokenBgActive: colors.customizableBoldViolet,
+      tokenColorActive: colors.textConstHeavyWhite,
+    },
+  };
+
+  const [selectedItems, setSelectedItems] = React.useState(items);
 
   async function getItems(query: string): Promise<string[]> {
-    return ['Красный', 'Синий', 'Зелёный'].filter((s) => s.includes(query));
+    return items.filter((s) => s.includes(query));
   }
 
   return (
-    <TokenInput
-      type={TokenInputType.Combined}
-      getItems={getItems}
-      selectedItems={selectedItems}
-      onValueChange={setSelectedItems}
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item === 'Синий' || tokenProps.disabled}>
-          {item}
-        </Token>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={getItems}
+          selectedItems={selectedItems}
+          onValueChange={setSelectedItems}
+          renderToken={(item, tokenProps) => (
+            <ThemeContext.Provider key={item.toString()} value={ThemeFactory.create(tokenThemes[item] ?? {}, theme)}>
+              <Token {...tokenProps}>{item}</Token>
+            </ThemeContext.Provider>
+          )}
+        />
       )}
-    />
+    </ThemeContext.Consumer>
   );
 };
 ExampleRenderToken.storyName = 'Поле с кастомными токенами';
+// Палитра нужна только этому live-примеру, поэтому подключаем её в scope конкретной истории, а не глобально.
+ExampleRenderToken.parameters = { scope: { colors } };
 
 /** Пропсы `totalCount` и `renderTotalCount` позволяют добавить в выпадающий список счётчик найденных значений.
  * - `renderTotalCount` — задаёт функцию, которая отображает сообщение о количестве значений.
