@@ -307,16 +307,20 @@ describe('MaskedInputV2 — api', () => {
       expect(input).toHaveValue('');
     });
 
-    it('does not accept input or paste when readOnly', async () => {
+    it('does not accept input, deletion, paste, or cut when readOnly', async () => {
       const user = userEvent.setup();
-      render(<MaskedInputV2 mask="99:99" value="12:34" readOnly />);
+      const onValueChange = vi.fn();
+      render(<MaskedInputV2 mask="99:99" value="12:34" readOnly onValueChange={onValueChange} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
       expect(input).toHaveValue('12:34');
       await user.click(input);
       await user.keyboard('5');
-      expect(input).toHaveValue('12:34');
+      await user.keyboard('{backspace}');
+      await user.keyboard('{delete}');
       await user.paste('99');
+      fireEvent.cut(input);
       expect(input).toHaveValue('12:34');
+      expect(onValueChange).not.toHaveBeenCalled();
     });
   });
 
@@ -342,6 +346,25 @@ describe('MaskedInputV2 — api', () => {
   });
 
   describe('showClearIcon', () => {
+    it('hides the clear icon while readOnly, including after a prop change', async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(
+        <MaskedInputV2 mask="9999" value="1234" readOnly showClearIcon="always" onValueChange={onValueChange} />,
+      );
+      const input = screen.getByRole('textbox');
+      expect(screen.queryByTestId('Input__clearCross')).not.toBeInTheDocument();
+
+      rerender(<MaskedInputV2 mask="9999" value="1234" showClearIcon="always" onValueChange={onValueChange} />);
+      expect(screen.getByTestId('Input__clearCross')).toBeInTheDocument();
+
+      rerender(
+        <MaskedInputV2 mask="9999" value="1234" readOnly showClearIcon="always" onValueChange={onValueChange} />,
+      );
+      expect(screen.queryByTestId('Input__clearCross')).not.toBeInTheDocument();
+      expect(input).toHaveValue('1234');
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
     const ClearIconComp = ({ onValueChange }: { onValueChange?: (value: string) => void } = {}) => {
       const [value, setValue] = useState('');
       return (
@@ -415,6 +438,37 @@ describe('MaskedInputV2 — api', () => {
   });
 
   describe('event forwarding', () => {
+    it.each(['Backspace', 'Delete'])('forwards %s while readOnly without editing or blinking', async (key) => {
+      const onKeyDown = vi.fn();
+      const onValueChange = vi.fn();
+      const onUnexpectedInput = vi.fn();
+      const inputRef = React.createRef<Input>();
+      const blink = vi.fn();
+      render(
+        <MaskedInputV2
+          mask="99:99"
+          value="12:34"
+          readOnly
+          ref={inputRef}
+          onKeyDown={onKeyDown}
+          onValueChange={onValueChange}
+          onUnexpectedInput={onUnexpectedInput}
+        />,
+      );
+      inputRef.current!.blink = blink;
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.click(input);
+      input.setSelectionRange(0, input.value.length);
+      await userEvent.keyboard(`{${key}}`);
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1);
+      expect(onKeyDown.mock.calls[0][0].key).toBe(key);
+      expect(input).toHaveValue('12:34');
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(onUnexpectedInput).not.toHaveBeenCalled();
+      expect(blink).not.toHaveBeenCalled();
+    });
+
     it('forwards onMouseUp', async () => {
       const user = userEvent.setup();
       const onMouseUp = vi.fn();

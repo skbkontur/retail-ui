@@ -59,6 +59,7 @@ export const MaskedCore = forwardRefAndName(
       placeholder,
       className,
       disabled,
+      readOnly,
       ...rest
     } = props;
 
@@ -130,6 +131,7 @@ export const MaskedCore = forwardRefAndName(
       onFocus,
       onBlur,
       onPaste,
+      readOnly,
       syncOverlayScroll,
       requestSelectionIntent,
     });
@@ -263,6 +265,7 @@ export const MaskedCore = forwardRefAndName(
           placeholder={showOverlay ? undefined : placeholder}
           aria-disabled={disabled}
           disabled={disabled}
+          readOnly={readOnly}
           ref={coreInputRef}
           className={cx(globalClasses.input, styles.input(theme), showOverlay && globalClasses.masked, className)}
           value={maskState.typedValue}

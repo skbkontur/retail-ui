@@ -40,6 +40,7 @@ type MaskedCoreHandlerProps = Pick<
   | 'onBlur'
   | 'onPaste'
   | 'selectAllOnFocus'
+  | 'readOnly'
 > & {
   syncOverlayScroll: () => void;
   requestSelectionIntent: (intent: MaskedSelectionIntent) => void;
@@ -71,6 +72,7 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
     onBlur: inputOnBlur,
     onPaste: inputOnPaste,
     selectAllOnFocus,
+    readOnly,
     syncOverlayScroll,
     requestSelectionIntent,
   } = props;
@@ -114,7 +116,7 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (ignoreChangeFromPasteRef.current) {
+    if (readOnly || ignoreChangeFromPasteRef.current) {
       return;
     }
 
@@ -197,7 +199,7 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
       }
     } else if (isKeyBackspace(e) || isKeyDelete(e)) {
       e.preventDefault();
-      if (el) {
+      if (!readOnly && el) {
         // Cmd/Ctrl+Backspace — удалить до начала строки; Cmd/Ctrl+Delete — до конца.
         if (e.metaKey || e.ctrlKey) {
           handleLineDeletion(isKeyBackspace(e), el);
@@ -207,10 +209,14 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
       }
     } else if (isShortcutUndo(e)) {
       e.preventDefault();
-      onUndo?.();
+      if (!readOnly) {
+        onUndo?.();
+      }
     } else if (isShortcutRedo(e)) {
       e.preventDefault();
-      onRedo?.();
+      if (!readOnly) {
+        onRedo?.();
+      }
     }
 
     inputOnKeyDown?.(e);
@@ -284,7 +290,7 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
     inputOnPaste?.(e);
     e.preventDefault();
 
-    if (!e.clipboardData) {
+    if (readOnly || !e.clipboardData) {
       return;
     }
 
@@ -322,6 +328,11 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
   }
 
   function handleCut(e: React.ClipboardEvent<HTMLInputElement>) {
+    if (readOnly) {
+      e.preventDefault();
+      return;
+    }
+
     handleCopy(e);
 
     const el = coreInputRef.current;
