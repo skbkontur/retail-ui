@@ -47,4 +47,4 @@ assignees: ''
 Добавьте любой другой контекст проблемы.
 
 **Есть решение?**
-Если у вас есть предложения по решению, опишите здесь, и отправьте [Pull Request](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#pull-request), это значительно ускорит решение проблемы.
+Если у вас есть предложения по решению, опишите здесь, и отправьте [Pull Request](https://github.com/skbkontur/retail-ui/blob/master/CONTRIBUTING.md#pull-request), это значительно ускорит решение проблемы.

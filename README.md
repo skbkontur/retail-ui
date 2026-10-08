@@ -62,4 +62,4 @@ export function Page() {
 
 ---
 
-Библиотека Kontur UI — это открытый проект и результат совместных усилий [большого количества людей](https://github.com/skbkontur/retail-ui/graphs/contributors). Мы ценим вклад каждого и приглашаем принять участие в его развитии. Подробнее в разделе [CONTRIBUTING.md](https://github.com/skbkontur/retail-ui/blob/master/contributing.md).
+Библиотека Kontur UI — это открытый проект и результат совместных усилий [большого количества людей](https://github.com/skbkontur/retail-ui/graphs/contributors). Мы ценим вклад каждого и приглашаем принять участие в его развитии. Подробнее в разделе [CONTRIBUTING.md](https://github.com/skbkontur/retail-ui/blob/master/CONTRIBUTING.md).

@@ -23,4 +23,4 @@ assignees: ''
 Добавьте любой другой контекст или скриншоты о запросе функции здесь.
 
 **Есть решение?**
-Если у вас есть предложения по решению, отправьте [Pull Request](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#pull-request), это значительно ускорит решение проблемы.
+Если у вас есть предложения по решению, отправьте [Pull Request](https://github.com/skbkontur/retail-ui/blob/master/CONTRIBUTING.md#pull-request), это значительно ускорит решение проблемы.
