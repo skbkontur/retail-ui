@@ -201,7 +201,7 @@ export const ExampleCustomMenuAnchorElement: Story = () => {
 ExampleCustomMenuAnchorElement.storyName = 'Настройка позиционирования меню';
 
 /**
- * Проп `enableTodayLink` добавляет кнопку для выбора сегодяшней даты.
+ * Проп `enableTodayLink` добавляет кнопку для выбора сегодняшней даты.
  */
 export const ExampleTodayButton: Story = () => {
   const [valueStart, setValueStart] = React.useState('');

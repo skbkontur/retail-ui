@@ -824,7 +824,7 @@ export const ExpandableRowsExample = () => {
       <Table.Body>
         {data.map((row) => {
           const isExpanded = expanded.has(row.id);
-          // испоьзуйте React.useId появился в React 18
+          // используйте React.useId появился в React 18
           const detailsId = `expandable-row-${row.id}-details`;
           return (
             <React.Fragment key={row.id}>

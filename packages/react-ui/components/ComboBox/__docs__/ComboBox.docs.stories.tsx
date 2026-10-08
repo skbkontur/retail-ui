@@ -528,9 +528,9 @@ export const ExampleMaxLength: Story = () => {
 };
 ExampleMaxLength.storyName = 'Максимальная длина значения';
 
-/** Для комбобокса может быть задана маска. Комобобокс наследует от [MaskedInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-maskedinput--docs) пропсы:
+/** Для комбобокса может быть задана маска. Комбобокс наследует от [MaskedInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-maskedinput--docs) пропсы:
  * - `mask` — определяет шаблон маски, используемый для форматирования и проверки корректности вводимых данных в поле.
- * - `maskChar` — задаёт cимвол маски. Он отображается в шаблоне маски в качестве плейсхолдера
+ * - `maskChar` — задаёт символ маски. Он отображается в шаблоне маски в качестве плейсхолдера
  * - `formatChars` — задаёт словарь символов-регулярок. С помощью него вы можете настроить собственный словарь символов.
  */
 export const ExampleMask: Story = () => {
@@ -798,7 +798,7 @@ export const ExampleReset: Story = () => {
 };
 ExampleReset.storyName = 'Сброс значения';
 
-/** Проп `disabled` переводит комбообокс в состояние блокировки. Поле визуально приглушается и становится недоступно для редактирования. */
+/** Проп `disabled` переводит комбобокс в состояние блокировки. Поле визуально приглушается и становится недоступно для редактирования. */
 export const ExampleDisabled: Story = () => {
   const getItems = (q: string) => {
     return Promise.resolve(
@@ -923,7 +923,7 @@ export const ExampleCounter: Story = () => {
     />
   );
 };
-ExampleCounter.storyName = 'Cчётчик найденных значений';
+ExampleCounter.storyName = 'Счётчик найденных значений';
 
 /**
  * В массиве, возвращаемом `getItems`, могут быть переданы React-компоненты:

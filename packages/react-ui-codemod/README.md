@@ -104,7 +104,7 @@ npx react-ui-codemod react-ui-2.0/transformOnChange.ts FILES_PATH
 
 Трансформации в общих чертах:
 
-- компоненты Fias, FiasSearch, Logotype, TopBar, Spinner ипортируются из пакета "@skbkontur/react-ui-addons"
+- компоненты Fias, FiasSearch, Logotype, TopBar, Spinner импортируются из пакета "@skbkontur/react-ui-addons"
 
 ```
 npx react-ui-codemod react-ui-2.0/moveToAddons.ts FILES_PATH --component=COMPONENT
@@ -112,7 +112,7 @@ npx react-ui-codemod react-ui-2.0/moveToAddons.ts FILES_PATH --component=COMPONE
 
 | Опции       | Описание                                                     | По умолчанию                                 |
 | ----------- | ------------------------------------------------------------ | -------------------------------------------- |
-| `component` | Имя отдельного компонента для трансформации, например "Fias" | По умелчанию применяется ко всем компонентам |
+| `component` | Имя отдельного компонента для трансформации, например "Fias" | По умолчанию применяется ко всем компонентам |
 
 ### react-ui-2.0/addCloudProp.ts
 
@@ -124,7 +124,7 @@ npx react-ui-codemod react-ui-2.0/addPropCloud.ts FILES_PATH --component=COMPONE
 
 | Опции       | Описание                                                       | По умолчанию                                 |
 | ----------- | -------------------------------------------------------------- | -------------------------------------------- |
-| `component` | Имя отдельного компонента для трансформации, например "Loader" | По умелчанию применяется ко всем компонентам |
+| `component` | Имя отдельного компонента для трансформации, например "Loader" | По умолчанию применяется ко всем компонентам |
 
 ### customization/variablesConverter
 

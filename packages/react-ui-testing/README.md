@@ -2,14 +2,14 @@
 
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
-Набор инструментов для тестирования фронтэнд приложений написаных на React-е, в том числе с использованием библиотеки
+Набор инструментов для тестирования фронтенд приложений написанных на React-е, в том числе с использованием библиотеки
 [react-ui](https://github.com/skbkontur/retail-ui).
 
 ## Как это работает
 
 Библиотека состоит из двух частей:
 
--   [Скрипт](https://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom), поключаемый на страницу, который транслирует props и другую полезную информацию о React-компонентах в DOM.
+-   [Скрипт](https://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom), подключаемый на страницу, который транслирует props и другую полезную информацию о React-компонентах в DOM.
 -   [Набор PageObject'ов](https://tech.skbkontur.ru/react-ui-testing/#/page-objects-dot-net) для доступа к [компонентам react-ui](https://github.com/skbkontur/retail-ui) через [Selenium для .NET](http://www.seleniumhq.org/docs/03_webdriver.jsp#c).
 
 ## А что дальше?

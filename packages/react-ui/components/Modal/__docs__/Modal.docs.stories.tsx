@@ -112,7 +112,7 @@ export const ExampleAlignTop: Story = () => {
 };
 ExampleAlignTop.storyName = 'Расположение в верхней части страницы';
 
-/** Cобытие `onClose` задаёт функцию, которая вызывается, когда пользователь запросил закрытие окна — нажал на фон, Escape или крестик. */
+/** Событие `onClose` задаёт функцию, которая вызывается, когда пользователь запросил закрытие окна — нажал на фон, Escape или крестик. */
 export const ExampleOnClose: Story = () => {
   const [opened, setOpened] = React.useState(false);
 

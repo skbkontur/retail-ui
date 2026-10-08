@@ -72,7 +72,7 @@ export const ExampleState: Story = () => {
     </Gapped>
   );
 };
-ExampleState.storyName = 'Cостояния ошибки и предупреждения';
+ExampleState.storyName = 'Состояния ошибки и предупреждения';
 
 /** Методы `focus` и `blur` программно управляют состоянием фокуса на чекбоксе. */
 export const ExampleFocusBlur: Story = () => {

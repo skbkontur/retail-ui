@@ -14,7 +14,7 @@ Kontur Colors — библиотека цветов для продуктов К
 
 - Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less
 - Конфигурация сразу нескольких схем через HTML-атрибуты `data-k-brand`, `data-k-accent`, `data-k-theme`
-- [Расширеный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
+- [Расширенный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
 
 ## Установка
 

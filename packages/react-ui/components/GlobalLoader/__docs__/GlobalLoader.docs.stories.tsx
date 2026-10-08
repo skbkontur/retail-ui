@@ -41,7 +41,7 @@ export const ExampleStaticMethods: Story = () => {
     </Gapped>
   );
 };
-ExampleStaticMethods.storyName = 'Cтатические методы';
+ExampleStaticMethods.storyName = 'Статические методы';
 
 /** Вместо статических методов можно воспользоваться управлением через пропсы. */
 export const ExampleMount: Story = () => {

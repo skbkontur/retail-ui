@@ -98,7 +98,7 @@ export default class InputTextPage extends React.Component {
           </Case.Body>
         </Case>
 
-        <Case title="Двойное вложения комопнент" data-tid="DoubleNestingComponentsCase">
+        <Case title="Двойное вложение компонентов" data-tid="DoubleNestingComponentsCase">
           <Case.Body>
             <DoubleNestingContainer data-tid={'DoubleNestingContainer'} state={this.state.case6State} />
             <Button

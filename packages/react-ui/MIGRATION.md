@@ -4,7 +4,7 @@
 
 ### Основные изменения
 
-- **Поддержка React 19**. Мы рекомендуем познакомиться с чейнджлогами: [19.0](https://github.com/facebook/react/blob/main/CHANGELOG.md#1900-december-5-2024), [19.1](https://github.com/facebook/react/blob/main/CHANGELOG.md#1910-march-28-2025), [19.2](https://github.com/facebook/react/blob/main/CHANGELOG.md#1920-october-1st-2025) и переходить на последние версии. В данный момент поддерживем совместимость с React ≥ 16.9, в дальнейших релизах планируется ≥18
+- **Поддержка React 19**. Мы рекомендуем познакомиться с чейнджлогами: [19.0](https://github.com/facebook/react/blob/main/CHANGELOG.md#1900-december-5-2024), [19.1](https://github.com/facebook/react/blob/main/CHANGELOG.md#1910-march-28-2025), [19.2](https://github.com/facebook/react/blob/main/CHANGELOG.md#1920-october-1st-2025) и переходить на последние версии. В данный момент поддерживаем совместимость с React ≥ 16.9, в дальнейших релизах планируется ≥18
 - Переезд на TypeScript 4 → 5
 - CJS, ESM → только ESM (type="module")
 - Отказ от поддержки IE 11 и Edge Legacy
@@ -199,7 +199,7 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`.
 
-Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) кроме `comboBoxAllowValueChangeInEditingState`. Краткий список вступивших в силу изменений:
+Удалены все [фича-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) кроме `comboBoxAllowValueChangeInEditingState`. Краткий список вступивших в силу изменений:
 
 1. в `TokenInput` из дефолтных разделителей удалён пробел
 2. в `Hint` и `Kebab` убран pin
@@ -288,7 +288,7 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 ## react-ui-validations 1.x → 2.0
 
-Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
+Удалены все [фича-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
 
 1. применены актуальные цвета
 2. в компонентах обертки в span заменены на `div` c `display: inline`
@@ -401,7 +401,7 @@ import { ThemeContext, DEFAULT_THEME_OLD } from 'react-ui';
 
 ### Удаление старых компонентов, переменных и пропсов
 
-В [2.0](#отдельный-пакет-для-контур-специфичных-компонентов) была начата работа по переносу Контур-специфичных компонентов в отдельный пакет `react-ui-addons`. Начиная с 3.0 компоненты `TopBar`, `Logotype` и `Fias` полностью переехали из `react-ui`. Их кастомизация и локализация продолжат работать через соответсвующие контексты `react-ui`.
+В [2.0](#отдельный-пакет-для-контур-специфичных-компонентов) была начата работа по переносу Контур-специфичных компонентов в отдельный пакет `react-ui-addons`. Начиная с 3.0 компоненты `TopBar`, `Logotype` и `Fias` полностью переехали из `react-ui`. Их кастомизация и локализация продолжат работать через соответствующие контексты `react-ui`.
 
 Также, были удалены [ранее помеченные](#нативный-reactcontext-для-themelocale-provider) как устаревшие компоненты:
 
@@ -533,7 +533,7 @@ _UPDATE: начиная с версии 1.5.0 react-ui-addons переехал �
 
 **NOTE**: Если у вас нет возможности настроить nexus прямо сейчас, компоненты остаются в составе библиотеки до версии 3.0. Всё что вам нужно сделать, это вернуть старое отображение компонентов `Loader` и `Spinner` с помощью [кодмода addCloudProp](https://github.com/skbkontur/retail-ui/pull/1900#addCloudProp)
 
-**WARN**: `moveToAddons` должен применятся только после применения `transformImportsAndExports`, иначе корректный результат не гарантируется.
+**WARN**: `moveToAddons` должен применяться только после применения `transformImportsAndExports`, иначе корректный результат не гарантируется.
 
 ### Нативный ReactContext для `Theme(Locale-)Provider`
 

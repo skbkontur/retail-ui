@@ -86,7 +86,7 @@ export const ExampleWidth: Story = () => {
 ExampleWidth.storyName = 'Ширина';
 
 /**
- * Проп `menuMaxHeight` управляет максимальной высотой меню. Если элементы не помещаются, показывается кроллбар.
+ * Проп `menuMaxHeight` управляет максимальной высотой меню. Если элементы не помещаются, показывается скроллбар.
  */
 export const ExampleMaxHeight: Story = () => {
   return (

@@ -24,7 +24,7 @@ export const ExampleBasic: Story = () => {
 ExampleBasic.storyName = 'Базовый пример';
 
 /** Проп `use` задаёт стиль ссылки.
- *  Стиль влияет на внешний вид cсылки. По умолчанию: `'default'`.
+ *  Стиль влияет на внешний вид ссылки. По умолчанию: `'default'`.
  * Доступны стили:
  * - Default — чёрная ссылка.
  * - Grayed — серая ссылка.
@@ -99,7 +99,7 @@ export const ExampleSpinner: Story = () => {
 };
 ExampleSpinner.storyName = 'Состояние загрузки';
 
-/** Проп `error` переводит сслыку в  состояние ошибки. */
+/** Проп `error` переводит ссылку в  состояние ошибки. */
 export const ExampleError: Story = () => {
   return (
     <Link error icon={<IconToolPencilLineLight16 />}>
@@ -120,7 +120,7 @@ export const ExampleButton: Story = () => {
 };
 ExampleButton.storyName = 'Управление корневым элементом';
 
-/** Вы можете управлять тем, какое именно действие присходит при нажатии на ссылку. */
+/** Вы можете управлять тем, какое именно действие происходит при нажатии на ссылку. */
 export const ExampleClickCustom: Story = () => {
   return <Link onClick={() => SingleToast.push('Ты нажал на ссылку')}>Ссылка с кастомным действием</Link>;
 };
