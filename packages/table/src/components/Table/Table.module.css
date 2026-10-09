@@ -89,7 +89,9 @@
   background: var(--table-sticky-background);
 }
 
+/* width/height ячеек и экшнбара считаются без паддингов — глобальный border-box их сжимает */
 .TableHeaderCell {
+  box-sizing: content-box;
   border: none;
   position: relative;
   font-weight: normal;
@@ -322,6 +324,7 @@
 }
 
 .TableCell {
+  box-sizing: content-box;
   border: none;
   padding: 0;
   text-align: left;
@@ -593,6 +596,7 @@
 }
 
 .PopupActionBar {
+  box-sizing: content-box;
   position: absolute;
 
   --shadow-xoffset: -16px;
