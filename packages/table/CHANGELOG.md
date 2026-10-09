@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](/compare/@skbkontur/table@1.0.6...@skbkontur/table@1.0.7) (2026-10-09)
+
+
+### Bug Fixes
+
+* **table:** keep content-box sizing under a global border-box reset 9a68764
+
+
+
+
+
 ## [1.0.6](/compare/@skbkontur/table@1.0.5...@skbkontur/table@1.0.6) (2026-10-02)
 
 
