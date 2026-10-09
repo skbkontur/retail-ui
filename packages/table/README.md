@@ -196,6 +196,7 @@ export const MyTable = () => {
 - `Table.Row`: `checked`, `onClick`.
 - `Table.Cell`, `Table.HeaderCell`: `width`, `colSpan`, `rowSpan`, `currency` (выравнивание по правому краю), `noWrap`, `vAlign` (только HeaderCell).
 - `Table.CheckboxCell`, `Table.HeaderCheckboxCell`: Специализированные ячейки для чекбоксов.
+- `Table.EditableCell`: Ячейка для инлайн-редактирования — текст в покое, поле (`Input`, `Select`, `ComboBox`) при наведении на строку или фокусе.
 
 ### Фильтры
 

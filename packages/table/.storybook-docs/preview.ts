@@ -27,6 +27,8 @@ import { IconXCircleSolid20 } from '@skbkontur/icons/IconXCircleSolid20';
 import { IconXCircleSolid24 } from '@skbkontur/icons/IconXCircleSolid24';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+import { CurrencyInput } from '@skbkontur/react-ui/components/CurrencyInput/CurrencyInput';
+import { CurrencyLabel } from '@skbkontur/react-ui/components/CurrencyLabel/CurrencyLabel';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Hint } from '@skbkontur/react-ui/components/Hint/Hint';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
@@ -67,6 +69,8 @@ addons.setConfig({
       injectGlobal,
       Button,
       Checkbox,
+      CurrencyInput,
+      CurrencyLabel,
       Gapped,
       Hint,
       Input,

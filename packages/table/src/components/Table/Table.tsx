@@ -20,6 +20,7 @@ import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
 import { TableDropdownFilter } from './TableDropdownFilter.js';
 import { TableDropdownSortableFilter } from './TableDropdownSortableFilter.js';
+import { TableEditableCell } from './TableEditableCell.js';
 import { TableFilter } from './TableFilter/TableFilter.js';
 import { TableFilterItem } from './TableFilter/TableFilterItem.js';
 import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
@@ -81,6 +82,7 @@ interface TableComponent extends FC<TableProps> {
   Row: typeof TableRow;
   Cell: typeof TableCell;
   CheckboxCell: typeof TableCheckboxCell;
+  EditableCell: typeof TableEditableCell;
   HeaderCell: typeof TableHeaderCell;
   HeaderCheckboxCell: typeof TableHeaderCheckboxCell;
   Sort: typeof TableSort;
@@ -103,7 +105,14 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
   ({ children, hasChecked, auto, size: sizeProp, className, rootNodeRef, width, minWidth, maxWidth, ...rest }, ref) => {
     const sizeContext = useSizeContextCompat();
     const size = sizeProp ?? sizeContext.size;
-    const tableTheme = getTableTheme(useContext(ThemeContext));
+    const theme = useContext(ThemeContext);
+    const tableTheme = getTableTheme(theme);
+    // Сдвиг текста внутри поля для Table.EditableCell. У Select отступы по умолчанию те же, что у Input.
+    const [editablePaddingX, editablePaddingY] = {
+      small: [theme.inputPaddingXSmall, theme.inputPaddingYSmall],
+      medium: [theme.inputPaddingXMedium, theme.inputPaddingYMedium],
+      large: [theme.inputPaddingXLarge, theme.inputPaddingYLarge],
+    }[size];
     const tableSizeClassName = styles[getSizeModifier('Table', size)];
     const tableRef = useTableStyleSync(ref);
 
@@ -136,6 +145,8 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
                   '--table-checkbox-padding-y-small': normalizeCssLength(tableTheme.checkboxPaddingYSmall),
                   '--table-checkbox-padding-y-medium': normalizeCssLength(tableTheme.checkboxPaddingYMedium),
                   '--table-checkbox-padding-y-large': normalizeCssLength(tableTheme.checkboxPaddingYLarge),
+                  '--table-editable-offset-x': `calc(${theme.inputBorderWidth} + ${editablePaddingX})`,
+                  '--table-editable-offset-y': `calc(${theme.inputBorderWidth} + ${editablePaddingY})`,
                 } as CSSProperties
               }
               className={cx(styles.Table, {
@@ -160,6 +171,7 @@ Table.Footer = TableFooter;
 Table.Row = TableRow;
 Table.Cell = TableCell;
 Table.CheckboxCell = TableCheckboxCell;
+Table.EditableCell = TableEditableCell;
 Table.HeaderCell = TableHeaderCell;
 Table.HeaderCheckboxCell = TableHeaderCheckboxCell;
 Table.Sort = TableSort;
@@ -178,12 +190,13 @@ Table.Token = TableToken;
 Table.__KONTUR_REACT_UI__ = 'Table';
 Table.displayName = 'Table';
 
-export { TableHeaderCell, TableCell, TableCheckboxCell, TableHeaderCheckboxCell };
+export { TableHeaderCell, TableCell, TableCheckboxCell, TableEditableCell, TableHeaderCheckboxCell };
 export type { TableBodyProps } from './TableBody.js';
 export type { TableCellProps } from './TableCell.js';
 export type { TableCheckboxCellProps } from './TableCheckboxCell.js';
 export type { TableDropdownFilterProps } from './TableDropdownFilter.js';
 export type { TableDropdownSortableFilterProps } from './TableDropdownSortableFilter.js';
+export type { TableEditableCellProps } from './TableEditableCell.js';
 export type { TableFooterProps } from './TableFooter.js';
 export type { TableHeaderProps } from './TableHeader.js';
 export type { TableHeaderCellProps } from './TableHeaderCell.js';

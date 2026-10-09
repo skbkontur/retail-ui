@@ -25,4 +25,5 @@ export const TableDataTids = {
   actionsDropdownItem: 'Table__actionsDropdownItem',
   popupActionBar: 'Table__popupActionBar',
   actionsKebabButton: 'Table__button-kebab',
+  editableCellEditor: 'Table__editableCellEditor',
 } as const;

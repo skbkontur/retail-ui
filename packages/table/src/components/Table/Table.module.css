@@ -480,6 +480,53 @@
   text-align: right;
 }
 
+/*
+ * Текст стоит ровно там, где текст внутри поля того же размера: сдвиг = рамка + отступ поля (см. --table-editable-offset-* в Table.tsx).
+ * Обёртка уходит влево на этот сдвиг, чтобы текст встал под заголовок колонки, а рамка поля — в отступ ячейки.
+ */
+.EditableCellContent {
+  display: grid;
+  margin-left: calc(-1 * var(--table-editable-offset-x));
+}
+
+.TableCell.Currency > .EditableCellContent {
+  margin-left: 0;
+  margin-right: calc(-1 * var(--table-editable-offset-x));
+}
+
+.EditableCellContent > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.EditableCellContent > :first-child {
+  padding: var(--table-editable-offset-y) var(--table-editable-offset-x);
+}
+
+/* opacity, а не display/visibility: скрытое поле остаётся в порядке табуляции, и фокус в нём показывает его. */
+.EditableCellEditor {
+  opacity: 0;
+}
+
+/*
+ * Типографика таблицы включает табличные цифры, а resetText в react-ui (Input, Button → Select, ComboBox) ставит
+ * font-variant: normal на корень контрола: число в поле было бы другой ширины, чем в покое.
+ * Стили таблицы лежат в @layer и без !important проигрывают Emotion без слоя.
+ */
+.EditableCellEditor * {
+  font-variant-numeric: inherit !important;
+}
+
+.TableRow:hover .EditableCellEditor,
+.TableRow:focus-within .EditableCellEditor {
+  opacity: 1;
+}
+
+.TableRow:hover .EditableCellContent > :first-child,
+.TableRow:focus-within .EditableCellContent > :first-child {
+  visibility: hidden;
+}
+
 .FilterResultCell {
   background: var(--table-row-hover);
   padding: 0;

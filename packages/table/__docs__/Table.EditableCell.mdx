@@ -1,0 +1,37 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableEditableCellStories from './Table.EditableCell.docs.stories';
+
+<Meta of={TableEditableCellStories} />
+
+# Table.EditableCell
+
+Ячейка для инлайн-редактирования: в покое показывает текст, при наведении на строку или фокусе внутри неё — поле для редактирования (`Input`, `Select`, `ComboBox`). По [гайду](https://guides.kontur.ru/principles/tables/tables/#32): «когда данные в таблице можно редактировать сразу, при наведении показывается поле ввода».
+
+Текст стоит под заголовком колонки, как в обычной ячейке. Поле при появлении выступает влево в отступ ячейки так, что его текст встаёт ровно на место текста в покое — ничего не сдвигается. Высота строки та же, что у обычной текстовой ячейки.
+
+- Передайте полю размер таблицы (`size`) и `width="100%"`.
+- В `children` — то, что видно в покое. Для `Select` и `ComboBox` это подпись выбранного значения, а не сам `value`.
+- Поле всегда смонтировано: до него доходит Tab, а скринридер читает поле, а не текст.
+- Клики внутри ячейки не всплывают до `onClick` строки.
+
+## Пример
+
+<Story of={TableEditableCellStories.Basic} />
+
+## Среди обычных ячеек
+
+Редактируемая колонка между текстовыми, строки с разделителями. Наведите на первую строку, чтобы проверить разделитель под шапкой, и на любую другую — разделители между строками.
+
+<Story of={TableEditableCellStories.WithTextAround} />
+
+## Суммы
+
+С `currency` текст выравнивается по правому краю, как в обычной ячейке сумм, а поле выступает вправо. В `editor` передайте `CurrencyInput`, в `children` — `CurrencyLabel` с тем же значением, чтобы форматирование в покое и в поле совпадало.
+
+<Story of={TableEditableCellStories.Currency} />
+
+## Пропсы
+
+<ArgTypes of={Table.EditableCell} />
