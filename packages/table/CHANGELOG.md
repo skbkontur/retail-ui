@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](/compare/@skbkontur/table@1.0.7...@skbkontur/table@1.1.0) (2026-10-09)
+
+
+### Features
+
+* **table:** add Table.EditableCell that reveals an editor on row hover or focus bd55054
+
+
+
+
+
 ## [1.0.7](/compare/@skbkontur/table@1.0.6...@skbkontur/table@1.0.7) (2026-10-09)
 
 
