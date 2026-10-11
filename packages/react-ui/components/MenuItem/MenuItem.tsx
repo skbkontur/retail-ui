@@ -365,15 +365,21 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private get activeState() {
-    return this.state.highlighted ? 'hover' : this.props.state;
+    if (this.isSelected) {
+      return 'selected';
+    }
+    if (this.state.highlighted) {
+      return 'hover';
+    }
+    return this.props.state;
   }
 
   private get isHover(): boolean {
-    return (this.state.highlighted || this.props.state === 'hover') && !this.props.disabled;
+    return !this.isSelected && (this.state.highlighted || this.props.state === 'hover') && !this.props.disabled;
   }
 
   private get isSelected(): boolean {
-    return this.props.state === 'selected' && !this.state.highlighted;
+    return this.props.state === 'selected' && !this.props.disabled;
   }
 
   // https://github.com/facebook/react/issues/10109

@@ -107,6 +107,15 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   selected(t: Theme) {
     return css`
       background: ${t.menuItemSelectedBg} !important;
+
+      &:hover {
+        background: ${t.menuItemSelectedHoverBg} !important;
+        color: ${t.menuItemHoverColor} !important;
+      }
+
+      &:active {
+        background: ${t.menuItemSelectedPressedBg} !important;
+      }
     `;
   },
   disabled(t: Theme) {

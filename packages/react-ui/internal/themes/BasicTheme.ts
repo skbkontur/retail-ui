@@ -1620,6 +1620,12 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static menuItemSelectedBg = colors.shapeOtherBacklessPressed;
+  public static get menuItemSelectedHoverBg(): string {
+    return this.menuItemHoverBg;
+  }
+  public static get menuItemSelectedPressedBg(): string {
+    return this.menuItemPressedBg;
+  }
   public static menuItemHoverBg = colors.shapeOtherBacklessHover;
   public static menuItemPressedBg = colors.shapeOtherBacklessHover;
   public static get menuItemHoverColor(): string {

@@ -58,6 +58,21 @@ describe('MenuItem', () => {
     expect(screen.getByTestId(MenuItemDataTids.root)).toHaveTextContent('hover');
   });
 
+  it('keeps selected state when hovered', async () => {
+    render(
+      <Menu>
+        <MenuItem state="selected">{(state) => state?.toString()}</MenuItem>
+      </Menu>,
+    );
+
+    await userEvent.hover(screen.getByRole('button'));
+
+    const menuItem = screen.getByTestId(MenuItemDataTids.root);
+    expect(menuItem).toHaveTextContent('selected');
+    expect(menuItem).toHaveAttribute('data-visual-state-selected', '');
+    expect(menuItem).not.toHaveAttribute('data-visual-state-hover');
+  });
+
   it('renders button tag', () => {
     render(<MenuItem>Test item</MenuItem>);
     expect(screen.getByRole('button')).toBeInTheDocument();
