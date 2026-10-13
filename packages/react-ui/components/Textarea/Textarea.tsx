@@ -8,6 +8,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { RenderLayer } from '../../internal/RenderLayer/index.js';
 import { ResizeDetector } from '../../internal/ResizeDetector/index.js';
+import { blink } from '../../lib/blink.js';
 import { isSafariWithTextareaBug } from '../../lib/client.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
@@ -278,6 +279,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     return this.node;
   }
 
+  /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
+   * @public
+   */
+  public blink(): void {
+    blink({ el: this.node, blinkColor: this.theme.inputBlinkColor });
+  }
+
   /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
@@ -415,6 +423,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onPaste={this.handlePaste}
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
+              onBeforeInput={this.handleBeforeInput}
               disabled={disabled}
             >
               {this.props.children}
@@ -437,10 +446,29 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     if (isBlockEnter) {
       e.preventDefault();
+
+      const { selectionStart, selectionEnd } = e.currentTarget;
+
+      if (!this.props.readOnly && selectionStart === selectionEnd) {
+        this.blink();
+      }
     }
 
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
+    }
+  };
+
+  private handleBeforeInput = (e: React.InputEvent<HTMLTextAreaElement>) => {
+    if (this.props.onBeforeInput) {
+      this.props.onBeforeInput(e);
+    }
+
+    const { value, selectionStart, selectionEnd } = e.currentTarget;
+    const isMaxLengthReached = this.props.maxLength === value.length;
+
+    if (isMaxLengthReached && !this.props.readOnly && selectionStart === selectionEnd) {
+      this.blink();
     }
   };
 
@@ -536,6 +564,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     if (this.props.onPaste) {
       this.props.onPaste(event);
+    }
+
+    const { value, selectionStart, selectionEnd } = event.currentTarget;
+    const pastedText = event.clipboardData.getData('text/plain').replace(/\r\n?/g, '\n');
+    const nextLength = value.length - (selectionEnd - selectionStart) + pastedText.length;
+
+    if (!this.props.readOnly && this.props.maxLength !== undefined && nextLength > this.props.maxLength) {
+      this.blink();
     }
 
     this.reflowCounter();

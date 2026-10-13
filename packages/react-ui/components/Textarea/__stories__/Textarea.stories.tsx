@@ -313,3 +313,11 @@ BaselineAlign.parameters = {
     },
   },
 };
+
+export const MaxLength: Story = () => {
+  return <Textarea width={400} maxLength={3} placeholder="maxLength={3}" />;
+};
+MaxLength.storyName = 'Max Length';
+MaxLength.parameters = {
+  creevey: { skip: true },
+};

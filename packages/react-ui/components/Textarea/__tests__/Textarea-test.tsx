@@ -157,23 +157,117 @@ describe('Textarea', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('blocks pressing enter when maxLength reached', async () => {
-    const Comp = () => {
-      const [value, setValue] = useState('');
+  describe('maxLength', () => {
+    let blinkSpy: ReturnType<typeof vi.spyOn>;
 
-      return <Textarea value={value} onValueChange={setValue} maxLength={10} />;
-    };
+    beforeEach(() => {
+      blinkSpy = vi.spyOn(Textarea.prototype, 'blink').mockImplementation(() => undefined);
+    });
 
-    render(<Comp />);
-    const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('');
+    afterEach(() => {
+      blinkSpy.mockRestore();
+    });
 
-    await userEvent.type(input, 'Value: one');
-    expect(input).toHaveValue('Value: one');
+    it('blocks Enter at maxLength', async () => {
+      const Comp = () => {
+        const [value, setValue] = useState('');
 
-    await userEvent.type(screen.getByRole('textbox'), '{enter}');
+        return <Textarea value={value} onValueChange={setValue} maxLength={10} />;
+      };
 
-    expect(screen.getByRole('textbox')).toHaveValue('Value: one');
+      render(<Comp />);
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue('');
+
+      await userEvent.type(input, 'Value: one');
+      expect(input).toHaveValue('Value: one');
+
+      await userEvent.type(screen.getByRole('textbox'), '{enter}');
+
+      expect(screen.getByRole('textbox')).toHaveValue('Value: one');
+    });
+
+    it('blinks when pressing Enter at maxLength', () => {
+      render(<Textarea value="abc" maxLength={3} />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.keyDown(input, { key: 'Enter' });
+
+      expect(blinkSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('blinks when attempting to type beyond maxLength', () => {
+      render(<Textarea defaultValue="abc" maxLength={3} />);
+      const input = screen.getByRole('textbox');
+      const charCode = 'd'.charCodeAt(0);
+
+      fireEvent.keyPress(input, { charCode, which: charCode });
+
+      expect(blinkSpy).toHaveBeenCalledTimes(1);
+      expect(input).toHaveValue('abc');
+    });
+
+    it('does not blink when typing reaches maxLength', () => {
+      render(<Textarea defaultValue="ab" maxLength={3} />);
+      const input = screen.getByRole('textbox');
+      const charCode = 'c'.charCodeAt(0);
+
+      fireEvent.keyPress(input, { charCode, which: charCode });
+      fireEvent.change(input, { target: { value: 'abc' } });
+
+      expect(input).toHaveValue('abc');
+      expect(blinkSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not blink when replacing selected text', () => {
+      render(<Textarea defaultValue="abc" maxLength={3} />);
+      const input = screen.getByRole<HTMLTextAreaElement>('textbox');
+      const charCode = 'd'.charCodeAt(0);
+
+      input.setSelectionRange(1, 2);
+      fireEvent.keyPress(input, { charCode, which: charCode });
+
+      expect(blinkSpy).not.toHaveBeenCalled();
+    });
+
+    it('blinks when replacing selected text exceeds maxLength', () => {
+      render(<Textarea defaultValue="abc" maxLength={3} />);
+      const input = screen.getByRole<HTMLTextAreaElement>('textbox');
+
+      input.setSelectionRange(1, 2);
+      fireEvent.paste(input, { clipboardData: { getData: () => 'de' } });
+
+      expect(blinkSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not blink when pasted text is shorter than maxLength', () => {
+      render(<Textarea maxLength={3} />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.paste(input, { clipboardData: { getData: () => 'ab' } });
+
+      expect(blinkSpy).not.toHaveBeenCalled();
+    });
+
+    it('blinks when pasted text exceeds maxLength', () => {
+      render(<Textarea maxLength={3} />);
+      const input = screen.getByRole('textbox');
+
+      fireEvent.paste(input, { clipboardData: { getData: () => 'abcd' } });
+
+      expect(blinkSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not blink in a readOnly textarea', () => {
+      render(<Textarea value="abc" maxLength={3} readOnly />);
+      const input = screen.getByRole('textbox');
+      const charCode = 'd'.charCodeAt(0);
+
+      fireEvent.keyPress(input, { charCode, which: charCode });
+      fireEvent.keyDown(input, { key: 'Enter' });
+
+      expect(blinkSpy).not.toHaveBeenCalled();
+    });
   });
 
   it('renders TextareaHelper with text content', async () => {
