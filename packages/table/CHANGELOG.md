@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](/compare/@skbkontur/table@1.1.0...@skbkontur/table@1.1.1) (2026-10-13)
+
+**Note:** Version bump only for package @skbkontur/table
+
+
+
+
+
 # [1.1.0](/compare/@skbkontur/table@1.0.7...@skbkontur/table@1.1.0) (2026-10-09)
 
 

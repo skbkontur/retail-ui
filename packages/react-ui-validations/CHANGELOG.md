@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.1...@skbkontur/react-ui-validations@3.1.2) (2026-10-13)
+
+
+### Bug Fixes
+
+* **SidePage:** account for sticky header and footer when scrolling to an invalid field ([6219b12](https://github.com/skbkontur/retail-ui/commit/6219b12888b87a13cb2e9b8da4684b0459ccb71a))
+
+
+
+
+
 ## [3.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.0...@skbkontur/react-ui-validations@3.1.1) (2026-09-17)
 
 

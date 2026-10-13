@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](/compare/@skbkontur/typography@1.0.3...@skbkontur/typography@1.0.4) (2026-10-13)
+
+
+### Bug Fixes
+
+* **docs:** load Context7 widget asynchronously bee0d02
+
+
+
+
+
 ## [1.0.3](/compare/@skbkontur/typography@1.0.2...@skbkontur/typography@1.0.3) (2026-08-14)
 
 

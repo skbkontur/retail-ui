@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.2...@skbkontur/react-ui@6.4.3) (2026-10-13)
+
+
+### Bug Fixes
+
+* **FxInput:** forward hideTrailingZeros to CurrencyInput ([7080b15](https://github.com/skbkontur/retail-ui/commit/7080b1511e0e372bc86b34c20157585f89112501))
+* **SidePage:** account for sticky header and footer when scrolling to an invalid field ([6219b12](https://github.com/skbkontur/retail-ui/commit/6219b12888b87a13cb2e9b8da4684b0459ccb71a))
+
+
+
+
+
 ## [6.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.1...@skbkontur/react-ui@6.4.2) (2026-09-29)
 
 

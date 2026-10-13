@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/table",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Table",
   "author": "holkin@skbkontur.ru",
   "type": "module",
@@ -44,10 +44,10 @@
     "creevey:ui": "yarn creevey --ui"
   },
   "dependencies": {
-    "@skbkontur/colors": "^2.1.10",
+    "@skbkontur/colors": "^2.1.11",
     "@skbkontur/global-object": "^0.4.5",
     "@skbkontur/icons": "^2.0.1",
-    "@skbkontur/typography": "^1.0.1",
+    "@skbkontur/typography": "^1.0.4",
     "classnames": "^2"
   },
   "devDependencies": {
