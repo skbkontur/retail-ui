@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.3...@skbkontur/react-ui@6.4.4) (2026-10-13)
+
+
+### Bug Fixes
+
+* **Textarea:** add feedback when maxLength is exceeded ([8586ee5](https://github.com/skbkontur/retail-ui/commit/8586ee50b864dc44ebf274435d58916e0b5254da))
+
+
+
+
+
 ## [6.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.2...@skbkontur/react-ui@6.4.3) (2026-10-13)
 
 
