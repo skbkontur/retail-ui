@@ -1,5 +1,6 @@
 import { css, injectGlobal } from '@emotion/css';
 import { EmptyState } from '@skbkontur/empty-state';
+import { IconArrowCDownRegular16 } from '@skbkontur/icons/IconArrowCDownRegular16';
 import { IconArrowCRightRegular16 } from '@skbkontur/icons/IconArrowCRightRegular16';
 import { IconBookmarkRegular16 } from '@skbkontur/icons/IconBookmarkRegular16';
 import { IconBookmarkRegular20 } from '@skbkontur/icons/IconBookmarkRegular20';
@@ -8,8 +9,14 @@ import { IconCheckCircleSolid16 } from '@skbkontur/icons/IconCheckCircleSolid16'
 import { IconCheckCircleSolid20 } from '@skbkontur/icons/IconCheckCircleSolid20';
 import { IconCheckCircleSolid24 } from '@skbkontur/icons/IconCheckCircleSolid24';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
+import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
+import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
 import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
+import { IconMoneyTypeCoinsRegular24 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular24';
 import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
+import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
+import { IconNetDownloadRegular24 } from '@skbkontur/icons/IconNetDownloadRegular24';
 import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
 import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
 import { IconSendPaperplaneRegular24 } from '@skbkontur/icons/IconSendPaperplaneRegular24';
@@ -25,6 +32,7 @@ import { IconWarningTriangleSolid24 } from '@skbkontur/icons/IconWarningTriangle
 import { IconXCircleSolid16 } from '@skbkontur/icons/IconXCircleSolid16';
 import { IconXCircleSolid20 } from '@skbkontur/icons/IconXCircleSolid20';
 import { IconXCircleSolid24 } from '@skbkontur/icons/IconXCircleSolid24';
+import { IconXCircleSolid64 } from '@skbkontur/icons/IconXCircleSolid64';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 import { CurrencyInput } from '@skbkontur/react-ui/components/CurrencyInput/CurrencyInput';
@@ -101,15 +109,23 @@ addons.setConfig({
       IconXCircleSolid16,
       IconXCircleSolid20,
       IconXCircleSolid24,
+      IconXCircleSolid64,
       IconNetDownloadRegular16,
+      IconNetDownloadRegular20,
+      IconNetDownloadRegular24,
       IconTrashCanRegular16,
       IconMoneyTypeCoinsRegular16,
+      IconMoneyTypeCoinsRegular20,
+      IconMoneyTypeCoinsRegular24,
       IconSendPaperplaneRegular16,
       IconTechPrinterRegular16,
+      IconArrowCDownRegular16,
       IconArrowCRightRegular16,
       IconTechPrinterRegular20,
       IconTechPrinterRegular24,
       IconDocsPlusRegular16,
+      IconDocsPlusRegular20,
+      IconDocsPlusRegular24,
       IconTrashCanRegular20,
       IconTrashCanRegular24,
       IconSendPaperplaneRegular20,
