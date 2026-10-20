@@ -9,6 +9,7 @@ import { getRootNode, Tooltip } from './ReactUiDetection.js';
 import { getFullValidationsFlagsContext } from './utils/featureFlagsContext/FeatureFlagsHelpers.js';
 import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext/ValidationsFeatureFlagsContext.js';
 import { isStandardTooltipPosition } from './utils/tooltipPositions.js';
+import { getWin } from './utils/utils.js';
 
 export type TooltipExtendedPosition = NonNullable<TooltipProps['pos']>;
 
@@ -59,6 +60,13 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps, V
     anchorElement: null,
   };
 
+  private controlWrapper: Nullable<Element> = null;
+
+  public componentDidUpdate() {
+    // A custom control can replace its DOM root without changing the wrapper ref.
+    this.updateAnchorElement();
+  }
+
   public render(): React.JSX.Element {
     const { children, pos, error, render, ...rest } = this.props;
 
@@ -101,9 +109,16 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps, V
   }
 
   private setControlWrapper = (instance: Nullable<ReactInstance>) => {
-    const wrapper = getRootNode(instance);
+    this.controlWrapper = getRootNode(instance);
+    this.updateAnchorElement();
+  };
+
+  private updateAnchorElement = () => {
+    const wrapper = this.controlWrapper;
     const anchorElement = wrapper?.firstElementChild ?? wrapper;
-    if (anchorElement instanceof HTMLElement && anchorElement !== this.state.anchorElement) {
+    // Live examples can render controls into another window's document.
+    const HTMLElement = anchorElement && getWin(anchorElement)?.HTMLElement;
+    if (HTMLElement && anchorElement instanceof HTMLElement && anchorElement !== this.state.anchorElement) {
       this.setState({ anchorElement });
     }
   };

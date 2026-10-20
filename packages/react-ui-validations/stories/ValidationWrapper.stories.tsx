@@ -44,6 +44,35 @@ const ScrollMessage = forwardRef((_, ref) => {
   );
 });
 
+export const CustomControlsAfterSubmit = () => {
+  const containerRef = useRef<ValidationContainer>(null);
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+
+  // Deliberately remount the custom input when submit updates the parent state.
+  // The tooltip must attach to the new DOM node, not the detached input.
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const CustomInput = forwardRef<
+    HTMLInputElement,
+    React.InputHTMLAttributes<HTMLInputElement> & { error?: boolean; warning?: boolean; onValueChange?: unknown }
+  >(function CustomInput({ error, warning, onValueChange, ...props }, ref) {
+    return <input {...props} ref={ref} style={{ border: `1px solid ${error ? 'red' : '#999'}` }} />;
+  });
+
+  return (
+    <div style={{ padding: 40 }}>
+      <ValidationContainer ref={containerRef} disableSmoothScroll>
+        <ValidationWrapper validationInfo={{ type: 'submit', message: 'Ошибка' }}>
+          <CustomInput aria-label="Кастомное поле" defaultValue="error" />
+        </ValidationWrapper>
+        <div style={{ marginTop: 20 }}>
+          <Button onClick={async () => setIsValid(Boolean(await containerRef.current?.validate()))}>Submit</Button>
+          {isValid === false && <span style={{ marginLeft: 10 }}>Форма невалидна</span>}
+        </div>
+      </ValidationContainer>
+    </div>
+  );
+};
+
 export const ScrollAndFocusInIframe = () => {
   const ref = useRef<ValidationContainer>(null);
 

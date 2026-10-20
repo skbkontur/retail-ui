@@ -1,5 +1,6 @@
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { RenderEnvironmentProvider } from '@skbkontur/react-ui/lib/renderEnvironment';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 import { afterEach, vi } from 'vitest';
@@ -111,6 +112,45 @@ describe('ErrorRenderer', () => {
     fireEvent.mouseEnter(controlRoot as HTMLElement);
 
     expect(await screen.findByText('Только цифры')).toBeInTheDocument();
+  });
+
+  it.each(['hover', 'focus'] as const)('shows validation on %s for a custom control in an iframe', async (trigger) => {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const iframeDocument = iframe.contentDocument!;
+    const addEventListener = vi.spyOn(iframe.contentWindow!.Element.prototype, 'addEventListener');
+
+    const { unmount } = render(
+      <RenderEnvironmentProvider rootNode={iframeDocument.body}>
+        <ValidationWrapper validationInfo={validate()}>
+          <CustomInput />
+        </ValidationWrapper>
+      </RenderEnvironmentProvider>,
+      { container: iframeDocument.body },
+    );
+
+    try {
+      const controlRoot = iframeDocument.querySelector('label');
+      expect(controlRoot).not.toBeNull();
+      expect(controlRoot).not.toBeInstanceOf(HTMLElement);
+      for (const event of ['mouseenter', 'mouseleave', 'focusin', 'focusout']) {
+        const targets = addEventListener.mock.calls.flatMap((call, index) =>
+          call[0] === event ? [addEventListener.mock.contexts[index]] : [],
+        );
+        expect(targets.some((target) => target === controlRoot)).toBe(true);
+      }
+
+      const user = userEvent.setup({ document: iframeDocument });
+      if (trigger === 'hover') {
+        await user.hover(within(iframeDocument.body).getByRole('textbox'));
+      } else {
+        await user.tab();
+      }
+      expect(await within(iframeDocument.body).findByText('Только цифры')).toBeInTheDocument();
+    } finally {
+      unmount();
+      iframe.remove();
+    }
   });
 
   it('leaves the text renderer DOM unchanged', () => {

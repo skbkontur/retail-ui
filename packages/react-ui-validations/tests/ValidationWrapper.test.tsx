@@ -4,6 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
 
+import { CustomControls } from '../docs/Pages_NEW/Examples/CustomControls/CustomControls.docs.stories.js';
 import type { ValidationBehaviour, ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import { ThemeContext } from '../src/ReactUiDetection.js';
@@ -98,6 +99,46 @@ describe('ValidationWrapper', () => {
         </ValidationContainer>,
       );
       expect(screen.queryByText(inputValue)).toBeInTheDocument();
+    });
+  });
+
+  describe('custom controls', () => {
+    it('shows the tooltip on the current custom control after submitting the documentation example', async () => {
+      const { user } = setup(<CustomControls />);
+
+      await user.click(screen.getByRole('button', { name: 'Submit' }));
+      expect(await screen.findByText('Форма невалидна')).toBeInTheDocument();
+
+      await user.click(screen.getByText('Форма невалидна'));
+      await waitFor(() => expect(screen.queryByText('Ошибка')).not.toBeInTheDocument());
+      await user.hover(screen.getAllByRole('textbox')[0]);
+      expect(await screen.findByText('Ошибка')).toBeInTheDocument();
+    });
+
+    it.each(['hover', 'focus', 'submit'] as const)('shows validation on %s', async (trigger) => {
+      const containerRef = React.createRef<ValidationContainer>();
+      const { user } = setup(
+        <ValidationContainer ref={containerRef} disableSmoothScroll>
+          <ValidationWrapper
+            validationInfo={{ type: trigger === 'submit' ? 'submit' : 'immediate', message: 'Custom error' }}
+          >
+            <InputLike />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      const input = screen.getByRole('textbox');
+      if (trigger === 'hover') {
+        await user.hover(input);
+      } else if (trigger === 'focus') {
+        await user.tab();
+      } else {
+        act(() => {
+          void containerRef.current?.validate();
+        });
+        await waitFor(() => expect(input).toHaveFocus());
+      }
+      expect(await screen.findByText('Custom error')).toBeInTheDocument();
     });
   });
 
