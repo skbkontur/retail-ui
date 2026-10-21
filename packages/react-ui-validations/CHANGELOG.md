@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.2...@skbkontur/react-ui-validations@3.1.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* **ValidationTooltip:** support controls rendered in iframes ([960acb5](https://github.com/skbkontur/retail-ui/commit/960acb58c7acfb3f179bdce8ad8d693e5c4ded54))
+
+
+
+
+
 ## [3.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.1...@skbkontur/react-ui-validations@3.1.2) (2026-10-13)
 
 
