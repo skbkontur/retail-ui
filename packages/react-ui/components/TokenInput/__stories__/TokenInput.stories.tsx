@@ -223,6 +223,29 @@ export const Disabled = () => {
 };
 Disabled.storyName = 'disabled';
 
+export const WithDisabledTokens = () => {
+  const [initialItems] = useState<string[]>(() => getSelectedItems({ numberItems: 7 }));
+  const [selectedItems, setSelectedItems] = useState(initialItems);
+
+  return (
+    <Gapped vertical gap={10}>
+      <TokenInput
+        getItems={getItems}
+        selectedItems={selectedItems}
+        onValueChange={setSelectedItems}
+        renderToken={(item, props) => (
+          <Token key={item} {...props} disabled={props.disabled || [0, 2, 6].includes(initialItems.indexOf(item))}>
+            {item}
+          </Token>
+        )}
+      />
+    </Gapped>
+  );
+};
+
+WithDisabledTokens.storyName = 'with disabled tokens';
+WithDisabledTokens.parameters = { creevey: { skip: true } };
+
 export const CustomAddButton: Story = () => {
   return (
     <TokenInput

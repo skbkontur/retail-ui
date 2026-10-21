@@ -353,7 +353,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private tokensInputMenu: TokenInputMenu<T> | TokenInputMobileMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
-  private scrollContainerRef = React.createRef<HTMLDivElement>();
+  private scrollContainerRef = React.createRef<ScrollContainer>();
+  private scrollContainerInnerRef = React.createRef<HTMLDivElement>();
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
@@ -563,6 +564,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       <TokenView
         size={this.size}
         className={this.cx({
+          [this.styles.inputWrapperDisabled()]: !!disabled,
           // input растягивается на всю ширину чтобы placeholder не обрезался
           [this.styles.inputPlaceholderWrapper()]: Boolean(placeholder),
         })}
@@ -636,8 +638,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const container =
       maxHeight && !isMobileFooter ? (
         <ScrollContainer
+          ref={this.scrollContainerRef}
           className={this.styles.inputPlaceholderScrollWrapper()}
-          scrollRef={this.scrollContainerRef}
+          scrollRef={this.scrollContainerInnerRef}
           maxHeight={maxHeight}
           showScrollBar="always"
           style={{ width: '100%' }}
@@ -763,7 +766,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isCursorVisibleForState(state: TokenInputState<T>) {
-    return state.inFocus && (this.isInputValueChanged || state.activeTokens.length === 0);
+    return state.inFocus && (state.editingTokenIndex > -1 || state.activeTokens.length === 0);
   }
 
   private inlineInputRef = (node: HTMLTextAreaElement | null) => {
@@ -949,7 +952,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // Имитируем поведение label, когда задан maxHeight.
     if (
       this.props.maxHeight &&
-      e.target === this.scrollContainerRef.current &&
+      e.target === this.scrollContainerInnerRef.current &&
       (this.state.activeTokens.length !== 0 || !this.state.inFocus)
     ) {
       this.dispatch({ type: 'BLUR' });
@@ -1284,7 +1287,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           const index = this.getAvailableTokenIndex(this.getProps().selectedItems.length);
           const itemNew = this.getProps().selectedItems[index];
           if (itemNew) {
-            this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
+            this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] }, this.scrollToSelection);
           }
         }
         break;
@@ -1294,7 +1297,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private moveFocusToLastToken() {
     const items = this.getProps().selectedItems;
     if (this.state.inputValue === '' && items && items.length > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) });
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) }, this.scrollToSelection);
     }
   }
 
@@ -1356,33 +1359,107 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const selectedItems = this.getProps().selectedItems;
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = selectedItems.indexOf(activeTokens[0]);
+    const isRightDirection = isKeyArrowRight(e);
     const newItemIndex = this.getAvailableTokenIndex(activeItemIndex, isKeyArrowLeft(e));
-    const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
-    const isRightEdge = newItemIndex === selectedItems.length && isKeyArrowRight(e);
+    const isLeftEdge = newItemIndex === activeItemIndex && isKeyArrowLeft(e);
+    const isRightEdge = newItemIndex === selectedItems.length && isRightDirection;
+
+    if (!e.shiftKey && activeTokens.length > 1) {
+      const activeIndices = activeTokens.map((item) => selectedItems.indexOf(item));
+      const edgeIndex = isRightDirection ? Math.max(...activeIndices) : Math.min(...activeIndices);
+      const isRightEdgeOfSelection =
+        isRightDirection && this.getAvailableTokenIndex(edgeIndex, false) === selectedItems.length;
+      const nextActiveTokens = isRightEdgeOfSelection ? [] : [selectedItems[edgeIndex]];
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: nextActiveTokens }, this.scrollToSelection);
+      return;
+    }
+
     if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
-      this.handleWrapperArrowsWithShift(isLeftEdge, isRightEdge, newItemIndex);
+      this.handleWrapperArrowsWithShift(isLeftEdge, isRightEdge, isRightDirection, newItemIndex, activeItemIndex);
     }
+  };
+
+  private scrollToSelection = () => {
+    const activeItemIndex = this.getProps().selectedItems.indexOf(this.state.activeTokens[0]);
+    // TextWidthHelper is the first child; each token renders one root element.
+    const node =
+      activeItemIndex < 0
+        ? this.input
+        : (this.scrollContainerInnerRef.current?.children.item(activeItemIndex + 1) as HTMLElement | null);
+
+    this.scrollContainerRef.current?.scrollTo(node);
   };
 
   private handleWrapperArrowsWithoutShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (isRightEdge) {
-      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => this.input?.focus());
+      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, this.scrollToSelection);
     } else if (!isLeftEdge) {
-      this.dispatch({
-        type: 'SET_ACTIVE_TOKENS',
-        payload: [this.getProps().selectedItems[newItemIndex]],
-      });
+      this.dispatch(
+        {
+          type: 'SET_ACTIVE_TOKENS',
+          payload: [this.getProps().selectedItems[newItemIndex]],
+        },
+        this.scrollToSelection,
+      );
     }
   };
 
-  private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
-    if (!isLeftEdge && !isRightEdge) {
-      const itemNew = this.getProps().selectedItems[newItemIndex];
-      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !this.isEqual(item, itemNew))];
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
+  private handleWrapperArrowsWithShift = (
+    isLeftEdge: boolean,
+    isRightEdge: boolean,
+    isRightDirection: boolean,
+    newItemIndex: number,
+    activeItemIndex: number,
+  ) => {
+    const { selectedItems } = this.getProps();
+    const { activeTokens } = this.state;
+    const isActive = (item: (typeof selectedItems)[number]) =>
+      activeTokens.some((activeItem) => this.isEqual(activeItem, item));
+
+    const currentItem = selectedItems[activeItemIndex];
+    const selectionWithoutCurrentItem = () => activeTokens.filter((item) => !this.isEqual(item, currentItem));
+
+    if (isLeftEdge || isRightEdge) {
+      /** Когда стрелка упирается в край, дальше двигаться нельзя.
+       * Проверяем ближайший доступный токен в обратном направлении,
+       * пропуская disabled токены.
+         Если текущий токен выделен, а сосед не выделен или его нет,
+         снимаем выделение с текущего токена.
+         Если сосед тоже выделен, сохраняем выделение. */
+      const searchNeighborToLeft = isRightDirection;
+      const neighborIndex = this.getAvailableTokenIndex(activeItemIndex, searchNeighborToLeft);
+      const neighborItem = selectedItems[neighborIndex];
+      const hasNoNeighbor = neighborIndex === activeItemIndex;
+      const canRemoveCurrentItem = isActive(currentItem) && (hasNoNeighbor || !isActive(neighborItem));
+
+      if (canRemoveCurrentItem) {
+        this.dispatch(
+          {
+            type: 'SET_ACTIVE_TOKENS',
+            payload: selectionWithoutCurrentItem(),
+          },
+          this.scrollToSelection,
+        );
+      }
+
+      return;
     }
+
+    const targetItem = selectedItems[newItemIndex];
+    const isShrinkingSelection = isActive(targetItem);
+    const nextActiveTokens = isShrinkingSelection
+      ? selectionWithoutCurrentItem()
+      : [targetItem, ...activeTokens.filter((item) => !this.isEqual(item, targetItem))];
+
+    this.dispatch(
+      {
+        type: 'SET_ACTIVE_TOKENS',
+        payload: nextActiveTokens,
+      },
+      this.scrollToSelection,
+    );
   };
 
   private handleValueChange = (items: T[]) => {
@@ -1668,16 +1745,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const step = isDirectionLeft ? -1 : +1;
     let availableIndex = startIndex + step;
 
-    while (this.isTokenDisabled(availableIndex)) {
+    while (availableIndex >= 0 && availableIndex < selectedItems.length && this.isTokenDisabled(availableIndex)) {
       availableIndex += step;
-      if (availableIndex === selectedItems.length) {
-        return availableIndex;
-      } else if (availableIndex === -1) {
-        return startIndex;
-      }
     }
 
-    return availableIndex;
+    return availableIndex < 0 ? startIndex : availableIndex;
   };
 }
 

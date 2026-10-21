@@ -14,6 +14,7 @@ import type { LocaleContextProps } from '../../../lib/locale/index.js';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import { delay } from '../../../lib/utils.js';
 import { MenuItemDataTids } from '../../MenuItem/index.js';
+import { ScrollContainer } from '../../ScrollContainer/index.js';
 import { Token, TokenDataTids } from '../../Token/index.js';
 import { TokenInputLocaleHelper } from '../locale/index.js';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput.js';
@@ -1430,6 +1431,163 @@ describe('<TokenInput />', () => {
     fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
 
     expect(onUnexpectedInput).toHaveBeenCalledWith('zzz');
+  });
+
+  it('scrolls to the moving selection edge and back to the input', async () => {
+    const user = userEvent.setup();
+    render(<TokenInput selectedItems={['111', '222', '333', '444', '555']} getItems={getItems} maxHeight={100} />);
+    const scrollTo = vi.spyOn(ScrollContainer.prototype, 'scrollTo');
+    const container = screen.getByTestId('ScrollContainer__inner');
+    const input = screen.getByRole('textbox');
+    const tokens = screen.getAllByTestId(TokenDataTids.root);
+    vi.spyOn(container, 'offsetHeight', 'get').mockReturnValue(60);
+    tokens.forEach((token, index) => {
+      vi.spyOn(token, 'offsetTop', 'get').mockReturnValue(index * 40);
+      vi.spyOn(token, 'scrollHeight', 'get').mockReturnValue(20);
+    });
+    vi.spyOn(input, 'offsetTop', 'get').mockReturnValue(200);
+    vi.spyOn(input, 'scrollHeight', 'get').mockReturnValue(20);
+
+    await user.click(input);
+    container.scrollTop = 160;
+    await user.keyboard('{Shift>}{ArrowLeft}');
+    await user.keyboard('{ArrowLeft}');
+    expect(scrollTo).toHaveBeenLastCalledWith(tokens[3]);
+    expect(container.scrollTop).toBe(120);
+    await user.keyboard('{ArrowLeft}{ArrowLeft}');
+    expect(scrollTo).toHaveBeenLastCalledWith(tokens[1]);
+    expect(container.scrollTop).toBe(40);
+    await user.keyboard('{ArrowRight}');
+    expect(scrollTo).toHaveBeenLastCalledWith(tokens[2]);
+    expect(container.scrollTop).toBe(40);
+    await user.keyboard('{ArrowRight}');
+    expect(scrollTo).toHaveBeenLastCalledWith(tokens[3]);
+    expect(container.scrollTop).toBe(80);
+    await user.keyboard('{ArrowRight}');
+    expect(scrollTo).toHaveBeenLastCalledWith(tokens[4]);
+    expect(container.scrollTop).toBe(120);
+    await user.keyboard('{/Shift}{ArrowRight}');
+    expect(input).toHaveFocus();
+    expect(scrollTo).toHaveBeenLastCalledWith(input);
+    expect(container.scrollTop).toBe(160);
+    scrollTo.mockRestore();
+  });
+
+  it.each(['{ArrowLeft}', '{Backspace}'])('scrolls to the token selected from the input with %s', async (key) => {
+    const user = userEvent.setup();
+    const ref = React.createRef<TokenInput>();
+    render(<TokenInput ref={ref} selectedItems={['111', '222', '333']} getItems={getItems} maxHeight={100} />);
+    const scrollTo = vi.spyOn(ScrollContainer.prototype, 'scrollTo');
+    const input = screen.getByRole('textbox');
+    const tokens = screen.getAllByTestId(TokenDataTids.root);
+
+    try {
+      await user.click(input);
+      scrollTo.mockClear();
+      await user.keyboard(key);
+
+      expect(ref.current?.state.activeTokens).toEqual(['333']);
+      expect(scrollTo).toHaveBeenCalledWith(tokens[2]);
+    } finally {
+      scrollTo.mockRestore();
+    }
+  });
+
+  it('does select and deselect upon shift selection with arrows', async () => {
+    const user = userEvent.setup();
+    const ref = React.createRef<TokenInput>();
+    render(<TokenInput ref={ref} selectedItems={['111', '222', '333']} getItems={getItems} />);
+
+    act(() => {
+      ref.current?.focus();
+    });
+
+    const expectActiveTokens = (activeItems: string[]) => {
+      expect(ref.current?.state.activeTokens).toEqual(activeItems);
+    };
+
+    expectActiveTokens([]);
+
+    await user.keyboard('{Shift>}{ArrowLeft}');
+    expectActiveTokens(['333']);
+
+    await user.keyboard('{ArrowLeft}');
+    expectActiveTokens(['222', '333']);
+
+    await user.keyboard('{ArrowLeft}');
+    expectActiveTokens(['111', '222', '333']);
+
+    await user.keyboard('{ArrowRight}');
+    expectActiveTokens(['222', '333']);
+
+    await user.keyboard('{ArrowRight}');
+    expectActiveTokens(['333']);
+
+    await user.keyboard('{ArrowRight}{/Shift}');
+    expectActiveTokens([]);
+
+    await user.keyboard('{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
+    expectActiveTokens(['222', '333']);
+    await user.keyboard('{ArrowLeft}');
+    expectActiveTokens(['222']);
+
+    await user.click(screen.getByRole('textbox'));
+    await user.keyboard('{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}{ArrowRight}');
+    expectActiveTokens([]);
+  });
+
+  it('shrinks selection across disabled tokens in both directions and handles disabled edges', async () => {
+    const user = userEvent.setup();
+    const ref = React.createRef<TokenInput>();
+    const items = ['0', '1', '2', '3', '4', '5', '6'];
+    render(
+      <TokenInput
+        ref={ref}
+        getItems={getItems}
+        selectedItems={items}
+        maxHeight={100}
+        renderToken={(item, props, index) => (
+          <Token key={item} {...props} disabled={[0, 2, 6].includes(index)}>
+            {item}
+          </Token>
+        )}
+      />,
+    );
+    act(() => ref.current?.focus());
+    const expectSelection = (indices: number[]) => {
+      expect(ref.current?.state.activeTokens).toEqual(indices.map((index) => items[index]));
+    };
+
+    await user.keyboard('{Shift>}{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}');
+    expectSelection([1, 3, 4, 5]);
+    await user.keyboard('{ArrowLeft}');
+    expectSelection([1, 3, 4, 5]);
+    await user.keyboard('{ArrowRight}');
+    expectSelection([3, 4, 5]);
+    await user.keyboard('{ArrowLeft}');
+    expectSelection([1, 3, 4, 5]);
+    await user.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
+    expectSelection([5]);
+    await user.keyboard('{ArrowRight}{/Shift}');
+    expectSelection([]);
+
+    await user.click(screen.getByText('1'));
+    await user.keyboard('{Shift>}{ArrowRight}{ArrowLeft}');
+    expectSelection([1]);
+    await user.keyboard('{ArrowLeft}{/Shift}');
+    expectSelection([]);
+
+    const scrollTo = vi.spyOn(ScrollContainer.prototype, 'scrollTo');
+    try {
+      await user.click(screen.getByRole('textbox'));
+      await user.keyboard('{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
+      expectSelection([4, 5]);
+      await user.keyboard('{ArrowRight}');
+      expectSelection([]);
+      expect(scrollTo).toHaveBeenLastCalledWith(screen.getByRole('textbox'));
+    } finally {
+      scrollTo.mockRestore();
+    }
   });
 });
 

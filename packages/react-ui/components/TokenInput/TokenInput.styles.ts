@@ -153,6 +153,15 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  inputWrapperDisabled() {
+    return css`
+      &,
+      &:hover {
+        cursor: default;
+      }
+    `;
+  },
+
   inputPlaceholderWrapper() {
     return css`
       flex: 1 1 100%;
