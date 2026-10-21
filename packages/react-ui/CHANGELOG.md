@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.4...@skbkontur/react-ui@6.4.5) (2026-10-21)
+
+
+### Bug Fixes
+
+* **TokenInput:** deselect tokens upon shift selection ([c830f52](https://github.com/skbkontur/retail-ui/commit/c830f52cc691e7e1c63bcfbcff3bd4819b1d157b))
+
+
+
+
+
 ## [6.4.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.3...@skbkontur/react-ui@6.4.4) (2026-10-13)
 
 
