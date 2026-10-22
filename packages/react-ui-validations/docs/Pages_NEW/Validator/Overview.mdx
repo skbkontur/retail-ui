@@ -1,0 +1,22 @@
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Story } from '@storybook/blocks';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
+
+<Meta title="Validator/Overview" />
+
+# Обзор Validator
+
+Контракт формы может состоять из множества полей, включая вложенные объекты и массивы. При этом одно поле может проверяться сразу по нескольким правилам, а некоторые проверки зависят от значений других полей. Из-за этого код проверки может стать запутанным и сложным для дальнейшей поддержки.
+
+`Validator` позволяет описать все правила проверки прямо в модели данных. Он сам следит за тем, чтобы проверки выполнялись в правильной последовательности. Такой подход делает код наглядным и типизированным.
+
+В этом разделе описаны основные возможности и варианты использования валидатора:
+
+- [Валидация объектов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-objects--docs) — как описывать проверки для полей объекта, включая простые и вложенные структуры.
+- [Валидация массивов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-arrays--docs) — как проверять элементы массивов, как примитивных типов, так и объектов.
+- [Зависимые валидации](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-dependent--docs) — как правила зависят от других полей и всей модели данных.
+- [Независимые валидации](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-independent--docs) — как настроить валидации, чтобы они не вызывались другими полями, например, при потере фокуса.
+- [Переиспользуемые валидации](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-reusable--docs) - как выделить самостоятельную функцию для повторяющиюхся одинаковых валидаций.
+- [Отсутствующие узлы](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_validator-missing-nodes--docs) — как валидатор обрабатывает отсутствующие или не отрисованные в интерфейсе поля.
+
+Каждая статья содержит описание подхода, примеры кода и интерактивные демонстрации.

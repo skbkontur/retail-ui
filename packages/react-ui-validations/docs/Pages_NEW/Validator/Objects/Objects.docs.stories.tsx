@@ -64,7 +64,7 @@ export const FlatObject: Story = () => {
 
         <Form.ActionsBar>
           <Button use={'primary'} onClick={handleSubmit}>
-            Submit
+            Отправить
           </Button>
         </Form.ActionsBar>
       </Form>
@@ -165,7 +165,7 @@ export const NestedObject: Story = () => {
 
         <Form.ActionsBar>
           <Button use={'primary'} onClick={handleSubmit}>
-            Submit
+            Отправить
           </Button>
         </Form.ActionsBar>
       </Form>
@@ -200,7 +200,7 @@ export const PrimitiveType: Story = () => {
 
         <Form.ActionsBar>
           <Button use={'primary'} onClick={handleSubmit}>
-            Submit
+            Отправить
           </Button>
         </Form.ActionsBar>
       </Form>

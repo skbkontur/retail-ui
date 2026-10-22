@@ -111,7 +111,7 @@ export const MissingObjectNode: Story = () => {
 
         <Form.ActionsBar>
           <Button use={'primary'} onClick={handleSubmit}>
-            Submit
+            Отправить
           </Button>
         </Form.ActionsBar>
       </Form>
@@ -213,7 +213,7 @@ export const MissingUiNode: Story = () => {
 
         <Form.ActionsBar>
           <Button use={'primary'} onClick={handleSubmit}>
-            Submit
+            Отправить
           </Button>
         </Form.ActionsBar>
       </Form>

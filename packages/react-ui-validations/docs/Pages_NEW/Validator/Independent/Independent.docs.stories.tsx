@@ -22,35 +22,6 @@ export const LostfocusIndependent: Story = () => {
 
   function validate(value: string): Nullable<ValidationInfo> {
     if (!value) {
-      return { message: 'Не должно быть пустым', type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="Имя">
-          <ValidationWrapper validationInfo={validate(name)} renderMessage={text('right')}>
-            <Input placeholder={'Иван'} value={name} onValueChange={setName} />
-          </ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="Фамилия">
-          <ValidationWrapper validationInfo={validate(lastname)} renderMessage={text('right')}>
-            <Input placeholder={'Иванов'} value={lastname} onValueChange={setLastname} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
-    </ValidationContainer>
-  );
-};
-
-export const LostfocusDependent: Story = () => {
-  const [name, setName] = React.useState<string>('');
-  const [lastname, setLastname] = React.useState<string>('');
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    if (!value) {
       return { message: 'Не должно быть пустым', type: 'lostfocus', independent: true };
     }
 
@@ -194,7 +165,7 @@ export const Mixture: Story = () => {
         <Form.Line title="">
           <Gapped>
             <Button use="primary" onClick={handleSubmit}>
-              Submit
+              Отправить
             </Button>
             <Button use="pay" onClick={handleReset}>
               Очистить
