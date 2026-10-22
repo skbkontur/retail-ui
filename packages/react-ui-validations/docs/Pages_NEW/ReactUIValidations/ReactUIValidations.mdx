@@ -1,0 +1,77 @@
+import { Story } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '../../../.storybook-docs/Meta.js';
+import { Header } from '../../../.storybook-docs/Header.js';
+import * as DocsStories from './ReactUIValidations.docs.stories';
+
+<Meta of={DocsStories} />
+
+<Header
+  title="React UI Validations"
+  packageName="react-ui-validations"
+  guides="https://guides.kontur.ru/principles/data/validation/"
+/>
+
+Библиотека для валидаций форм и отображения ошибок в React-приложениях по правилам [Контур.Гайдов](https://guides.kontur.ru/principles/data/validation/).
+
+- Валидация при потере фокуса и при отправке формы
+- Ошибки и предупреждения, сообщения в тултипе или текстом
+- <Link onClick={linkTo('ValidationContainer', 'Docs')}>Прокрутка</Link> к первой ошибке и автофокус при отправке формы
+- Декларативные правила для объектов и массивов через <Link onClick={linkTo('createValidator', 'Docs')}><code>createValidator</code></Link>
+- Работает со всеми контролами React UI и с <Link onClick={linkTo('Custom Controls', 'Docs')}>собственными компонентами</Link>
+
+<Story of={DocsStories.ExampleSimple} />
+
+## Установка и использование
+
+```bash
+npm i @skbkontur/react-ui-validations
+```
+
+Импорт в проект:
+
+```tsx
+import { ValidationContainer, ValidationWrapper, createValidator } from '@skbkontur/react-ui-validations';
+```
+
+## Как устроена валидация
+
+Валидация собирается из четырёх частей:
+
+- Компонент <Link onClick={linkTo('ValidationContainer', 'Docs')}><code>ValidationContainer</code></Link> оборачивает всю форму. Проверяет её при отправке, прокручивает к первой ошибке и ставит на неё фокус.
+- Компонент <Link onClick={linkTo('ValidationWrapper', 'Docs')}><code>ValidationWrapper</code></Link> оборачивает один контрол и подсвечивает его.
+- Проп <Link onClick={linkTo('ValidationInfo', 'Docs')}><code>validationInfo</code></Link> — результат проверки поля: `null`, если всё в порядке, или объект с сообщением, типом и уровнем.
+- Проп <Link onClick={linkTo('renderMessage', 'Docs')}><code>renderMessage</code></Link> задаёт, как показать сообщение: в тултипе, текстом или своей вёрсткой.
+
+Вы проверяете значение и передаёте результат в `validationInfo`. Когда показать и когда спрятать ошибку, обёртка решает сама по правилам Гайдов — в зависимости от `type`: при потере фокуса (`lostfocus`), при отправке (`submit`) или сразу (`immediate`).
+
+```jsx static
+const container = React.useRef(null);
+
+<ValidationContainer ref={container}>
+  <ValidationWrapper validationInfo={name ? null : { message: 'Укажите название', type: 'submit' }}>
+    <Input value={name} onValueChange={setName} />
+  </ValidationWrapper>
+  <Button onClick={() => container.current.submit()}>Отправить</Button>
+</ValidationContainer>;
+```
+
+Для формы из многих полей правила удобнее описать одной функцией через <Link onClick={linkTo('createValidator', 'Docs')}><code>createValidator</code></Link>: она работает с объектами, массивами и зависимыми полями и возвращает `ValidationInfo` для каждого поля.
+
+## Пример формы
+
+Пример из [Контур.Гайда](https://guides.kontur.ru/principles/data/validation/#Primer): обязательные поля, проверка ИНН и КПП и зависимость КПП от длины ИНН.
+
+Все контролы React UI с валидацией собраны на отдельной странице <Link onClick={linkTo('Showcase', 'Docs')}>Showcase</Link>.
+
+<Story of={DocsStories.ExampleBasic} />
+
+## Валидация в компонентах React UI
+
+Примеры валидации для конкретных контролов есть на их страницах в React UI, например:
+
+- [Autocomplete](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-autocomplete--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F)
+- [Checkbox](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-checkbox--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F)
+- [ComboBox](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-combobox--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F)
+- [RadioGroup](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs#%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%B0%D1%86%D0%B8%D1%8F)

@@ -1,0 +1,352 @@
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Story } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+import * as DocsStories from './Validators.docs.stories';
+
+<Meta of={DocsStories} />
+
+# CreateValidator
+
+```jsx
+import { createValidator } from '@skbkontur/react-ui-validations';
+```
+
+Когда в форме много полей, вложенные объекты и массивы, а одно поле проверяется сразу по нескольким правилам, код проверок быстро становится запутанным. `createValidator` помогает описать все правила в одном месте — прямо по структуре модели данных. Валидатор сам применяет правила в правильном порядке, а код остаётся типизированным.
+
+```tsx static
+import { createValidator } from '@skbkontur/react-ui-validations';
+
+const validate = createValidator<ContactInfo>((b) => {
+  b.prop(
+    (x) => x.email,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите почту', 'submit');
+      b.invalid((x) => !x.includes('@'), 'Неверный формат почты');
+    },
+  );
+});
+
+const validation = validate(contactInfo);
+
+<ValidationWrapper validationInfo={validation.getNode((x) => x.email).get()}>
+  <Input value={contactInfo.email} />
+</ValidationWrapper>;
+```
+
+## Как устроен валидатор
+
+`createValidator<T>(rules)` возвращает функцию `validate`. Она принимает значение типа `T` и возвращает дерево валидаций с той же структурой, что и модель.
+
+Правила описываются через билдер `b`:
+
+- `b.prop(path, rules)` — перейти к полю объекта;
+- `b.array(path, rules)` — перейти к массиву и применить правила к каждому элементу;
+- `b.invalid(isInvalid, message, type?, level?, independent?)` — добавить правило. Если `isInvalid` вернул `true`, поле получает ошибку.
+
+Правил на одно поле может быть несколько. Они проверяются по порядку до первой сработавшей ошибки, поэтому сначала проверяйте заполненность, а потом формат.
+
+Вместо отдельных аргументов в `invalid` можно передать готовый объект <Link onClick={linkTo('ValidationInfo', 'Docs')}><code>ValidationInfo</code></Link>:
+
+```tsx static
+b.invalid((x) => !x, { message: 'Укажите имя', type: 'submit', independent: true });
+```
+
+Результат читается из дерева:
+
+- `getNode(path)` — перейти к узлу;
+- `getNodeByIndex(index)` — перейти к элементу массива;
+- `get()` — получить `ValidationInfo` узла или `null`, если ошибок нет.
+
+## Объекты
+
+### Плоский объект
+
+Базовый случай — объект с простыми полями, например, контакт с именем и почтой.
+
+```tsx static
+interface ContactInfo {
+  name: string;
+  email: string;
+}
+
+const validate = createValidator<ContactInfo>((b) => {
+  b.prop(
+    (x) => x.name,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите имя', 'submit');
+    },
+  );
+  b.prop(
+    (x) => x.email,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите почту', 'submit');
+      b.invalid((x) => !x.includes('@'), 'Неверный формат почты');
+    },
+  );
+});
+
+const validation = validate(contactInfo);
+const nameValidationInfo = validation.getNode((x) => x.name).get();
+```
+
+<Story of={DocsStories.ExampleFlatObject} />
+
+### Вложенный объект
+
+Если в объекте есть другие объекты, вложите `b.prop` друг в друга.
+
+```tsx static
+interface ContactInfo {
+  fullName: { name: string; surname: string };
+  email: string;
+}
+
+const validate = createValidator<ContactInfo>((b) => {
+  b.prop(
+    (x) => x.fullName,
+    (b) => {
+      b.prop(
+        (x) => x.name,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите имя', 'submit');
+        },
+      );
+      b.prop(
+        (x) => x.surname,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите фамилию', 'submit');
+        },
+      );
+    },
+  );
+});
+```
+
+До вложенного поля можно дойти по цепочке или сразу по полному пути — результат одинаковый:
+
+```tsx static
+validation
+  .getNode((x) => x.fullName)
+  .getNode((x) => x.name)
+  .get();
+validation.getNode((x) => x.fullName.name).get();
+```
+
+<Story of={DocsStories.ExampleNestedObject} />
+
+### Примитивное значение
+
+Валидатор можно создать и для строки или числа. Тогда правила задаются прямо на корне, без `prop`, а результат читается через `validation.get()`.
+
+```tsx static
+const validateEmail = createValidator<string>((b) => {
+  b.invalid((x) => !x, 'Укажите почту', 'submit');
+  b.invalid((x) => !x.includes('@'), 'Неверный формат почты');
+});
+
+const validationInfo = validateEmail(email).get();
+```
+
+<Story of={DocsStories.ExamplePrimitiveType} />
+
+## Массивы
+
+### Массив значений
+
+`b.array` применяет правила к каждому элементу массива. Путь `x => x` означает, что массив — сам корень модели.
+
+```tsx static
+const validate = createValidator<string[]>((b) => {
+  b.array(
+    (x) => x,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите почту', 'submit');
+      b.invalid((x) => !x.includes('@'), 'Неверный формат почты');
+    },
+  );
+});
+```
+
+Результат для элемента читается по индексу через `getNodeByIndex`:
+
+```tsx static
+const validation = validate(emails);
+
+emails.map((email, index) => (
+  <ValidationWrapper key={index} validationInfo={validation.getNodeByIndex(index).get()}>
+    <Input value={email} />
+  </ValidationWrapper>
+));
+```
+
+В `getNode` индекс тоже можно указать, но только числом прямо в пути: `getNode((x) => x[0])`. Переменные и замыкания в пути не поддерживаются, поэтому `getNode((x) => x[index])` не сработает. В циклах всегда используйте `getNodeByIndex`.
+
+<Story of={DocsStories.ExamplePrimitiveTypeArray} />
+
+### Массив объектов
+
+Если элементы — объекты, внутри `b.array` переходите к их полям через `b.prop`.
+
+```tsx static
+const validate = createValidator<ContactInfo[]>((b) => {
+  b.array(
+    (x) => x,
+    (b) => {
+      b.prop(
+        (x) => x.name,
+        (b) => {
+          /* ... */
+        },
+      );
+      b.prop(
+        (x) => x.email,
+        (b) => {
+          /* ... */
+        },
+      );
+    },
+  );
+});
+
+validation
+  .getNodeByIndex(0)
+  .getNode((x) => x.email)
+  .get();
+```
+
+<Story of={DocsStories.ExampleObjectArray} />
+
+### Массив внутри объекта
+
+Если массив лежит в поле объекта, укажите путь до него прямо в `b.array`. Чтобы проверить и сам массив, например, что он не пустой, оберните `b.array` в `b.prop`:
+
+```tsx static
+const validate = createValidator<{ items: string[] }>((b) => {
+  b.prop(
+    (x) => x.items,
+    (b) => {
+      b.invalid((x) => x.length === 0, 'Добавьте хотя бы один элемент', 'submit');
+      b.array(
+        (x) => x,
+        (b) => {
+          /* правила для каждого элемента */
+        },
+      );
+    },
+  );
+});
+```
+
+### Пример: проверка дублей
+
+У каждого элемента три правила: заполненность при отправке, формат при потере фокуса и отсутствие дублей среди других элементов. Для проверки дублей используются аргументы колбэка `b.array` — о них в следующем разделе.
+
+<Story of={DocsStories.ExampleArrayDuplicates} />
+
+## Зависимые правила
+
+Правило может зависеть от других полей модели. Для этого колбэк `createValidator` получает вторым аргументом всю модель — `root`:
+
+```tsx static
+interface Data {
+  onlyDigits: boolean;
+  value: string;
+}
+
+const validate = createValidator<Data>((b, root) => {
+  b.prop(
+    (x) => x.value,
+    (b) => {
+      b.invalid((x) => root.onlyDigits && !/^\d*$/.test(x), 'Только цифры');
+    },
+  );
+});
+```
+
+Ошибки нарушения зависимости между полями, например, ИНН из 10 цифр и пустой КПП, по [Гайдам](https://guides.kontur.ru/principles/data/validation/#Validatsiya_zavisimih_polei) показывают после отправки формы — задавайте таким правилам тип `submit`. Ошибку формата в одном из зависимых полей показывайте при потере фокуса.
+
+<Story of={DocsStories.ExampleDependent} />
+
+### Значение узла и индекс элемента
+
+Значение текущего узла тоже доступно — вторым аргументом колбэка `b.prop`. В `b.array` колбэк дополнительно получает индекс элемента и весь массив. Эти значения можно использовать в условии, в тексте сообщения и при выборе типа валидации.
+
+```tsx static
+b.prop(
+  (x) => x.age,
+  (b, age) => {
+    b.invalid((x) => x < 18, `Нужно 18 лет, указано ${age}`);
+  },
+);
+
+b.array(
+  (x) => x.items,
+  (b, item, index, items) => {
+    b.invalid((x) => items.indexOf(x) !== index, 'Такое значение уже есть');
+  },
+);
+```
+
+## Независимые правила
+
+По умолчанию потеря фокуса любым полем перепроверяет все поля формы с типом `lostfocus`. Чтобы поле проверялось только при потере собственного фокуса, сделайте правило независимым — передайте `independent: true`.
+
+Пустоту при потере фокуса не проверяйте ни в зависимых, ни в независимых правилах: по [Гайдам](https://guides.kontur.ru/principles/data/validation/#Validatsiya_pri_potere_fokusa) ошибку незаполненного поля показывают только после отправки формы.
+
+```tsx static
+b.invalid((x) => x.length < 2, 'Минимум 2 символа', 'lostfocus', 'error', true);
+// или
+b.invalid((x) => x.length < 2, { message: 'Минимум 2 символа', type: 'lostfocus', independent: true });
+```
+
+Независимое поле не подсвечивается, когда фокус теряют другие поля, и само не запускает их проверку.
+
+<Story of={DocsStories.ExampleIndependent} />
+
+В одной форме можно смешивать зависимые и независимые правила. Попробуйте по очереди заполнять поля ниже:
+
+<Story of={DocsStories.ExampleMixture} />
+
+## Отсутствующие узлы
+
+### null в модели
+
+Если вместо вложенного объекта в модели лежит `null`, правила для его полей просто не выполняются — дополнительные проверки на `null` писать не нужно. `get()` для таких полей вернёт `null`.
+
+```tsx static
+interface Data {
+  contact: { name: string } | null;
+}
+
+const validate = createValidator<Data>((b) => {
+  b.prop(
+    (x) => x.contact,
+    (b) => {
+      b.invalid((x) => !x, 'Добавьте контакт', 'submit');
+      b.prop(
+        (x) => x.name,
+        (b) => {
+          /* не выполнится, пока contact === null */
+        },
+      );
+    },
+  );
+});
+
+validate({ contact: null })
+  .getNode((x) => x.contact.name)
+  .get(); // null
+```
+
+При этом на сам узел, в котором лежит `null`, правила добавить можно — как `'Добавьте контакт'` в примере выше.
+
+<Story of={DocsStories.ExampleMissingObjectNode} />
+
+### Поле не отрисовано
+
+Контейнер <Link onClick={linkTo('ValidationContainer', 'Docs')}><code>ValidationContainer</code></Link> проверяет только отрисованные <Link onClick={linkTo('ValidationWrapper', 'Docs')}><code>ValidationWrapper</code></Link>. Если поле скрыто, его ошибка не влияет на результат `validate()`, даже если валидатор её вернул.
+
+Поэтому в правилах не нужно повторять условия, при которых поле показывается в интерфейсе: валидируйте модель целиком, а форма учтёт только видимые поля. В примере ниже правила для имени и почты считаются всегда, но пока поля скрыты, форма валидна.
+
+<Story of={DocsStories.ExampleMissingUiNode} />

@@ -1,5 +1,6 @@
 import { IconHandThumbDownRegular16 } from '@skbkontur/icons/IconHandThumbDownRegular16';
 import { IconHandThumbUpRegular16 } from '@skbkontur/icons/IconHandThumbUpRegular16';
+import { IconWarningCircleRegular16 } from '@skbkontur/icons/IconWarningCircleRegular16';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
@@ -9,7 +10,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as ReactUI from '../../react-ui/index.js';
-import { Form } from '../docs/Common/Form.js';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';
 import * as Validations from '../index.js';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -34,13 +34,15 @@ const preview: Preview = {
       storySort: {
         method: 'alphabetical',
         order: [
-          'Getting started',
+          'React UI Validations',
           'Showcase',
           'ValidationContainer',
           'ValidationWrapper',
-          'Validator',
-          ['Overview', 'Objects', 'Arrays', 'Dependent', 'Independent', 'Missing nodes'],
-          'Custom Component Integration',
+          'ValidationInfo',
+          'RenderMessage',
+          'CreateValidator',
+          'Custom controls',
+          'Changelog',
           'Feature flags',
         ],
       },
@@ -66,11 +68,11 @@ addons.setConfig({
     scope: {
       ...Validations,
       ...ReactUI,
-      Form,
       isNonNullable,
       styled,
       IconHandThumbDownRegular16,
       IconHandThumbUpRegular16,
+      IconWarningCircleRegular16,
       SpaceFiller,
       FeatureFlagToggle,
     },

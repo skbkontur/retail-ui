@@ -1,54 +1,62 @@
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
 import React from 'react';
 
-import { ValidationContainer, ValidationWrapper, createValidator } from '../../../index.js';
+import { ValidationContainer, ValidationWrapper, createValidator, text } from '../../../index.js';
+import type { ValidationInfo } from '../../../index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import { Form } from '../../Common/Form.js';
+import type { Nullable } from '../../../typings/Types.js';
 
 const meta: Meta = {
-  title: 'Getting started',
+  title: 'React UI Validations',
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ConditionalValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
-  const validationInfo = !/^\d*$/.test(value) ? { message: 'Только цифры' } : null;
+export const ExampleSimple: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [email, setEmail] = React.useState('');
+  const [isSent, setIsSent] = React.useState(false);
+
+  function validateEmail(value: string): Nullable<ValidationInfo> {
+    if (!value) {
+      return { message: 'Укажите почту', type: 'submit' };
+    }
+    if (!value.includes('@')) {
+      return { message: 'Неверный формат почты' };
+    }
+    return null;
+  }
+
+  async function handleSubmit() {
+    setIsSent(Boolean(await container.current?.validate()));
+  }
 
   return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="Номер">
-          <ValidationWrapper validationInfo={validationInfo}>
-            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
+    <ValidationContainer ref={container}>
+      <Gapped style={{ marginBottom: 8 }}>
+        <ValidationWrapper validationInfo={validateEmail(email)} renderMessage={text('bottom')}>
+          <Input
+            placeholder="name@example.ru"
+            value={email}
+            onValueChange={(value) => {
+              setEmail(value);
+              setIsSent(false);
+            }}
+          />
+        </ValidationWrapper>
+        <Button use="outline" onClick={handleSubmit}>
+          Подписаться
+        </Button>
+        {isSent && <>Выполнено</>}
+      </Gapped>
     </ValidationContainer>
   );
 };
-
-export const StaticValidation: Story = () => {
-  return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="Поле">
-          <ValidationWrapper validationInfo={{ message: <b>Ошибка</b>, type: 'immediate' }}>
-            <Input value={'с ошибкой'} />
-          </ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="Поле">
-          <ValidationWrapper validationInfo={null}>
-            <Input value={'без ошибки'} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
-    </ValidationContainer>
-  );
-};
+ExampleSimple.storyName = 'Простой пример';
 
 export const ExampleBasic: Story = () => {
   interface Organization {
@@ -190,12 +198,13 @@ export const ExampleBasic: Story = () => {
   });
 
   const container = React.useRef<ValidationContainer>(null);
+  // Состояние как в примере из Гайдов: название пропущено, ИНН из 10 цифр без КПП, почта и телефон с ошибкой
   const [organization, setOrganization] = React.useState<Organization>({
     name: '',
-    inn: '',
+    inn: '6663003127',
     kpp: '',
-    email: '',
-    phone: '',
+    email: 'info.kontur.ru',
+    phone: '+7 912 345',
   });
 
   function handleChange(organization: Partial<Organization>): void {
@@ -211,34 +220,39 @@ export const ExampleBasic: Story = () => {
   const validationInfo = validate(organization);
   return (
     <ValidationContainer ref={container}>
-      <Form>
-        <Form.Line title="Название организации">
+      <div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+          <div style={{ width: 160, textAlign: 'right' }}>Название организации</div>
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.name).get()}>
             <Input value={organization.name} onValueChange={(value) => handleChange({ name: value })} />
           </ValidationWrapper>
-        </Form.Line>
+        </div>
 
-        <Form.Line title="ИНН">
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+          <div style={{ width: 160, textAlign: 'right' }}>ИНН</div>
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.inn).get()}>
             <Input value={organization.inn} onValueChange={(value) => handleChange({ inn: value })} />
           </ValidationWrapper>
-        </Form.Line>
+        </div>
 
-        <Form.Line title="КПП">
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+          <div style={{ width: 160, textAlign: 'right' }}>КПП</div>
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.kpp).get()}>
             <Input value={organization.kpp} onValueChange={(value) => handleChange({ kpp: value })} />
           </ValidationWrapper>
-        </Form.Line>
+        </div>
 
-        <Form.LineBreak />
+        <div style={{ height: 20 }} />
 
-        <Form.Line title="Электронная почта">
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+          <div style={{ width: 160, textAlign: 'right' }}>Электронная почта</div>
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.email).get()}>
             <Input value={organization.email} onValueChange={(value) => handleChange({ email: value })} />
           </ValidationWrapper>
-        </Form.Line>
+        </div>
 
-        <Form.Line title="Телефон">
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+          <div style={{ width: 160, textAlign: 'right' }}>Телефон</div>
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.phone).get()}>
             <MaskedInput
               mask={'+7 999 999-99-99'}
@@ -246,14 +260,15 @@ export const ExampleBasic: Story = () => {
               onValueChange={(value) => handleChange({ phone: value })}
             />
           </ValidationWrapper>
-        </Form.Line>
+        </div>
 
-        <Form.ActionsBar>
-          <Button use={'primary'} onClick={handleSubmit}>
+        <div style={{ marginTop: 12, paddingLeft: 172 }}>
+          <Button use="accent" onClick={handleSubmit}>
             Отправить
           </Button>
-        </Form.ActionsBar>
-      </Form>
+        </div>
+      </div>
     </ValidationContainer>
   );
 };
+ExampleBasic.storyName = 'Форма организации';
