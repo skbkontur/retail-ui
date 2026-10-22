@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import * as ReactUI from '../../react-ui/index.js';
 import { Form } from '../docs/Common/Form.js';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';
-import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations.js';
 import * as Validations from '../index.js';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
@@ -35,22 +34,14 @@ const preview: Preview = {
       storySort: {
         method: 'alphabetical',
         order: [
-          'API reference',
-          'Displaying',
-          [
-            'Getting started',
-            'Validation type',
-            'Validation level',
-            'Error messages',
-            'Form validity',
-            'Scroll to validation',
-          ],
+          'Getting started',
+          'Showcase',
+          'ValidationContainer',
+          'ValidationWrapper',
           'Validator',
-          ['Objects', 'Arrays', 'Dependent', 'Independent', 'Reusable', 'Missing nodes'],
-          'Examples',
-          ['Guides example', 'Array example', 'Editors', 'Custom controls'],
-          'Concepts',
-          ['Inline validations'],
+          ['Overview', 'Objects', 'Arrays', 'Dependent', 'Independent', 'Missing nodes'],
+          'Custom Component Integration',
+          'Feature flags',
         ],
       },
     },
@@ -75,7 +66,6 @@ addons.setConfig({
     scope: {
       ...Validations,
       ...ReactUI,
-      ...ControlsWithValidations,
       Form,
       isNonNullable,
       styled,
