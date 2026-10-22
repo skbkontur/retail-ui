@@ -1,12 +1,10 @@
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import React from 'react';
 
-import { tooltip } from '../../../../src/ErrorRenderer.js';
-import { ValidationsFeatureFlagsContext } from '../../../../src/utils/featureFlagsContext/ValidationsFeatureFlagsContext.js';
-import { ValidationContainer } from '../../../../src/ValidationContainer.js';
-import { ValidationWrapper, type ValidationInfo } from '../../../../src/ValidationWrapper.js';
-import type { Meta, Story } from '../../../../typings/stories.js';
-import type { Nullable } from '../../../../typings/Types.js';
+import { ValidationContainer, ValidationWrapper, ValidationsFeatureFlagsContext, tooltip } from '../../../index.js';
+import type { ValidationInfo } from '../../../index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { Nullable } from '../../../typings/Types.js';
 
 const meta: Meta = {
   title: 'Information/Feature flags',

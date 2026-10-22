@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Story } from '@storybook/blocks';
+import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
+
+<Meta title="Feature flags" />
+
+# Feature flags
+
+Фича-флаги позволяют заранее применять будущие **breaking changes** (ломающие изменения), не дожидаясь выхода очередного мажорного релиза библиотеки.
+
+При выходе новой мажорной версии, например, `2.x.x` → `3.x.x`, новое поведение станет применяться по умолчанию, а сами фича-флаги будут удалены из библиотеки.
+
+## Как подключить фича-флаги
+
+Чтобы включить нужную доработку или исправление, нужно указать фича-флаги в `<ValidationsFeatureFlagsContext.Provider>`.
+
+Механизм работы простой: новая функциональность применяется, только если соответствующий флаг передан со значением `true`. Если флаг не передан или равен `false`, используется старое (текущее) поведение.
+
+```jsx static
+import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+<ValidationsFeatureFlagsContext.Provider value={{ flagName: true }}>
+  {/* ... */}
+</ValidationsFeatureFlagsContext.Provider>;
+```
+
+## Доступные фича-флаги
+
+### validationTooltipExtendedPositions
+
+Этот флаг разрешает использовать в `tooltip()` расширенные позиции тултипа:
+
+- короткие (`top`, `bottom`, `left`, `right`)
+- центрированные (`middle center`, `middle left`, `middle right`)
+
+Если флаг не включен, расширенные позиции всё равно передаются в `Tooltip`, но в dev-режиме выводится предупреждение.
+Стандартные позиции (`top left`, `right middle` и т.д.) от флага не зависят.
+
+<Story of={FeatureFlagsStories.ExtendedTooltipPositions} />
+
+## Получение объекта со всеми флагами
+
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию `getFullValidationsFlagsContext` к объекту заданных флагов:
+
+```jsx static
+import { getFullValidationsFlagsContext } from '@skbkontur/react-ui-validations';
+
+getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+```

@@ -12,19 +12,19 @@ import { Select } from '@skbkontur/react-ui/components/Select/index';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea/index';
 import React from 'react';
 
-import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
-import type { Meta, Story } from '../../../../typings/stories.js';
-import type { Nullable } from '../../../../typings/Types.js';
-import { Form } from '../../../Common/Form.js';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { Nullable } from '../../../typings/Types.js';
+import { Form } from '../../Common/Form.js';
 
 const meta: Meta = {
-  title: 'Examples/Editors',
+  title: 'Showcase',
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const Editors: Story = () => {
+export const Showcase: Story = () => {
   interface ContactInfo {
     name: string;
     email: string;

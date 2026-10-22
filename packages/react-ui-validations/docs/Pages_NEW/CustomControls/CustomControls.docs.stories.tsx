@@ -4,13 +4,13 @@ import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Select } from '@skbkontur/react-ui/components/Select/Select';
 import React from 'react';
 
-import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
-import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
-import type { Meta, Story } from '../../../../typings/stories.js';
-import { Form } from '../../../Common/Form.js';
+import type { ValidationBehaviour, ValidationInfo } from '../../../index.js';
+import { ValidationContainer, ValidationWrapper } from '../../../index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Form } from '../../Common/Form.js';
 
 const meta: Meta = {
-  title: 'Examples/Custom controls',
+  title: 'Custom Component Integration',
   parameters: { creevey: { skip: true } },
 };
 
@@ -108,7 +108,7 @@ export const CustomControls: Story = () => {
               {type === 'submit' && (
                 <Gapped>
                   <Button use="primary" onClick={submitHandler}>
-                    Submit
+                    Отправить
                   </Button>
                   {renderValidStatus()}
                 </Gapped>
