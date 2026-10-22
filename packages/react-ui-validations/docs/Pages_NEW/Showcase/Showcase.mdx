@@ -1,9 +1,17 @@
 import { Story } from '@storybook/blocks';
-import * as DocsStories from './Showcase.docs.stories';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
 import { Meta } from '../../../.storybook-docs/Meta.js';
+import * as DocsStories from './Showcase.docs.stories';
 
 <Meta of={DocsStories} />
 
-# Шоукейс
+# Showcase
 
-<Story of={DocsStories.Showcase} />
+Все контролы React UI с валидацией. Переключайте тип, уровень и вид сообщения, заполняйте поля или нажмите «Отправить».
+
+Переключатель типа применяет его ко всем правилам сразу — это для наглядности. В реальной форме обязательность полей проверяют при отправке (`submit`), а формат — при потере фокуса (`lostfocus`).
+
+Как подключить валидацию к своей форме — в разделе <Link onClick={linkTo('React UI Validations', 'Docs')}>React UI Validations</Link>.
+
+<Story of={DocsStories.ExampleShowcase} />

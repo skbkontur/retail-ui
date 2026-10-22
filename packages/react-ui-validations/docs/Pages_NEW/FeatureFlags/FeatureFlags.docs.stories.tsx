@@ -1,6 +1,7 @@
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import React from 'react';
 
+import { FeatureFlagToggle } from '../../../.storybook-docs/FeatureFlagToggle.js';
 import { ValidationContainer, ValidationWrapper, ValidationsFeatureFlagsContext, tooltip } from '../../../index.js';
 import type { ValidationInfo } from '../../../index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -14,6 +15,7 @@ const meta: Meta = {
 export default meta;
 
 export const ExtendedTooltipPositions: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
   const [value, setValue] = React.useState('abc');
 
   const validate = (): Nullable<ValidationInfo> => {
@@ -24,12 +26,15 @@ export const ExtendedTooltipPositions: Story = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationTooltipExtendedPositions: true }}>
-      <ValidationContainer>
-        <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('top')}>
-          <Input placeholder="Только цифры" value={value} width={240} onValueChange={setValue} />
-        </ValidationWrapper>
-      </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ValidationsFeatureFlagsContext.Provider value={{ validationTooltipExtendedPositions: isFlagEnabled }}>
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('top')}>
+            <Input placeholder="Только цифры" value={value} width={240} onValueChange={setValue} />
+          </ValidationWrapper>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+    </>
   );
 };

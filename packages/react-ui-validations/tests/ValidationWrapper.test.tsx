@@ -4,7 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
 
-import { CustomControls } from '../docs/Pages_NEW/Examples/CustomControls/CustomControls.docs.stories.js';
+import { ExampleCustomControl } from '../docs/Pages_NEW/CustomControls/CustomControls.docs.stories.js';
 import type { ValidationBehaviour, ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import { ThemeContext } from '../src/ReactUiDetection.js';
@@ -104,9 +104,9 @@ describe('ValidationWrapper', () => {
 
   describe('custom controls', () => {
     it('shows the tooltip on the current custom control after submitting the documentation example', async () => {
-      const { user } = setup(<CustomControls />);
+      const { user } = setup(<ExampleCustomControl />);
 
-      await user.click(screen.getByRole('button', { name: 'Submit' }));
+      await user.click(screen.getByRole('button', { name: 'Отправить' }));
       expect(await screen.findByText('Форма невалидна')).toBeInTheDocument();
 
       await user.click(screen.getByText('Форма невалидна'));

@@ -7,16 +7,15 @@ import React from 'react';
 import type { ValidationBehaviour, ValidationInfo } from '../../../index.js';
 import { ValidationContainer, ValidationWrapper } from '../../../index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import { Form } from '../../Common/Form.js';
 
 const meta: Meta = {
-  title: 'Custom Component Integration',
+  title: 'Custom controls',
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const CustomControls: Story = () => {
+export const ExampleCustomControl: Story = () => {
   interface CustomControlProps<Elem = HTMLElement> {
     ref?: React.ForwardedRef<Elem>;
     error?: boolean;
@@ -66,11 +65,11 @@ export const CustomControls: Story = () => {
   const renderValidStatus = () => {
     switch (isValid) {
       case null:
-        return <b>Отправьте форму</b>;
+        return <span>Отправьте форму</span>;
       case false:
-        return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
+        return <span style={{ color: '#d70c17' }}>Форма невалидна</span>;
       case true:
-        return <b style={{ color: '#5199db' }}>Форма валидна</b>;
+        return <span style={{ color: '#5199db' }}>Форма валидна</span>;
       default:
         return null;
     }
@@ -79,11 +78,11 @@ export const CustomControls: Story = () => {
   const validate = (value: string): ValidationInfo | null => {
     switch (value) {
       case 'error':
-        return { type, message: <b>Ошибка</b>, level: 'error' };
+        return { type, message: <span>Ошибка</span>, level: 'error' };
       case 'warning':
         return {
           type,
-          message: <b>Предупреждение</b>,
+          message: <span>Предупреждение</span>,
           level: 'warning',
         };
     }
@@ -91,10 +90,11 @@ export const CustomControls: Story = () => {
   };
 
   return (
-    <Form>
+    <div>
       <ValidationContainer ref={container}>
         <Gapped gap={10} vertical>
-          <Form.Line title="Тип валидации">
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+            <div style={{ width: 160, textAlign: 'right' }}>Тип валидации</div>
             <Gapped>
               <Select
                 onValueChange={typeChangeHandler}
@@ -107,29 +107,29 @@ export const CustomControls: Story = () => {
               />
               {type === 'submit' && (
                 <Gapped>
-                  <Button use="primary" onClick={submitHandler}>
+                  <Button use="accent" onClick={submitHandler}>
                     Отправить
                   </Button>
                   {renderValidStatus()}
                 </Gapped>
               )}
             </Gapped>
-          </Form.Line>
-          <span>
-            Введите <code>«error»</code> или <code>«warning»</code> для вызова соответствующих уровней валидации
-          </span>
-          <Form.Line title="Кастомный input">
-            <ValidationWrapper validationInfo={validate(value1)}>
-              <CustomInput value={value1} onChange={(e) => setValue1(e.target.value)} />
-            </ValidationWrapper>
-          </Form.Line>
-          <Form.Line title="Input из react-ui">
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+            <div style={{ width: 160, textAlign: 'right' }}>Input из react-ui</div>
             <ValidationWrapper validationInfo={validate(value2)}>
               <Input value={value2} onValueChange={setValue2} />
             </ValidationWrapper>
-          </Form.Line>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 12 }}>
+            <div style={{ width: 160, textAlign: 'right' }}>Кастомный input</div>
+            <ValidationWrapper validationInfo={validate(value1)}>
+              <CustomInput value={value1} onChange={(e) => setValue1(e.target.value)} />
+            </ValidationWrapper>
+          </div>
         </Gapped>
       </ValidationContainer>
-    </Form>
+    </div>
   );
 };
+ExampleCustomControl.storyName = 'Собственный контрол';
