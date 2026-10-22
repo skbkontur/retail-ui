@@ -1,81 +1,96 @@
-import { Meta } from '../../../.storybook-docs/Meta';
-import { Story } from '@storybook/blocks';
-import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
-import * as DocsStories from './ValidationContainer.docs.stories';
+import { Description, Primary, Story } from '@storybook/blocks';
 import { Link } from '@skbkontur/react-ui/components/Link/Link';
 import { linkTo } from '@storybook/addon-links';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import * as DocsStories from './ValidationContainer.docs.stories';
 
-<Meta title="ValidationContainer" />
+<Meta of={DocsStories} />
 
-# ValidationContainer
+<Header component="ValidationContainer" guides="https://guides.kontur.ru/principles/validation/" />
 
-Контейнер, внутри которого находятся валидируемые контролы.
-
-В контекст добавляется объект, в котором регистрируется дочерние контролы и реагируют на вызовы функций `submit` и `validate`. Так же через контекст осуществляется управление [поведением баллунов](https://guides.kontur.ru/principles/validation/#16).
-
-## Событие изменения валидности
-
-Колбэк `onValidationUpdated` вызывается при изменении состояния валидности дочерних контролов.
-
-## Валидация при отправке формы
-
-При вызове функции `submit` загораются все невалидные контролы.
-
-```jsx static
-<ValidationContainer ref="container">
-  // ...
-  <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
-</ValidationContainer>
+```jsx
+import { ValidationContainer } from '@skbkontur/react-ui-validations';
 ```
 
-Аргументы:
+<Description />
 
-```jsx static
-submit(withoutFocus?: boolean): Promise<void>
-submit(validationSettings: ValidationSettings): Promise<void>
+<Primary />
+
+## Все пропсы и методы
+
+<PropsTable />
+
+## Использование
+
+Методы `submit` и `validate` вызываются через `ref`:
+
+```jsx
+const container = useRef(null);
+
+<ValidationContainer ref={container}>
+  <ValidationWrapper validationInfo={...}>
+    <Input />
+  </ValidationWrapper>
+  <Button onClick={() => container.current?.submit()}>Отправить</Button>
+</ValidationContainer>;
 ```
 
-где
+## Примеры
 
-```jsx static
-interface ValidationSettings {
-  focusMode: FocusMode;
-}
-enum FocusMode {
-  Errors,
-  ErrorsAndWarnings,
-  None,
-}
-```
+### Отслеживание валидности
 
-- `withoutFocus`: отключает автофокус невалидных контролов.
-- `validationSettings.focusMode` — позволяет указать уровень валидации для автофокуса. Дефолтное значение — `FocusMode.Errors`
+Колбэк `onValidationUpdated` вызывается, когда в форме появляется или пропадает видимая ошибка, и получает `true`, если ошибок нет. Ошибки с типом `submit` до отправки формы не учитываются.
 
-## Валидация при отправке формы и признак валидности (validate)
+<Story of={DocsStories.ExampleOnValidationUpdated} />
 
-При вызове этой функции загораются все невалидные контролы так же как и при вызове
-функции `submit()`. Кроме этого функция возвращает признак валидности формы.
+### Фокус после отправки
 
-Метод `validate` асинхронный, возвращает `Promise<boolean>`.
+Метод `submit` показывает все ошибки, в том числе с типом `submit`, прокручивает страницу к первой из них и ставит на неё фокус. Аргумент `focusMode` задаёт, что получит фокус:
 
-```jsx static
-async handleSubmit() {
-  const isValid = await this.refs.container.validate();
-  if (isValid) {
-    await this.save();
+- `FocusMode.Errors` — первая ошибка, по умолчанию;
+- `FocusMode.ErrorsAndWarnings` — первая ошибка или предупреждение;
+- `FocusMode.None` — ничего. Аналог `submit(true)`.
+
+<Story of={DocsStories.ExampleSubmitFocusMode} />
+
+### Показ ошибок без фокуса
+
+`submit(true)` показывает все ошибки, но не прокручивает страницу и не переводит фокус.
+
+По Гайдам показывать ошибки на только что открытой пустой форме нельзя. Исключение — черновик: пользователь уже заполнял форму, и в ней остались ошибки. Для такого случая и подходит `submit(true)` при открытии формы.
+
+<Story of={DocsStories.ExampleSubmitWithoutFocus} />
+
+### Проверка перед отправкой
+
+Метод `validate` работает как `submit` и возвращает `true`, если в форме нет ошибок. Предупреждения (`level: 'warning'`) форму невалидной не делают.
+
+```jsx
+async function handleSubmit() {
+  if (await container.current?.validate()) {
+    await save();
   }
 }
-
-render() {
-  return (
-    <ValidationContainer ref='container'>
-      // ...
-      <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
-    </ValidationContainer>
-  );
-}
 ```
 
-Аргументы аналогичны `submit()` - смотри выше.
+<Story of={DocsStories.ExampleValidate} />
 
-<Story of={DocsStories.FormValidity} />
+### Отступ при прокрутке
+
+Проп `scrollOffset` задаёт отступ от краёв окна при прокрутке к первой ошибке. По умолчанию — `{ top: 50, bottom: 0 }`, это близко к отступу 48 px из Гайдов. Пригодится, если на странице есть липкая шапка или футер. Проп `disableSmoothScroll` отключает плавную прокрутку.
+
+<Story of={DocsStories.ExampleScrollOffset} />
+
+### Скрытые поля
+
+Контейнер проверяет только отрисованные <Link onClick={linkTo('ValidationWrapper', 'Docs')}><code>ValidationWrapper</code></Link>. Если поле скрыто, его ошибка не влияет на результат `validate`, поэтому условия показа поля не нужно дублировать в правилах. Снимите галочку и нажмите «Отправить».
+
+<Story of={DocsStories.ExampleDynamicFields} />
+
+### Перемонтирование полей
+
+Если форма уже проверена, ошибка поля сохраняется и после его перемонтирования. Нажмите «Отправить», затем переключите вкладку и вернитесь — поле останется подсвеченным.
+
+<Story of={DocsStories.ExampleRemount} />

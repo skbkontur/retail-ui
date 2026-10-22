@@ -1,273 +1,116 @@
-import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Button, Checkbox, ComboBox, DatePicker, Gapped, Input, Select } from '@skbkontur/react-ui';
+import { ValidationContainer, ValidationWrapper, text } from '@skbkontur/react-ui-validations';
 import React from 'react';
 
-import { ValidationContainer, ValidationWrapper, text, tooltip } from '../../../index.js';
-import type { ValidationInfo } from '../../../index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import type { Nullable } from '../../../typings/Types.js';
-import { Form } from '../../Common/Form.js';
-import { SpaceFiller } from '../../Common/SpaceFiller.js';
 
 const meta: Meta = {
   title: 'ValidationWrapper',
+  component: ValidationWrapper,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ImmediateValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
-  }
+export const ExampleBasic: Story = () => {
+  const [value, setValue] = React.useState('');
 
   return (
     <ValidationContainer>
-      <Form>
-        <Form.Line title="Номер">
-          <ValidationWrapper validationInfo={validate(value)}>
-            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
+      <ValidationWrapper validationInfo={value && !value.includes('@') ? { message: 'Неверный формат почты' } : null}>
+        <Input placeholder="Почта в формате name@mail.ru" width={300} value={value} onValueChange={setValue} />
+      </ValidationWrapper>
     </ValidationContainer>
   );
 };
+ExampleBasic.storyName = 'Базовый пример';
 
-export const LostfocusValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
-  function validate(value: string): Nullable<ValidationInfo> {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'lostfocus' } : null;
-  }
+/** `ValidationWrapper` работает с любым контролом React UI: подсвечивает его и показывает сообщение. */
+export const ExampleControls: Story = () => {
+  const cities = ['Екатеринбург', 'Москва', 'Новосибирск'];
+  const [tariff, setTariff] = React.useState<string | null>(null);
+  const [city, setCity] = React.useState<string | null>(null);
+  const [date, setDate] = React.useState('');
+  const [confirmed, setConfirmed] = React.useState(false);
+
   return (
     <ValidationContainer>
-      <Form>
-        <Form.Line title="Номер">
-          <ValidationWrapper validationInfo={validate(value)}>
-            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
+      <Gapped vertical gap={16}>
+        <ValidationWrapper validationInfo={tariff ? null : { message: 'Выберите тариф', type: 'immediate' }}>
+          <Select<string | null, string>
+            items={['Базовый', 'Расширенный']}
+            placeholder="Тариф"
+            value={tariff}
+            onValueChange={setTariff}
+          />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={city ? null : { message: 'Выберите город', type: 'immediate' }}>
+          <ComboBox<string>
+            placeholder="Город"
+            value={city}
+            onValueChange={setCity}
+            getItems={async (query) => cities.filter((x) => x.toLocaleUpperCase().includes(query.toLocaleUpperCase()))}
+            valueToString={(x) => x}
+            itemToId={(x) => x}
+            renderItem={(x) => x}
+            renderValue={(x) => x}
+          />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={date ? null : { message: 'Укажите дату', type: 'immediate' }}>
+          <DatePicker value={date} onValueChange={setDate} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={confirmed ? null : { message: 'Примите условия', type: 'immediate' }}>
+          <Checkbox checked={confirmed} onValueChange={setConfirmed}>
+            Принимаю условия
+          </Checkbox>
+        </ValidationWrapper>
+      </Gapped>
     </ValidationContainer>
   );
 };
+ExampleControls.storyName = 'Разные контролы';
 
-export const SubmitValidation: Story = () => {
+/** Проп `validationInfo` задаёт, когда показать ошибку (`type`), ошибка это или предупреждение (`level`) и текст сообщения (`message`). */
+export const ExampleValidationInfo: Story = () => {
   const container = React.useRef<ValidationContainer>(null);
-  const [value, setValue] = React.useState<string>('');
-  function validate(value: string): Nullable<ValidationInfo> {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'submit' } : null;
-  }
-  async function handleSubmit(): Promise<void> {
-    await container.current?.submit();
-  }
+  const [name, setName] = React.useState('');
+  const [comment, setComment] = React.useState('');
 
   return (
     <ValidationContainer ref={container}>
-      <Form>
-        <Form.Line title="Номер">
-          <ValidationWrapper validationInfo={validate(value)}>
-            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.ActionsBar>
-          <Button use={'primary'} onClick={handleSubmit}>
-            Отправить
-          </Button>
-        </Form.ActionsBar>
-      </Form>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={name ? null : { message: 'Укажите имя', type: 'submit' }}>
+          <Input placeholder="Имя — ошибка при отправке" width={280} value={name} onValueChange={setName} />
+        </ValidationWrapper>
+        <ValidationWrapper
+          validationInfo={comment ? null : { message: 'Комментарий поможет нам', type: 'submit', level: 'warning' }}
+        >
+          <Input placeholder="Комментарий — предупреждение" width={280} value={comment} onValueChange={setComment} />
+        </ValidationWrapper>
+        <Button use="accent" onClick={() => container.current?.submit()}>
+          Отправить
+        </Button>
+      </Gapped>
     </ValidationContainer>
   );
 };
+ExampleValidationInfo.storyName = 'validationInfo';
 
-export const ValidationError: Story = () => {
-  const validate = (value: string): Nullable<ValidationInfo> => {
-    if (!/^\d*$/.test(value)) {
-      return { message: 'Разрешены только цифры', type: 'lostfocus' };
-    }
-
-    return null;
-  };
-
-  const [value, setValue] = React.useState('');
-  const validationInfo = validate(value);
+/** Проп `renderMessage` задаёт, как показать сообщение. Здесь — текстом под полем. */
+export const ExampleRenderMessage: Story = () => {
+  const [email, setEmail] = React.useState('ivanov.kontur.ru');
 
   return (
     <ValidationContainer>
-      <Form>
-        <Form.Line title="error">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
-            <Input width={250} placeholder={'Только цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
+      <div style={{ paddingBottom: 24 }}>
+        <ValidationWrapper
+          validationInfo={email.includes('@') ? null : { message: 'Неверный формат почты', type: 'immediate' }}
+          renderMessage={text('bottom')}
+        >
+          <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+        </ValidationWrapper>
+      </div>
     </ValidationContainer>
   );
 };
-
-export const ValidationWarning: Story = () => {
-  const validate = (value: string): Nullable<ValidationInfo> => {
-    if (!/^\d*$/.test(value)) {
-      return {
-        message: 'Если возможно - используйте только цифры',
-        level: 'warning',
-        type: 'lostfocus',
-      };
-    }
-    return null;
-  };
-
-  const [value, setValue] = React.useState('');
-  const validationInfo = validate(value);
-
-  return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="warning">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
-            <Input width={250} placeholder={'Можно и буквы, но лучше цифры'} value={value} onValueChange={setValue} />
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
-    </ValidationContainer>
-  );
-};
-
-export const TextValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
-
-  function renderInput() {
-    return <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />;
-  }
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    if (!/^\d*$/.test(value)) {
-      return { message: 'Только цифры', type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  const validationInfo = validate(value);
-
-  return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="text()">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
-            {renderInput()}
-          </ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="text('right')">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={text('right')}>
-            {renderInput()}
-          </ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="text('bottom')">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={text('bottom')}>
-            {renderInput()}
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
-    </ValidationContainer>
-  );
-};
-
-export const TooltipValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
-  function renderInput() {
-    return <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />;
-  }
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    if (!/^\d*$/.test(value)) {
-      return { message: 'Только цифры', type: 'lostfocus' };
-    }
-    return null;
-  }
-
-  const validationInfo = validate(value);
-  return (
-    <ValidationContainer>
-      <Form>
-        <Form.Line title="default">
-          <ValidationWrapper validationInfo={validationInfo}>{renderInput()}</ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="tooltip('right top')">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={tooltip('right top')}>
-            {renderInput()}
-          </ValidationWrapper>
-        </Form.Line>
-        <Form.Line title="tooltip('top left')">
-          <ValidationWrapper validationInfo={validationInfo} renderMessage={tooltip('top left')}>
-            {renderInput()}
-          </ValidationWrapper>
-        </Form.Line>
-      </Form>
-    </ValidationContainer>
-  );
-};
-
-export const ScrollToValidation: Story = () => {
-  const container = React.useRef<ValidationContainer>(null);
-  const [value0, setValue0] = React.useState<string>('');
-  const [value1, setValue1] = React.useState<string>('');
-  const [value2, setValue2] = React.useState<string>('');
-  const [value3, setValue3] = React.useState<string>('');
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    if (!value) {
-      return { message: 'Укажите значение', type: 'submit' };
-    }
-    if (!/^\d*$/.test(value)) {
-      return { message: 'Только цифры' };
-    }
-    return null;
-  }
-
-  async function handleSubmit(): Promise<void> {
-    await container.current?.submit();
-  }
-
-  return (
-    <ValidationContainer ref={container}>
-      <Form>
-        <SpaceFiller height={200}>Пустое место 200px</SpaceFiller>
-
-        <Form.Line title={'Поле 0'}>
-          <ValidationWrapper validationInfo={validate(value0)}>
-            <Input placeholder={'Только цифры'} value={value0} onValueChange={setValue0} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'Поле 1'}>
-          <ValidationWrapper validationInfo={validate(value1)}>
-            <Input placeholder={'Только цифры'} value={value1} onValueChange={setValue1} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <SpaceFiller height={1600}>Пустое место 1600px</SpaceFiller>
-
-        <Form.Line title={'Поле 2'}>
-          <ValidationWrapper validationInfo={validate(value2)}>
-            <Input placeholder={'Только цифры'} value={value2} onValueChange={setValue2} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'Поле 3'}>
-          <ValidationWrapper validationInfo={validate(value3)}>
-            <Input placeholder={'Только цифры'} value={value3} onValueChange={setValue3} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.ActionsBar>
-          <Button use={'primary'} onClick={handleSubmit}>
-            Отправить
-          </Button>
-        </Form.ActionsBar>
-      </Form>
-    </ValidationContainer>
-  );
-};
+ExampleRenderMessage.storyName = 'renderMessage';

@@ -1,164 +1,254 @@
-import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
-import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Button, Checkbox, Gapped, Input, Switcher, Tabs } from '@skbkontur/react-ui';
+import { FocusMode, ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
+import type { ValidateArgumentType, ValidationInfo } from '@skbkontur/react-ui-validations';
 import React from 'react';
 
-import { ValidationContainer, ValidationWrapper } from '../../../index.js';
-import type { ValidationInfo, ValidationBehaviour } from '../../../index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import type { Nullable } from '../../../typings/Types.js';
-import { Form } from '../../Common/Form.js';
-import { SpaceFiller } from '../../Common/SpaceFiller.js';
 
 const meta: Meta = {
   title: 'ValidationContainer',
+  component: ValidationContainer,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const FormValidity: Story = () => {
+export const ExampleBasic: Story = () => {
   const container = React.useRef<ValidationContainer>(null);
-  const [immediate, setImmediate] = React.useState<string>('');
-  const [lostfocus, setLostfocus] = React.useState<string>('');
-  const [submit, setSubmit] = React.useState<string>('');
-  const [isValid, setIsValid] = React.useState<boolean | null>(null);
+  const [name, setName] = React.useState('');
+  const [isSent, setIsSent] = React.useState(false);
 
-  function renderFormState() {
-    switch (isValid) {
-      case null:
-        return <b>Отправьте форму</b>;
-      case false:
-        return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
-      case true:
-        return <b style={{ color: '#5199db' }}>Форма валидна</b>;
-      default:
-        throw new Error('Invalid state');
-    }
-  }
-
-  function validate(v: string, type: ValidationBehaviour): Nullable<ValidationInfo> {
-    return !/^\d*$/.test(v) ? { message: 'Только цифры', type } : null;
-  }
-
-  async function handleSubmit(): Promise<void> {
-    const isValid = Boolean(await container.current?.validate());
-    setIsValid(isValid);
+  async function handleSubmit() {
+    setIsSent(Boolean(await container.current?.validate()));
   }
 
   return (
     <ValidationContainer ref={container}>
-      <Form>
-        <Form.Line title={'immediate'}>
-          <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
-            <Input
-              placeholder={'Только цифры'}
-              value={immediate}
-              onValueChange={(value) => {
-                setImmediate(value);
-                setIsValid(null);
-              }}
-            />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'lostfocus'}>
-          <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
-            <Input
-              placeholder={'Только цифры'}
-              value={lostfocus}
-              onValueChange={(value) => {
-                setLostfocus(value);
-                setIsValid(null);
-              }}
-            />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'submit'}>
-          <ValidationWrapper validationInfo={validate(submit, 'submit')}>
-            <Input
-              placeholder={'Только цифры'}
-              value={submit}
-              onValueChange={(value) => {
-                setSubmit(value);
-                setIsValid(null);
-              }}
-            />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.ActionsBar>
-          <Gapped wrap verticalAlign="middle">
-            <Button use={'primary'} onClick={handleSubmit}>
-              Отправить
-            </Button>
-            {renderFormState()}
-          </Gapped>
-        </Form.ActionsBar>
-      </Form>
-    </ValidationContainer>
-  );
-};
-
-export const ScrollToValidation: Story = () => {
-  const container = React.useRef<ValidationContainer>(null);
-  const [value0, setValue0] = React.useState<string>('');
-  const [value1, setValue1] = React.useState<string>('');
-  const [value2, setValue2] = React.useState<string>('');
-  const [value3, setValue3] = React.useState<string>('');
-
-  function validate(value: string): Nullable<ValidationInfo> {
-    if (!value) {
-      return { message: 'Укажите значение', type: 'submit' };
-    }
-    if (!/^\d*$/.test(value)) {
-      return { message: 'Только цифры' };
-    }
-    return null;
-  }
-
-  async function handleSubmit(): Promise<void> {
-    await container.current?.submit();
-  }
-
-  return (
-    <ValidationContainer ref={container}>
-      <Form>
-        <SpaceFiller height={200}>Пустое место 200px</SpaceFiller>
-
-        <Form.Line title={'Поле 0'}>
-          <ValidationWrapper validationInfo={validate(value0)}>
-            <Input placeholder={'Только цифры'} value={value0} onValueChange={setValue0} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'Поле 1'}>
-          <ValidationWrapper validationInfo={validate(value1)}>
-            <Input placeholder={'Только цифры'} value={value1} onValueChange={setValue1} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <SpaceFiller height={1600}>Пустое место 1600px</SpaceFiller>
-
-        <Form.Line title={'Поле 2'}>
-          <ValidationWrapper validationInfo={validate(value2)}>
-            <Input placeholder={'Только цифры'} value={value2} onValueChange={setValue2} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.Line title={'Поле 3'}>
-          <ValidationWrapper validationInfo={validate(value3)}>
-            <Input placeholder={'Только цифры'} value={value3} onValueChange={setValue3} />
-          </ValidationWrapper>
-        </Form.Line>
-
-        <Form.ActionsBar>
-          <Button use={'primary'} onClick={handleSubmit}>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={name ? null : { message: 'Укажите имя', type: 'submit' }}>
+          <Input placeholder="Имя" value={name} onValueChange={setName} />
+        </ValidationWrapper>
+        <Gapped verticalAlign="middle">
+          <Button use="accent" onClick={handleSubmit}>
             Отправить
           </Button>
-        </Form.ActionsBar>
-      </Form>
+          {isSent && 'Форма отправлена'}
+        </Gapped>
+      </Gapped>
     </ValidationContainer>
   );
 };
+ExampleBasic.storyName = 'Базовый пример';
+
+/** Колбэк `onValidationUpdated` вызывается, когда в форме появляется или пропадает видимая ошибка. */
+export const ExampleOnValidationUpdated: Story = () => {
+  const [email, setEmail] = React.useState('');
+  const [site, setSite] = React.useState('');
+  const [isValid, setIsValid] = React.useState<boolean | null | undefined>(true);
+
+  function validate(value: string, check: (value: string) => boolean, message: string): ValidationInfo | null {
+    return value && !check(value) ? { message } : null;
+  }
+
+  return (
+    <ValidationContainer onValidationUpdated={setIsValid}>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={validate(email, (x) => x.includes('@'), 'Неверный формат почты')}>
+          <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validate(site, (x) => x.startsWith('http'), 'Адрес начинается с http')}>
+          <Input placeholder="Сайт" value={site} onValueChange={setSite} />
+        </ValidationWrapper>
+        {isValid ? 'Ошибок нет' : 'В форме есть ошибки'}
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleOnValidationUpdated.storyName = 'Отслеживание валидности';
+
+/** Метод `submit` показывает все ошибки, прокручивает страницу к первой из них и ставит на неё фокус. Аргумент `focusMode` задаёт, что получит фокус. */
+export const ExampleSubmitFocusMode: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [mode, setMode] = React.useState('Errors');
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+
+  const settings: Record<string, ValidateArgumentType> = {
+    Errors: { focusMode: FocusMode.Errors },
+    ErrorsAndWarnings: { focusMode: FocusMode.ErrorsAndWarnings },
+    None: { focusMode: FocusMode.None },
+  };
+
+  return (
+    <ValidationContainer ref={container}>
+      <Gapped vertical gap={16}>
+        <Switcher value={mode} onValueChange={setMode} items={Object.keys(settings)} />
+        <ValidationWrapper
+          validationInfo={email ? null : { message: 'Лучше указать почту', type: 'submit', level: 'warning' }}
+        >
+          <Input placeholder="Почта — предупреждение" value={email} onValueChange={setEmail} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={phone ? null : { message: 'Укажите телефон', type: 'submit' }}>
+          <Input placeholder="Телефон — ошибка" value={phone} onValueChange={setPhone} />
+        </ValidationWrapper>
+        <Button use="accent" onClick={() => container.current?.submit(settings[mode] as boolean)}>
+          Отправить
+        </Button>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleSubmitFocusMode.storyName = 'Фокус после отправки';
+
+/** Метод `validate` работает как `submit` и возвращает `true`, если в форме нет ошибок. Предупреждения форму невалидной не делают. */
+export const ExampleValidate: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [name, setName] = React.useState('');
+  const [comment, setComment] = React.useState('');
+  const [result, setResult] = React.useState<boolean | null>(null);
+
+  async function handleSubmit() {
+    setResult(Boolean(await container.current?.validate()));
+  }
+
+  return (
+    <ValidationContainer ref={container}>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={name ? null : { message: 'Укажите имя', type: 'submit' }}>
+          <Input placeholder="Имя — ошибка" value={name} onValueChange={setName} />
+        </ValidationWrapper>
+        <ValidationWrapper
+          validationInfo={comment ? null : { message: 'Комментарий поможет нам', type: 'submit', level: 'warning' }}
+        >
+          <Input placeholder="Комментарий — предупреждение" value={comment} onValueChange={setComment} />
+        </ValidationWrapper>
+        <Gapped verticalAlign="middle">
+          <Button use="accent" onClick={handleSubmit}>
+            Отправить
+          </Button>
+          {result !== null && `validate() → ${result}`}
+        </Gapped>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleValidate.storyName = 'Проверка перед отправкой';
+
+/** Проп `scrollOffset` задаёт отступ при прокрутке к первой ошибке, например, чтобы её не перекрыла липкая шапка. */
+export const ExampleScrollOffset: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [value, setValue] = React.useState('');
+
+  return (
+    <ValidationContainer ref={container} scrollOffset={{ top: 100 }}>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={value ? null : { message: 'Заполните поле', type: 'submit' }}>
+          <Input placeholder="Обязательное поле" value={value} onValueChange={setValue} />
+        </ValidationWrapper>
+        <div
+          style={{
+            height: 1000,
+            background: 'repeating-linear-gradient(-45deg, #eee, #eee 20px, #fff 20px, #fff 40px)',
+          }}
+        />
+        <Button use="accent" onClick={() => container.current?.submit()}>
+          Отправить
+        </Button>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleScrollOffset.storyName = 'Отступ при прокрутке';
+
+/** Контейнер учитывает только отрисованные `ValidationWrapper`: скрытое поле не влияет на результат `validate`. */
+export const ExampleDynamicFields: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [hasPhone, setHasPhone] = React.useState(true);
+  const [phone, setPhone] = React.useState('');
+  const [result, setResult] = React.useState<boolean | null>(null);
+
+  async function handleSubmit() {
+    setResult(Boolean(await container.current?.validate()));
+  }
+
+  return (
+    <ValidationContainer ref={container}>
+      <Gapped vertical>
+        <Checkbox checked={hasPhone} onValueChange={setHasPhone}>
+          Указать телефон
+        </Checkbox>
+        {hasPhone && (
+          <ValidationWrapper validationInfo={phone ? null : { message: 'Укажите телефон', type: 'submit' }}>
+            <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
+          </ValidationWrapper>
+        )}
+        <Gapped verticalAlign="middle">
+          <Button use="accent" onClick={handleSubmit}>
+            Отправить
+          </Button>
+          {result !== null && `validate() → ${result}`}
+        </Gapped>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleDynamicFields.storyName = 'Скрытые поля';
+
+/** `submit(true)` показывает все ошибки без перевода фокуса. Пригодится при открытии черновика, в котором уже есть ошибки. */
+export const ExampleSubmitWithoutFocus: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  // черновик, который пользователь уже заполнял
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('ivanov.kontur.ru');
+
+  React.useEffect(() => {
+    container.current?.submit(true);
+  }, []);
+
+  return (
+    <ValidationContainer ref={container}>
+      <Gapped vertical>
+        <ValidationWrapper validationInfo={name ? null : { message: 'Укажите имя', type: 'submit' }}>
+          <Input placeholder="Имя" value={name} onValueChange={setName} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={email.includes('@') ? null : { message: 'Неверный формат почты' }}>
+          <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+        </ValidationWrapper>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleSubmitWithoutFocus.storyName = 'Показ ошибок без фокуса';
+
+/** Ошибка поля сохраняется после перемонтирования: например, после переключения вкладок в уже проверенной форме. */
+export const ExampleRemount: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [tab, setTab] = React.useState<'phone' | 'email'>('phone');
+  const [phone, setPhone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  return (
+    <ValidationContainer ref={container}>
+      <Gapped vertical gap={16}>
+        <Tabs value={tab} onValueChange={setTab}>
+          <Tabs.Tab id="phone">Телефон</Tabs.Tab>
+          <Tabs.Tab id="email">Почта</Tabs.Tab>
+        </Tabs>
+        {tab === 'phone' && (
+          <ValidationWrapper validationInfo={phone ? null : { message: 'Укажите телефон', type: 'submit' }}>
+            <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
+          </ValidationWrapper>
+        )}
+        {tab === 'email' && (
+          <ValidationWrapper validationInfo={email ? null : { message: 'Укажите почту', type: 'submit' }}>
+            <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+          </ValidationWrapper>
+        )}
+        <Button use="accent" onClick={() => container.current?.submit()}>
+          Отправить
+        </Button>
+      </Gapped>
+    </ValidationContainer>
+  );
+};
+ExampleRemount.storyName = 'Перемонтирование полей';

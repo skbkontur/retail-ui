@@ -1,160 +1,66 @@
-import { Meta } from '../../../.storybook-docs/Meta';
-import { Story } from '@storybook/blocks';
-import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
-import * as DocsStories from './ValidationWrapper.docs.stories';
+import { Description, Primary, Story } from '@storybook/blocks';
 import { Link } from '@skbkontur/react-ui/components/Link/Link';
 import { linkTo } from '@storybook/addon-links';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import * as DocsStories from './ValidationWrapper.docs.stories';
 
-<Meta title="ValidationWrapper" />
+<Meta of={DocsStories} />
 
-# ValidationWrapper
+<Header component="ValidationWrapper" guides="https://guides.kontur.ru/principles/validation/" />
 
-Обёртка для компонента, управляет свойствами валидации конкретного компонента.
-
-```jsx static
-<ValidationContainer>
-  <ValidationWrapper validationInfo={...}>
-    <Input/>
-  </ValidationWrapper>
-</ValidationContainer>
+```jsx
+import { ValidationWrapper } from '@skbkontur/react-ui-validations';
 ```
 
-Дочерний компонент внутри `ValidationWrapper` должен быть один. `ValidationWrapper` контролирует его поведение через пропсы, используя соглашения основной библиотеки React UI.
+<Description />
 
-Для работы с компонентом используется [React.cloneElement()](https://facebook.github.io/react/docs/react-api.html#cloneelement).
+<Primary />
 
-### Передача результата валидации (validationInfo)
+## Все пропсы и методы
 
-Состояние валидации передаётся через проп `validationInfo`:
+<PropsTable />
 
-- Если всё в порядке — `validationInfo={null}`, поле выглядит обычным образом.
-- Если есть ошибка — передаётся объект с сообщением: `validationInfo={{ message: 'Ошибка' }}`.
+## Использование
 
-В `validationInfo` задаются поля:
+Внутри `ValidationWrapper` должен быть ровно один контрол. Обёртка передаёт ему пропсы `error`, `warning`, `onBlur`, `onChange` и `onValueChange`, поэтому из коробки работают все контролы React UI. Как подключить свой компонент — в разделе <Link onClick={linkTo('Custom Controls', 'Docs')}>Custom Component</Link>. Где и как показать сообщение, задаёт проп `renderMessage` — подробнее на странице <Link onClick={linkTo('renderMessage', 'Docs')}><code>renderMessage</code></Link>.
 
-- `type` — определяет вид валидации: сразу, при потере фокуса или при отправке формы;
-- `level` — уровень валидации: ошибка или предупреждение;
-- `message` — сообщение об ошибке.
-
-#### Вид валидации (type)
-
-[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
-
-Допустимые значения: `"immediate" | "lostfocus" (по умолчанию) | "submit"`.
-
-##### Мгновенная (immediate)
-
-Мгновенная валидация отображается всегда.
-
-<Story of={DocsStories.ImmediateValidation} />
-
-Обратите внимание, что по Контур.Гайдам этот тип валидации рекомендуется использовать в исключительных случаях. Более приоритетными являются валидации по потере фокуса или при отправке формы.
-
-##### По потере фокуса (lostfocus)
-
-Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
-
-Такую валидацию можно сделать <Link onClick={linkTo('Validator/Independent')}>независимой</Link>.
-
-<Story of={DocsStories.LostfocusValidation} />
-
-##### При отправке формы (submit)
-
-Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.
-
-<Story of={DocsStories.SubmitValidation} />
-
-**Пример скролла к валидируемому полю**
-
-Если следовать [правилам по Гайдам](https://guides.kontur.ru/principles/validation/#14), то при валидации при отправке формы не только подсвечиваются поля, но и страница должна прокручиваться к первому полю с ошибкой. По умолчанию такого поведения у типа `submit` нет, поэтому ниже собран пример для самостоятельной реализации скролла.
-
-<Story of={DocsStories.ScrollToValidation} />
-
-#### Уровень валидации (level)
-
-Допустимые значения: `"error" (по умолчанию) | "warning"`.
-
-Уровень валидации задаётся с помощью поля `level` в объекте `validationInfo`
-
-##### Ошибка
-
-<Story of={DocsStories.ValidationError} />
-
-##### Предупреждение
-
-<Story of={DocsStories.ValidationWarning} />
-
-#### Сообщение об ошибке (message)
-
-[Описание сообщения об ошибках в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Soobscheniya_ob_oshibkah)
-
-По умолчанию сообщение об ошибке отображается в тултипе справа от контрола.
-Это поведение переопределяется с помощью пропа `renderMessage` компонента `ValidationWrapper` (см.ниже).
-
-##### Тултип
-
-[Описание в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Tultipi)
-
-Сообщение внутри тултипа рендерится с помощью функции `tooltip`.
-
-Функция принимает один аргумент, который позволяет задать позицию отображения тултипа. Тип аргумента — `TooltipExtendedPosition`,
-то есть те же значения, что принимает prop `pos` компонента `Tooltip`.
-
-Полные позиции вроде `top left` и `right middle` (`TooltipPosition`) работают без дополнительной настройки.
-Короткие (`top`, `left`, `right`, `bottom`) и центрированные (`middle center`, `middle left`, `middle right`) позиции
-требуют фича-флага `validationTooltipExtendedPositions`. Подробнее — на странице [Feature flags](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-feature-flags--docs).
-
-<Story of={DocsStories.TooltipValidation} />
-
-##### Текст
-
-[Описание в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Krasnie_teksti_na_stranitse)
-
-Текстовое сообщение рендерится с помощью функции `text`.
-
-Функция принимает один аргумент, который позволяет задать позицию отображения текста. Если позициция не указана, позиция `right` будет установлена в качестве позиции по умолчанию. Возможные значения: `bottom | right`.
-
-<Story of={DocsStories.TextValidation} />
-
-#### Переопределение сообщение об ошибке (renderMessage)
-
-Способ кастомизации отображения сообщения об ошибке (не путать с
-[подсветкой контрола](https://guides.kontur.ru/principles/validation/#13)).
-Для определённых в Контур.Гайдах способов отображения ошибок используйте функции `tooltip` и `text` (значение по умолчанию: `tooltip('right middle')`).
-
-### Переопределение tooltip
-
-Для отрисовки тултипа используется стандартный [Tooltip](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-tooltip--docs).
-Возвращает функцию для рендеринга сообщения об ошибке в виде тултипа. Используется для передачи в `renderMessage`.
-
-Аргументы:
-
-- `pos`: позиция, передаваемая в prop `pos` компонента `Tooltip` из React UI.
-
-Тип `TooltipExtendedPosition` совпадает с `TooltipProps['pos']` и включает:
-
-- **стандартные** позиции (`TooltipPosition`): `top left`, `top center`, `right middle` и другие полные значения с направлением и выравниванием;
-- **расширенные** позиции: короткие `top` | `bottom` | `left` | `right` и центрированные `middle center` | `middle left` | `middle right`.
-
-Стандартные позиции работают без дополнительных настроек. Для расширенных позиций включите фича-флаг
-[`validationTooltipExtendedPositions`](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-feature-flags--docs#validationtooltipextendedpositions).
-Без флага в dev-режиме появится предупреждение, но позиция всё равно будет передана в `Tooltip`.
-
-```jsx static
-import { tooltip, ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
-
-<ValidationsFeatureFlagsContext.Provider value={{ validationTooltipExtendedPositions: true }}>
-  <ValidationWrapper validationInfo={{ ... }} renderMessage={tooltip('top')}>
-    {/* ... */}
-  </ValidationWrapper>
-</ValidationsFeatureFlagsContext.Provider>
+```jsx
+<ValidationWrapper validationInfo={value ? null : { message: 'Укажите имя', type: 'submit' }}>
+  <Input value={value} onValueChange={setValue} />
+</ValidationWrapper>
 ```
 
-### Переопределение text
+Что можно передать в `validationInfo` — тип, уровень, сообщение и независимость — описано на странице <Link onClick={linkTo('ValidationInfo', 'Docs')}><code>ValidationInfo</code></Link>.
 
-Возвращает функцию для рендеринга сообщения об ошибке в виде текстового блока рядом с контролом.
-Используется для передачи в renderMessage.
+## Примеры
 
-Аргументы:
+### validationInfo
 
-- `pos`: управляет положением текста и принимает значения 'right' или 'bottom' для отображения сообщения справа или внизу соответственно.
+Обязательный проп. Принимает результат проверки поля: `null`, если ошибок нет, или объект с полями:
+
+- `message` — текст сообщения, можно передать любую вёрстку;
+- `type` — когда показать ошибку: при потере фокуса (`lostfocus`, по умолчанию), при отправке формы (`submit`) или сразу (`immediate`);
+- `level` — ошибка (`error`, по умолчанию) или предупреждение (`warning`);
+- `independent` — проверять поле только при потере собственного фокуса.
+
+Подробнее и больше примеров — на странице <Link onClick={linkTo('ValidationInfo', 'Docs')}><code>ValidationInfo</code></Link>.
+
+Нажмите «Отправить», оставив поля пустыми:
+
+<Story of={DocsStories.ExampleValidationInfo} />
+
+### renderMessage
+
+Задаёт, как показать сообщение: `tooltip(pos)` — в тултипе (по умолчанию `tooltip('right top')`), `text(pos)` — текстом справа или снизу, или своя функция. Подсветку контрола `ValidationWrapper` включает сам.
+
+Подробнее и больше примеров — на странице <Link onClick={linkTo('renderMessage', 'Docs')}><code>renderMessage</code></Link>.
+
+<Story of={DocsStories.ExampleRenderMessage} />
+
+### Разные контролы
+
+`ValidationWrapper` работает с любым контролом React UI: полями ввода, выпадающими списками, датами, чекбоксами и другими.
+
+<Story of={DocsStories.ExampleControls} />
