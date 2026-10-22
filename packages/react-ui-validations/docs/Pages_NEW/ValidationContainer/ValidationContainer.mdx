@@ -1,0 +1,81 @@
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Story } from '@storybook/blocks';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
+import * as DocsStories from './ValidationContainer.docs.stories';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+
+<Meta title="ValidationContainer" />
+
+# ValidationContainer
+
+Контейнер, внутри которого находятся валидируемые контролы.
+
+В контекст добавляется объект, в котором регистрируется дочерние контролы и реагируют на вызовы функций `submit` и `validate`. Так же через контекст осуществляется управление [поведением баллунов](https://guides.kontur.ru/principles/validation/#16).
+
+## Событие изменения валидности
+
+Колбэк `onValidationUpdated` вызывается при изменении состояния валидности дочерних контролов.
+
+## Валидация при отправке формы
+
+При вызове функции `submit` загораются все невалидные контролы.
+
+```jsx static
+<ValidationContainer ref="container">
+  // ...
+  <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
+</ValidationContainer>
+```
+
+Аргументы:
+
+```jsx static
+submit(withoutFocus?: boolean): Promise<void>
+submit(validationSettings: ValidationSettings): Promise<void>
+```
+
+где
+
+```jsx static
+interface ValidationSettings {
+  focusMode: FocusMode;
+}
+enum FocusMode {
+  Errors,
+  ErrorsAndWarnings,
+  None,
+}
+```
+
+- `withoutFocus`: отключает автофокус невалидных контролов.
+- `validationSettings.focusMode` — позволяет указать уровень валидации для автофокуса. Дефолтное значение — `FocusMode.Errors`
+
+## Валидация при отправке формы и признак валидности (validate)
+
+При вызове этой функции загораются все невалидные контролы так же как и при вызове
+функции `submit()`. Кроме этого функция возвращает признак валидности формы.
+
+Метод `validate` асинхронный, возвращает `Promise<boolean>`.
+
+```jsx static
+async handleSubmit() {
+  const isValid = await this.refs.container.validate();
+  if (isValid) {
+    await this.save();
+  }
+}
+
+render() {
+  return (
+    <ValidationContainer ref='container'>
+      // ...
+      <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
+    </ValidationContainer>
+  );
+}
+```
+
+Аргументы аналогичны `submit()` - смотри выше.
+
+<Story of={DocsStories.FormValidity} />
