@@ -195,7 +195,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           {allFeatureFlags.length !== 0 && <MenuSeparator />}
-          <MenuItem onClick={linkTo('Displaying/Feature flags')} style={{ cursor: 'pointer' }}>
+          <MenuItem onClick={linkTo('Feature flags', 'Docs')} style={{ cursor: 'pointer' }}>
             <IconArrowUiCornerOutUpRightLight16 /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>

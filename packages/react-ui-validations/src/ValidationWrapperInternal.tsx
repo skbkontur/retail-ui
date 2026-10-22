@@ -33,6 +33,7 @@ export interface ValidationWrapperInternalProps {
   children?: React.ReactElement<any>;
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
+  /** Атрибут для поиска элемента в автотестах. Попадает на корневой элемент. */
   'data-tid'?: string;
 }
 

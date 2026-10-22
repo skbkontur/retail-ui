@@ -1,8 +1,11 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 import type { Configuration } from 'webpack';
 
 import { hasTestInRule } from '../../../scripts/webpack-type-guards/index.ts';
+
+// кастомный лоадер дополнительно собирает методы с JSDoc-тегом @public для PropsTable
+const customReactDocgenLoader = resolve(__dirname, './react-docgen-loader.ts');
 
 export default async ({ config }: { config: Configuration }) => {
   config.devtool = false;
@@ -21,6 +24,12 @@ export default async ({ config }: { config: Configuration }) => {
   const filteredStorybooksWebpackRules = (config?.module?.rules || []).filter(
     (rule) => hasTestInRule(rule) && !rule.test.test('.css'),
   );
+
+  filteredStorybooksWebpackRules.forEach((rule) => {
+    if (typeof rule === 'object' && rule && 'loader' in rule && rule.loader?.includes('react-docgen-loader')) {
+      rule.loader = customReactDocgenLoader;
+    }
+  });
 
   if (config.module?.rules) {
     config.module.rules = [
