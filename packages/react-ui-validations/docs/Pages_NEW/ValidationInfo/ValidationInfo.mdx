@@ -1,0 +1,86 @@
+import { Story } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { ApiTable } from '../../../.storybook-docs/ApiTable';
+import * as DocsStories from './ValidationInfo.docs.stories';
+
+<Meta of={DocsStories} />
+
+# ValidationInfo
+
+```jsx
+import type { ValidationInfo } from '@skbkontur/react-ui-validations';
+```
+
+Объект `ValidationInfo` — результат проверки контрола. Его передают в проп `validationInfo` у <Link onClick={linkTo('ValidationWrapper', 'Docs')}><code>ValidationWrapper</code></Link>: `null` — ошибок нет, объект — есть ошибка или предупреждение.
+
+Вычисляйте `ValidationInfo` при каждом рендере по текущему значению. Когда показать и когда спрятать сообщение, `ValidationWrapper` решит сам. Для больших форм удобнее собирать `ValidationInfo` через <Link onClick={linkTo('createValidator', 'Docs')}><code>createValidator</code></Link>.
+
+<Story of={DocsStories.ExampleLostfocus} />
+
+## Все поля
+
+<ApiTable
+  nameTitle="Поле"
+  rows={[
+    { name: 'message', type: 'ReactNode', description: 'Текст сообщения. Можно передать любую вёрстку.' },
+    {
+      name: 'type',
+      type: "'immediate' | 'lostfocus' | 'submit'",
+      defaultValue: "'lostfocus'",
+      description: 'Когда показать ошибку: сразу, после потери фокуса или после отправки формы.',
+    },
+    { name: 'level', type: "'error' | 'warning'", defaultValue: "'error'", description: 'Ошибка или предупреждение.' },
+    {
+      name: 'independent',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Проверять поле только при потере собственного фокуса, а не при потере фокуса любым полем формы.',
+    },
+  ]}
+/>
+
+## Примеры
+
+### Тип валидации
+
+[Виды валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
+
+Поле `type` задаёт, когда показать ошибку.
+
+`immediate` — ошибка видна сразу. По Гайдам в интерфейсах Контура мгновенную валидацию не используют: вместо неё ограничивают ввод масками, например, в полях ИНН и КПП. Тип оставлен для особых случаев.
+
+<Story of={DocsStories.ExampleImmediate} />
+
+`lostfocus` — ошибка появляется после потери фокуса и пропадает, как только значение исправлено. Значение по умолчанию и основной тип по Гайдам. Не проверяйте с ним пустоту: пользователь может вернуться к полю позже.
+
+<Story of={DocsStories.ExampleLostfocus} />
+
+`submit` — ошибка появляется после вызова `submit` или `validate` у <Link onClick={linkTo('ValidationContainer', 'Docs')}><code>ValidationContainer</code></Link>. Используйте его для обязательных полей и для ошибок зависимости между полями.
+
+У `TimePicker` событие `onValueChange` срабатывает только при коммите значения: потере фокуса, выборе из списка или в нативном пикере. Чтобы проверять значение по мере ввода, используйте `onInputValueChange`.
+
+<Story of={DocsStories.ExampleSubmit} />
+
+### Уровень валидации
+
+Поле `level` задаёт уровень: `error` (по умолчанию) или `warning`. Предупреждение подсвечивает контрол, но не мешает отправить форму.
+
+<Story of={DocsStories.ExampleLevel} />
+
+### Сообщение
+
+[Сообщения об ошибках в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Soobscheniya_ob_oshibkah)
+
+Поле `message` — это `ReactNode`: в сообщение можно добавить ссылку, перенос строки или форматирование. Где показать сообщение, задаёт `renderMessage` у ValidationWrapper — подробнее на странице <Link onClick={linkTo('renderMessage', 'Docs')}><code>renderMessage</code></Link>.
+
+<Story of={DocsStories.ExampleMessage} />
+
+### Независимая валидация
+
+[Валидация зависимых полей в Контур.Гайдах](https://guides.kontur.ru/principles/data/validation/#Validatsiya_zavisimih_polei)
+
+По умолчанию потеря фокуса любым полем проверяет все поля формы с типом `lostfocus`. С `independent: true` поле проверяется только при потере собственного фокуса. Введите адрес без «@» в оба поля, исправьте их и уберите фокус с каждого по очереди:
+
+<Story of={DocsStories.ExampleIndependent} />

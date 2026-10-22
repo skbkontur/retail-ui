@@ -1,0 +1,49 @@
+import { Story } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as DocsStories from './RenderMessage.docs.stories';
+
+<Meta of={DocsStories} />
+
+# RenderMessage
+
+Проп `renderMessage` у <Link onClick={linkTo('ValidationWrapper', 'Docs')}><code>ValidationWrapper</code></Link> задаёт, где и как показать сообщение. По умолчанию — `tooltip('right top')`. Подсветку контрола `ValidationWrapper` включает сам, `renderMessage` отвечает только за сообщение. Есть два готовых варианта — `tooltip(pos)` и `text(pos)`, а для особых случаев можно передать свою функцию.
+
+```jsx
+<ValidationWrapper validationInfo={validationInfo} renderMessage={text('bottom')}>
+  <Input value={value} onValueChange={setValue} />
+</ValidationWrapper>
+```
+
+## Тултип
+
+[Тултипы в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Tultipi)
+
+Функция `tooltip(pos)` принимает те же позиции, что проп `pos` у [Tooltip](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-tooltip--docs). Полные позиции вида `top left` работают сразу. Короткие `top`, `right`, `bottom`, `left` и центрированные `middle center`, `middle left`, `middle right` требуют фича-флага `validationTooltipExtendedPositions` — подробнее на странице <Link onClick={linkTo('Feature flags', 'Docs')}>Feature flags</Link>.
+
+По Гайдам тултип показывают справа или сверху от контрола, чтобы он не перекрывал полезную информацию. Держите одну позицию во всей форме.
+
+<Story of={DocsStories.ExampleTooltip} />
+
+## Текст
+
+[Красные тексты на странице в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Krasnie_teksti_na_stranitse)
+
+Функция `text(pos)` показывает сообщение текстом снизу (`'bottom'`) или справа (`'right'`, по умолчанию) от контрола.
+
+<Story of={DocsStories.ExampleText} />
+
+Цвет текста зависит от уровня валидации:
+
+<Story of={DocsStories.ExampleTextLevel} />
+
+## Своя функция
+
+В `renderMessage` можно передать свою функцию `(control, hasError, validation) => ReactElement`:
+
+- `control` — контрол, который нужно отрисовать;
+- `hasError` — есть ли видимая ошибка или предупреждение;
+- `validation` — видимая валидация с полями `message`, `level`, `type` или `null`.
+
+<Story of={DocsStories.ExampleCustomRenderMessage} />
