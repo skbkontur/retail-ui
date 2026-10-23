@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.5...@skbkontur/react-ui@6.4.6) (2026-10-23)
+
+
+### Bug Fixes
+
+* **PasswordInput:** correct eye button aria-label ([f525542](https://github.com/skbkontur/retail-ui/commit/f525542fd2f70cf8e27ea58c4900f1e0f8399794))
+
+
+
+
+
 ## [6.4.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.4...@skbkontur/react-ui@6.4.5) (2026-10-21)
 
 
