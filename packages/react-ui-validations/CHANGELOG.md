@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.3...@skbkontur/react-ui-validations@3.1.4) (2026-10-23)
+
+
+### Documentation
+
+* **ValidationContainer:** update JSDoc ([fef9939](https://github.com/skbkontur/retail-ui/commit/fef993975ba8603f376265a577b6f0e24d26398f))
+* **ValidationWrapper:** update JSDoc ([fef9939](https://github.com/skbkontur/retail-ui/commit/fef993975ba8603f376265a577b6f0e24d26398f))
+* **README.md:** update package description ([667462f](https://github.com/skbkontur/retail-ui/commit/667462fd974cb9e3ef4dded6737d588f87662e78))
+
+
+
+
+
 ## [3.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.2...@skbkontur/react-ui-validations@3.1.3) (2026-10-21)
 
 
