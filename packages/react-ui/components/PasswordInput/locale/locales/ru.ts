@@ -1,6 +1,6 @@
 import type { PasswordInputLocale } from '../types.js';
 
 export const componentsLocales: PasswordInputLocale = {
-  eyeOpenedAriaLabel: 'Скрыть символы пароля',
-  eyeClosedAriaLabel: 'Отобразить символы пароля',
+  eyeOpenedAriaLabel: 'Отобразить символы пароля',
+  eyeClosedAriaLabel: 'Скрыть символы пароля',
 };
