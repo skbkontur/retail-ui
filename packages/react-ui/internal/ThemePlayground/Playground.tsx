@@ -78,7 +78,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     );
   }
   private renderMain() {
-    const wrapperClassName = this.cx(this.styles.playground(), this.styles.playgroundWrapper(this.theme));
+    const wrapperClassName = this.cx(this.styles.playground(), this.styles.playgroundWrapper());
     return (
       <div className={wrapperClassName}>
         <div className={this.styles.stack()}>

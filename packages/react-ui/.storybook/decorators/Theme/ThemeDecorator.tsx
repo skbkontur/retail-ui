@@ -10,6 +10,7 @@ import {
   DARK_THEME_6_1,
   DARK_THEME_6_2,
   DARK_THEME_6_3,
+  DARK_THEME_6_4,
 } from '../../../lib/theming/themes/DarkTheme.js';
 import {
   LIGHT_THEME,
@@ -17,6 +18,7 @@ import {
   LIGHT_THEME_6_1,
   LIGHT_THEME_6_2,
   LIGHT_THEME_6_3,
+  LIGHT_THEME_6_4,
 } from '../../../lib/theming/themes/LightTheme.js';
 
 export const themes = {
@@ -30,6 +32,8 @@ export const themes = {
   DARK_THEME_6_2,
   LIGHT_THEME_6_3,
   DARK_THEME_6_3,
+  LIGHT_THEME_6_4,
+  DARK_THEME_6_4,
 };
 
 export const ThemeDecorator: Decorator = (Story, context) => {

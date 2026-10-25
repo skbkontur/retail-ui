@@ -1,4 +1,4 @@
-import * as colors from '@skbkontur/colors-v2/tokens-default/dark';
+import * as colors from '@skbkontur/colors/tokens-default/dark';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
 import type { TableThemeInternal } from './TableLightTheme.js';
@@ -24,34 +24,34 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
     return colors.lineNeutralFaint;
   }
   public static get tableRowHover() {
-    return colors.shapeOtherBacklessHover;
+    return colors.shapeOtherBacklessAlphaHover;
   }
   public static get tableRowShadowHover() {
-    return colors.shapeOtherNeutralFaintSolid;
+    return colors.shapeOtherBacklessSolidHover;
   }
   public static get tableRowActive() {
-    return colors.shapeOtherBacklessPressed;
+    return colors.shapeOtherBacklessAlphaPressed;
   }
   public static get tableRowShadowActive() {
-    return colors.shapeOtherNeutralFaintSolidPressed;
+    return colors.shapeOtherBacklessSolidPressed;
   }
   public static get tableRowChecked() {
     return colors.shapeFaintNeutralAlpha;
   }
   public static get tableRowShadowChecked() {
-    return colors.shapeOtherNeutralFaintSolid;
+    return colors.shapeFaintNeutralSolid;
   }
   public static get tableRowCheckedHover() {
     return colors.shapeFaintNeutralAlphaHover;
   }
   public static get tableRowShadowCheckedHover() {
-    return colors.shapeOtherNeutralFaintSolidHover;
+    return colors.shapeFaintNeutralSolidHover;
   }
   public static get tableRowCheckedActive() {
     return colors.shapeFaintNeutralAlphaPressed;
   }
   public static get tableRowShadowCheckedActive() {
-    return colors.shapeOtherNeutralFaintSolidPressed;
+    return colors.shapeFaintNeutralSolidPressed;
   }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;

@@ -1,4 +1,5 @@
 import type { Emotion } from '@emotion/css/create-instance';
+import * as colors from '@skbkontur/colors';
 
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
@@ -165,9 +166,9 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       color: ${t.textColorDefault};
     `;
   },
-  playgroundWrapper(t: Theme) {
+  playgroundWrapper() {
     return css`
-      background: ${t.bgDefault};
+      background: ${colors.surfaceBase};
     `;
   },
   editorHeaderWrapper(t: Theme) {
