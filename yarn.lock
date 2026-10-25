@@ -4556,6 +4556,15 @@
     culori "4.0.2"
     tslib "2.6.2"
 
+"@skbkontur/colors@^2.1.7":
+  version "2.1.11"
+  resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.1.11.tgz#2ec3e3aa74615b457e5a64c70e400eb4efe600da"
+  integrity sha512-oceygr1hDNWOSaGvQDopw+Dm5nWHyVX9FMpuz7/oO/FEuiF54gU6ce7O0yovqLAZ59inDhzYiowewI7l39gt8Q==
+  dependencies:
+    "@types/culori" "4.0.1"
+    culori "4.0.2"
+    tslib "2.6.2"
+
 "@skbkontur/empty-state@^2.0.2":
   version "2.0.2"
   resolved "https://registry.npmjs.org/@skbkontur/empty-state/-/empty-state-2.0.2.tgz#01f102772022b10303ee660bd08a239f9dd0f75c"
