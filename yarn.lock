@@ -4547,6 +4547,15 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
+"@skbkontur/colors-v2@npm:@skbkontur/colors@2.1.11":
+  version "2.1.11"
+  resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.1.11.tgz#2ec3e3aa74615b457e5a64c70e400eb4efe600da"
+  integrity sha512-oceygr1hDNWOSaGvQDopw+Dm5nWHyVX9FMpuz7/oO/FEuiF54gU6ce7O0yovqLAZ59inDhzYiowewI7l39gt8Q==
+  dependencies:
+    "@types/culori" "4.0.1"
+    culori "4.0.2"
+    tslib "2.6.2"
+
 "@skbkontur/empty-state@^2.0.2":
   version "2.0.2"
   resolved "https://registry.npmjs.org/@skbkontur/empty-state/-/empty-state-2.0.2.tgz#01f102772022b10303ee660bd08a239f9dd0f75c"

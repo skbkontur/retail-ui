@@ -1,4 +1,4 @@
-import * as colors from '@skbkontur/colors/tokens-default/light';
+import * as colors from '@skbkontur/colors-v2/tokens-default/light';
 
 import { createTheme } from '../../lib/theming/ThemeHelpers.js';
 

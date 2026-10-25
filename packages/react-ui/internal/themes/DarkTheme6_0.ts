@@ -1,4 +1,4 @@
-import * as colors from '@skbkontur/colors/tokens-default/dark';
+import * as colors from '@skbkontur/colors-v2/tokens-default/dark';
 
 import { createTheme, markAsDarkTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
 import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme.js';
