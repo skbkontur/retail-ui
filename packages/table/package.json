@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@skbkontur/colors": "^3.0.0-0",
+    "@skbkontur/colors-v2": "npm:@skbkontur/colors@2.1.11",
     "@skbkontur/global-object": "^0.4.5",
     "@skbkontur/icons": "^2.0.1",
     "@skbkontur/typography": "^1.0.4",

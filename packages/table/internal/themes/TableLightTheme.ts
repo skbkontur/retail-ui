@@ -1,4 +1,4 @@
-import * as colors from '@skbkontur/colors/tokens-default/light';
+import * as colors from '@skbkontur/colors-v2/tokens-default/light';
 import { BasicThemeClassForExtension } from '@skbkontur/react-ui/internal/themes/BasicTheme';
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';

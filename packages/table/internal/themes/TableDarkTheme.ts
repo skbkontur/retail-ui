@@ -1,6 +1,6 @@
+import * as colors from '@skbkontur/colors-v2/tokens-default/dark';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
-import * as colors from '../../../colors/tokens-default/dark.js';
 import type { TableThemeInternal } from './TableLightTheme.js';
 
 export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
