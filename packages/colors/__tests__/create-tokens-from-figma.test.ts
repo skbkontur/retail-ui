@@ -1,6 +1,5 @@
 import { describe, test, expect } from 'vitest';
 
-import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens';
 import { slashToCamelCase, transformations, extractTokensFromFigma } from '../scripts/create-tokens-from-figma';
 
 const [
@@ -26,15 +25,6 @@ describe('extractTokensFromFigma (Integration)', () => {
       'Incomplete/Token / Dark': 'Value',
     };
 
-    const deprecatedEntries = (theme: string) =>
-      Object.entries(DEPRECATED_TOKENS)
-        .map(([deprecatedKey, newKey]) => [
-          `    /** @deprecated Use ${newKey} instead */`,
-          `    ${deprecatedKey}: ${theme}.${newKey},`,
-        ])
-        .flat()
-        .join('\n');
-
     const expectedCode = `import type { TokensBase } from './types/tokens-base.js';
 
 export const getColorsDefaultTokens = (
@@ -51,17 +41,7 @@ export const getColorsDefaultTokens = (
     lineSoft: base.accent?.palette?.dim[48] || base.neutralWhiteAlpha[64],
   };
 
-  const deprecatedLight = {
-${deprecatedEntries('light')}
-  };
-  const deprecatedDark = {
-${deprecatedEntries('dark')}
-  };
-
-  return {
-    light: { ...light, ...deprecatedLight },
-    dark: { ...dark, ...deprecatedDark },
-  };
+  return { light, dark };
 };
 `;
     const result = extractTokensFromFigma(rawInput);
@@ -169,15 +149,6 @@ describe('Pipeline Steps', () => {
       ['tokenTwo', { light: 'l2', dark: 'd2' }],
     ];
 
-    const deprecatedEntries = (theme: string) =>
-      Object.entries(DEPRECATED_TOKENS)
-        .map(([deprecatedKey, newKey]) => [
-          `    /** @deprecated Use ${newKey} instead */`,
-          `    ${deprecatedKey}: ${theme}.${newKey},`,
-        ])
-        .flat()
-        .join('\n');
-
     const expected = `import type { TokensBase } from './types/tokens-base.js';
 
 export const getColorsDefaultTokens = (
@@ -192,17 +163,7 @@ export const getColorsDefaultTokens = (
     tokenTwo: d2,
   };
 
-  const deprecatedLight = {
-${deprecatedEntries('light')}
-  };
-  const deprecatedDark = {
-${deprecatedEntries('dark')}
-  };
-
-  return {
-    light: { ...light, ...deprecatedLight },
-    dark: { ...dark, ...deprecatedDark },
-  };
+  return { light, dark };
 };
 `;
     expect(generateCodeFn(input).trim()).toBe(expected.trim());

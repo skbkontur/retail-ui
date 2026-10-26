@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { customizable } from '../lib/consts/default-swatch.js';
-import { DEPRECATED_TOKENS } from '../lib/deprecated-tokens.js';
 import type { ThemeKey } from '../lib/types/tokens.js';
 
 interface Value {
@@ -363,15 +362,6 @@ export const transformations: Rule[] = [
         return lines.join('\n');
       };
 
-      const generateDeprecated = (theme: ThemeKey) => {
-        const lines = Object.entries(DEPRECATED_TOKENS)
-          .map(([deprecatedKey, newKey]) => {
-            return [`    /** @deprecated Use ${newKey} instead */`, `    ${deprecatedKey}: ${theme}.${newKey},`];
-          })
-          .flat();
-        return lines.join('\n');
-      };
-
       return `import type { TokensBase } from './types/tokens-base.js';
 
 export const getColorsDefaultTokens = (
@@ -384,17 +374,7 @@ ${generateMain('light')}
 ${generateMain('dark')}
   };
 
-  const deprecatedLight = {
-${generateDeprecated('light')}
-  };
-  const deprecatedDark = {
-${generateDeprecated('dark')}
-  };
-
-  return {
-    light: { ...light, ...deprecatedLight },
-    dark: { ...dark, ...deprecatedDark },
-  };
+  return { light, dark };
 };
 `;
     },

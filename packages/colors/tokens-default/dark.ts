@@ -336,35 +336,3 @@ export const customizableSoftPurple = 'var(--k-color-customizable-soft-purple, #
 export const customizableSoftRed = 'var(--k-color-customizable-soft-red, #943e3b)';
 export const customizableSoftViolet = 'var(--k-color-customizable-soft-violet, #634c9e)';
 export const customizableSoftYellow = 'var(--k-color-customizable-soft-yellow, #87602d)';
-/** @deprecated Use shapeBoldNeutralSolid instead */
-export const shapeBoldNeutral = 'var(--k-color-shape-bold-neutral, #bebebe)';
-/** @deprecated Use shapeBoldNeutralSolidHover instead */
-export const shapeBoldNeutralHover = 'var(--k-color-shape-bold-neutral-hover, #d7d7d7)';
-/** @deprecated Use shapeBoldNeutralSolidPressed instead */
-export const shapeBoldNeutralPressed = 'var(--k-color-shape-bold-neutral-pressed, #a4a4a4)';
-/** @deprecated Use shapeHeavyNeutralSolid instead */
-export const shapeHeavyNeutral = 'var(--k-color-shape-heavy-neutral, #f2f2f2)';
-/** @deprecated Use shapeOtherBacklessAlphaHover instead */
-export const shapeOtherBacklessHover = 'var(--k-color-shape-other-backless-hover, rgba(255, 255, 255, 0.1))';
-/** @deprecated Use shapeOtherBacklessAlphaPressed instead */
-export const shapeOtherBacklessPressed = 'var(--k-color-shape-other-backless-pressed, rgba(255, 255, 255, 0.05))';
-/** @deprecated Use shapeFaintNeutralSolid instead */
-export const shapeOtherNeutralFaintSolid = 'var(--k-color-shape-other-neutral-faint-solid, #333333)';
-/** @deprecated Use shapeFaintNeutralSolidHover instead */
-export const shapeOtherNeutralFaintSolidHover = 'var(--k-color-shape-other-neutral-faint-solid-hover, #3d3d3d)';
-/** @deprecated Use shapeFaintNeutralSolidPressed instead */
-export const shapeOtherNeutralFaintSolidPressed = 'var(--k-color-shape-other-neutral-faint-solid-pressed, #333333)';
-/** @deprecated Use shapePaleNeutralSolid instead */
-export const shapeOtherNeutralPaleSolid = 'var(--k-color-shape-other-neutral-pale-solid, #3d3d3d)';
-/** @deprecated Use shapePaleNeutralSolidHover instead */
-export const shapeOtherNeutralPaleSolidHover = 'var(--k-color-shape-other-neutral-pale-solid-hover, #484848)';
-/** @deprecated Use shapePaleNeutralSolidPressed instead */
-export const shapeOtherNeutralPaleSolidPressed = 'var(--k-color-shape-other-neutral-pale-solid-pressed, #333333)';
-/** @deprecated Use shapeSoftNeutralSolid instead */
-export const shapeOtherNeutralSoftSolid = 'var(--k-color-shape-other-neutral-soft-solid, #484848)';
-/** @deprecated Use shapeSoftNeutralSolidHover instead */
-export const shapeOtherNeutralSoftSolidHover = 'var(--k-color-shape-other-neutral-soft-solid-hover, #5d5d5d)';
-/** @deprecated Use shapeSoftNeutralSolidPressed instead */
-export const shapeOtherNeutralSoftSolidPressed = 'var(--k-color-shape-other-neutral-soft-solid-pressed, #3d3d3d)';
-/** @deprecated Use illustrationProductLogo instead */
-export const textLogo = 'var(--k-color-text-logo, #FE4C4C)';
