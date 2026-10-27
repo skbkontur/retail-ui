@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.6...@skbkontur/react-ui@6.4.7) (2026-10-27)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** prevent edits in readOnly mode ([60a56ba](https://github.com/skbkontur/retail-ui/commit/60a56baf35d7e39aa9175801a7f4c96edaedbe8b))
+* **Input:** respect readOnly and disabled states for editing feedback and clear icon ([943bd8d](https://github.com/skbkontur/retail-ui/commit/943bd8d72478ac8ad3380a7a88ecba57b436e719))
+* **MaskedInput:** prevent edits in readOnly mode ([8375ad5](https://github.com/skbkontur/retail-ui/commit/8375ad5c086e9c1c0e4bf0e64cf3e8cabf546a57))
+
+
+
+
+
 ## [6.4.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.5...@skbkontur/react-ui@6.4.6) (2026-10-23)
 
 
