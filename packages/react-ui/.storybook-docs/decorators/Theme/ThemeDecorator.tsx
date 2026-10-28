@@ -15,9 +15,10 @@ export const themes = {
 
 export const ThemeDecorator: Decorator = (Story, context) => {
   const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
-  const themeAttribute = context.userGlobals.theme === 'LIGHT_THEME' ? 'light' : 'dark';
+  const isDark = isDarkTheme(storybookTheme);
+  const themeAttribute = isDark ? 'dark' : 'light';
 
-  if (isDarkTheme(storybookTheme)) {
+  if (isDark) {
     document.body.classList.add('dark');
   } else {
     document.body.classList.remove('dark');
