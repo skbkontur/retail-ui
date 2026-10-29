@@ -144,33 +144,30 @@ export const DarkTheme6_5 = createTheme({
     public static menuItemCommentColor = colors.textNeutralSoft;
     public static menuHeaderColor = colors.textNeutralSoft;
     public static menuSeparatorBorderColor = colors.lineNeutralFaint;
-    public static toggleBgHover = colors.shapeOtherFieldHover;
-    // from BasicTheme
-    public static toggleBgPressed = lightColors.shapeOtherFieldPressed;
-    // from DarkTheme6_0
+    public static toggleBgHover = colors.shapeSoftNeutralAlphaHover;
+    public static toggleBgPressed = colors.shapeSoftNeutralAlphaPressed;
     public static toggleBorderColor = colors.lineNeutralPale;
     public static toggleShadowColorError = colors.lineErrorBold;
     public static toggleShadowColorWarning = colors.lineWarningBold;
     public static toggleFocusShadowColor = colors.lineAccentBold;
-    public static toggleContainerBg = colors.shapeOtherField;
-    public static toggleHandleBg = colors.shapeOtherBase;
-    public static toggleHandleBoxShadow = `0 0 0 1px ${colors.lineNeutralPale}`;
-    public static toggleContainerBoxShadow = `inset 0 0 0 1px ${colors.lineNeutralPale}`;
-    public static toggleHandleBgHover = colors.shapeOtherBase;
-    public static toggleHandleBoxShadowHover = `0 0 0 1px ${colors.lineNeutralPale}`;
-    public static toggleHandleBgChecked = colors.shapeInvertedNeutralHeavy;
+    public static toggleContainerBg = colors.shapeSoftNeutralAlpha;
+    public static toggleHandleBg = colors.shapeConstHeavyWhite;
+    public static toggleHandleBoxShadow = 'none';
+    public static toggleContainerBoxShadow = 'none';
+    public static toggleHandleBgHover = colors.shapeConstHeavyWhite;
+    public static toggleHandleBoxShadowHover = 'none';
+    public static toggleHandleBgChecked = colors.textOnAccentBoldHeavy;
     public static toggleBgChecked = colors.shapeBoldAccent;
     public static toggleContainerBgCheckedHover = colors.shapeBoldAccentHover;
-    public static toggleHandleBgCheckedHover = colors.shapeInvertedNeutralHeavyHover;
-    // from BasicTheme
-    public static toggleContainerBgCheckedPressed = lightColors.shapeBoldAccentPressed;
-    public static toggleHandleBgCheckedPressed = lightColors.shapeInvertedNeutralHeavyPressed;
-    // from DarkTheme6_0
+    public static toggleHandleBgCheckedHover = colors.textOnAccentBoldHeavy;
+    public static toggleContainerBgCheckedPressed = colors.shapeBoldAccentPressed;
+    public static toggleHandleBgCheckedPressed = colors.textOnAccentBoldHeavy;
     public static toggleContainerBgDisabled = colors.shapeOtherDisabled;
-    public static toggleContainerBoxShadowDisabled = `inset 0 0 0 1px ${colors.lineNeutralFaint}`;
-    public static toggleHandleBoxShadowDisabled = `0 0 0 1px ${colors.lineNeutralFaint}`;
+    public static toggleContainerBoxShadowDisabled = 'none';
+    public static toggleHandleBgDisabled = colors.shapeSoftNeutralAlpha;
+    public static toggleHandleBoxShadowDisabled = 'none';
     public static toggleContainerBgDisabledChecked = colors.shapeOtherAccentBoldDisabled;
-    public static toggleHandleBgDisabledChecked = colors.shapeInvertedNeutralHeavy;
+    public static toggleHandleBgDisabledChecked = colors.textConstSoftWhite;
     public static popupBackground = colors.surfaceHigh;
     public static inputBg = colors.shapeOtherField;
     public static inputIconColor = colors.textNeutralSoft;
@@ -187,7 +184,7 @@ export const DarkTheme6_5 = createTheme({
     public static get checkboxShadowDisabled(): string {
       return `0 0 0 ${this.checkboxBorderWidth} ${colors.lineNeutralFaint}`;
     }
-    public static checkboxCheckedColor = colors.shapeInvertedNeutralHeavy;
+    public static checkboxCheckedColor = colors.textOnAccentBoldHeavy;
     public static checkboxBg = colors.shapeOtherField;
     public static checkboxHoverBg = colors.shapeOtherFieldHover;
     public static checkboxActiveBg = colors.shapeOtherFieldPressed;
@@ -292,7 +289,7 @@ export const DarkTheme6_5 = createTheme({
     //#endregion MenuItem
 
     //#region Toggle
-    public static toggleContainerBoxShadowHover = `inset 0 0 0 1px ${colors.lineNeutralPale}`;
+    public static toggleContainerBoxShadowHover = 'none';
     //#endregion Toggle
 
     //#region Checkbox
@@ -306,6 +303,12 @@ export const DarkTheme6_5 = createTheme({
       return `0 0 0 ${this.checkboxBorderWidth} ${colors.lineNeutralPale}, 0 0 0 ${this.checkboxBorderWidth} ${colors.shapeOtherFieldPressed}`;
     }
     //#endregion Checkbox
+
+    //#region Radio
+    public static get radioCheckedActiveBgColor(): string {
+      return this.checkboxCheckedActiveBg;
+    }
+    //#endregion Radio
 
     //#region Token
     public static tokenBgPressed = colors.shapeFaintNeutralAlphaPressed;
