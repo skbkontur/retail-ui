@@ -32,16 +32,19 @@ class Playground extends React.Component {
                   checked={this.state.checked}
                   onValueChange={this.toggle.bind(this)}
                   loading={this.state.loading}
-                />{' '}
-                {this.state.checked ? 'On' : 'Off'}
+                >
+                  {this.state.checked ? 'On' : 'Off'}
+                </Toggle>
               </div>
               <div>
-                <Toggle checked={false} disabled />
-                {' Off disabled'}
+                <Toggle checked={false} disabled>
+                  Off disabled
+                </Toggle>
               </div>
               <div>
-                <Toggle checked disabled />
-                {' On disabled'}
+                <Toggle checked disabled>
+                  On disabled
+                </Toggle>
               </div>
             </Gapped>
 
@@ -52,16 +55,19 @@ class Playground extends React.Component {
                   onValueChange={this.toggle.bind(this)}
                   warning
                   loading={this.state.loading}
-                />{' '}
-                {this.state.checked ? 'On' : 'Off'}
+                >
+                  {this.state.checked ? 'On' : 'Off'}
+                </Toggle>
               </div>
               <div>
-                <Toggle checked={false} disabled warning />
-                {' Off disabled'}
+                <Toggle checked={false} disabled warning>
+                  Off disabled
+                </Toggle>
               </div>
               <div>
-                <Toggle checked disabled warning />
-                {' On disabled'}
+                <Toggle checked disabled warning>
+                  On disabled
+                </Toggle>
               </div>
             </Gapped>
 
@@ -72,16 +78,19 @@ class Playground extends React.Component {
                   onValueChange={this.toggle.bind(this)}
                   error
                   loading={this.state.loading}
-                />{' '}
-                {this.state.checked ? 'On' : 'Off'}
+                >
+                  {this.state.checked ? 'On' : 'Off'}
+                </Toggle>
               </div>
               <div>
-                <Toggle checked={false} disabled error />
-                {' Off disabled'}
+                <Toggle checked={false} disabled error>
+                  Off disabled
+                </Toggle>
               </div>
               <div>
-                <Toggle checked disabled error />
-                {' On disabled'}
+                <Toggle checked disabled error>
+                  On disabled
+                </Toggle>
               </div>
             </Gapped>
             <Gapped vertical gap={10}>
@@ -90,16 +99,19 @@ class Playground extends React.Component {
                   checked={this.state.checked}
                   onValueChange={this.toggle.bind(this)}
                   loading={this.state.loading}
-                />{' '}
-                {this.state.checked ? 'On' : 'Off'}
+                >
+                  {this.state.checked ? 'On' : 'Off'}
+                </Toggle>
               </div>
               <div>
-                <Toggle checked={false} disabled />
-                {' Off disabled'}
+                <Toggle checked={false} disabled>
+                  Off disabled
+                </Toggle>
               </div>
               <div>
-                <Toggle checked disabled />
-                {' On disabled'}
+                <Toggle checked disabled>
+                  On disabled
+                </Toggle>
               </div>
             </Gapped>
           </Gapped>
