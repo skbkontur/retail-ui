@@ -79,6 +79,11 @@ addons.setConfig({
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ['Colors', 'Colors API', 'Changelog', 'Migration'],
+      },
+    },
     theme: storybookTheme,
     docs: {
       theme: storybookTheme,
