@@ -158,7 +158,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       }
 
       &:active {
-        background-color: ${t.pagingPageLinkActiveBg};
+        background-color: ${t.pagingPageLinkPressedBg};
       }
     `;
   },

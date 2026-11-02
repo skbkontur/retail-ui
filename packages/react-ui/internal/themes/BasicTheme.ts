@@ -1428,6 +1428,9 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static pagingPageLinkActiveBg = colors.shapeOtherBacklessPressed;
+  public static get pagingPageLinkPressedBg(): string {
+    return this.pagingPageLinkActiveBg;
+  }
   public static pagingPageLinkDisabledActiveBg = colors.shapeOtherDisabled;
   public static pagingPageLinkHoverBg = colors.shapeOtherBacklessHover;
   public static pagingDotsColor = colors.textNeutralFaint;
