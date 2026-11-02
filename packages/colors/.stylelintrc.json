@@ -6,7 +6,8 @@
     "value-list-comma-newline-after": null,
     "color-hex-case": null,
     "color-hex-length": null,
-    "no-missing-end-of-source-newline": null
+    "no-missing-end-of-source-newline": null,
+    "at-rule-no-unknown": [true, { "ignoreAtRules": ["theme"] }]
   },
   "ignoreFiles": ["**/colors/*.{css,scss,less}", "**/table/**/*.css", ".cache/**"]
 }

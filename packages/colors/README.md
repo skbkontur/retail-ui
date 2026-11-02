@@ -117,6 +117,52 @@ const text = `
 }
 ```
 
+> Поддержка Tailwind экспериментальная: имя файла и состав могут измениться.
+
+### Tailwind 4 (экспериментально)
+
+Подключите inline-тему после Tailwind. Она регистрирует все цветовые токены с префиксом `k-` и ссылается на те же CSS-переменные. CSS-файл выбранной цветовой схемы по-прежнему должен быть подключён.
+
+```css
+@import 'tailwindcss';
+@import '@skbkontur/colors/tailwind.experimental.css';
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+```
+
+### Tailwind 3.3+ (экспериментально)
+
+Начиная с Tailwind 3.3 те же цвета можно зарегистрировать через экспортируемые JS-переменные. Используйте ESM-конфигурацию `tailwind.config.mjs`:
+
+```js
+import * as colors from '@skbkontur/colors';
+
+const konturColors = Object.fromEntries(
+  Object.values(colors).map((value) => [value.replace(/^var\(--k-color-(.+)\)$/, 'k-$1'), value]),
+);
+
+export default {
+  theme: {
+    extend: {
+      colors: konturColors,
+    },
+  },
+};
+```
+
+CSS-файл выбранной цветовой схемы также должен быть подключён:
+
+```css
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+```
+
+В обеих версиях Tailwind токены доступны во всех цветовых utilities:
+
+```html
+<div data-k-brand="orange" data-k-accent="gray" data-k-theme="light">
+  <p class="text-k-text-neutral-heavy bg-k-surface-base border-k-line-neutral-pale">Текст</p>
+</div>
+```
+
 <br />
 
 ## Colors API: генерация палитр и кастомные токены

@@ -1,5 +1,6 @@
 /tokens/
 /tokens-mobile/
+/tailwind.experimental.css
 **/*.js
 **/*.js.map
 **/*.d.ts

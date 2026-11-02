@@ -6,6 +6,7 @@ import type { ConfigOptions } from '../lib/get-colors-base.js';
 import { getColors } from '../lib/get-colors.js';
 import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
 import { flattenHybridCase } from '../lib/utils/create-styles.js';
+import { createTailwindTheme } from '../lib/utils/create-tailwind-theme.js';
 import { camelCaseToKebabCase, kebabCaseToCamelCase } from '../lib/utils/format-variable.js';
 
 type ColorFormat = ConfigOptions['format'];
@@ -151,6 +152,8 @@ saveTokens({
   tokensCSSPrefix: 'k-color',
   fileSingleOutputName: path.join(TOKENS_OUTPUT, 'index.ts'),
 });
+
+fs.writeFileSync(path.join(TOKENS_OUTPUT, 'tailwind.experimental.css'), createTailwindTheme(tokensDefault.light));
 
 const defaultThemes = [
   { name: 'light', data: tokensDefault.light },

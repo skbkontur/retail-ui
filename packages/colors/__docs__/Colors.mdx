@@ -30,7 +30,7 @@ npm i @skbkontur/colors
 
 **Совместимость с любыми веб-фреймворками и платформами**
 
-- Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less
+- Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less, а также Tailwind 3.3+ и Tailwind 4 (экспериментально)
 - Конфигурация сразу нескольких схем через HTML-атрибуты `data-k-brand`, `data-k-accent`, `data-k-theme`
 - Доступны [выгрузки из 14 цветовых схем в виде JSON](https://app.unpkg.com/@skbkontur/colors/files/tokens-mobile) для приложений iOS/Android, языков C#/Java/Python и других платформ.
 - [Расширенный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
@@ -44,6 +44,56 @@ npm i @skbkontur/colors
 <Unstyled>
   <ColorsCodePlayground />
 </Unstyled>
+
+<br />
+
+## Tailwind (экспериментально)
+
+> Поддержка Tailwind экспериментальная: имя файла и состав могут измениться.
+
+### Tailwind 4
+
+Подключите inline-тему и CSS-файл цветовой схемы:
+
+```css
+@import 'tailwindcss';
+@import '@skbkontur/colors/tailwind.experimental.css';
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+```
+
+### Tailwind 3.3+
+
+Начиная с Tailwind 3.3 зарегистрируйте экспортируемые JS-переменные в ESM-конфигурации `tailwind.config.mjs`:
+
+```js
+import * as colors from '@skbkontur/colors';
+
+const konturColors = Object.fromEntries(
+  Object.values(colors).map((value) => [value.replace(/^var\(--k-color-(.+)\)$/, 'k-$1'), value]),
+);
+
+export default {
+  theme: {
+    extend: {
+      colors: konturColors,
+    },
+  },
+};
+```
+
+CSS-файл выбранной цветовой схемы также должен быть подключён:
+
+```css
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+```
+
+В обеих версиях Tailwind токены доступны с префиксом `k-`, например `text-k-text-neutral-heavy`, `bg-k-surface-base` и `border-k-line-neutral-pale`.
+
+```html
+<div data-k-brand="orange" data-k-accent="gray" data-k-theme="light">
+  <p class="text-k-text-neutral-heavy bg-k-surface-base">Текст</p>
+</div>
+```
 
 <br />
 
