@@ -380,21 +380,23 @@ document.head.${kw('appendChild')}(style);`;
 const Widgets = () => {
   const [format, setFormat] = React.useState<'css' | 'scss' | 'less' | 'ts'>('css');
 
-  const getRenderSnippet = () => `${kw('import')} { createRoot } ${kw('from')} ${val('react-dom/client')};
-  
-${kw('import')} ${val('@skbkontur/colors/tokens/brand-red_accent-gray.css')};
+  const getInstallSnippet = () => `npm i -D @skbkontur/colors @skbkontur/postcss-plugin-k-colors-fallback`;
 
-${kw('interface')} Props {}
+  const getViteConfigSnippet =
+    () => `${kw('import')} { getColors } ${kw('from')} ${val('@skbkontur/colors/get-colors')};
+${kw('import')} fallbackPlugin ${kw('from')} ${val('@skbkontur/postcss-plugin-k-colors-fallback')};
 
-${kw('export function')} render(container: HTMLElement, signal: AbortSignal, {}: Props): ${kw('void')} {
-  ${kw('if')} (!container.${kw('closest')}(${val('[data-k-brand][data-k-accent]')})) {
-    container.${kw('setAttribute')}(${val('data-k-brand')}, ${val('red')});
-    container.${kw('setAttribute')}(${val('data-k-accent')}, ${val('gray')});
-  }
-  ${kw('const')} root = ${kw('createRoot')}(container);
-  root.${kw('render')}(${tag('&lt;h1&gt;')}!${tag('&lt;/h1&gt;')});
-  signal.${kw('addEventListener')}(${val('abort')}, () => root.${kw('unmount')}(), { once: ${kw('true')} });
-}`;
+${kw('export default')} {
+  css: {
+    postcss: {
+      plugins: [
+        ${kw('fallbackPlugin')}({
+          tokens: ${kw('getColors')}({ brand: ${val('red')}, accent: ${val('gray')}, theme: ${val('light')} }),
+        }),
+      ],
+    },
+  },
+};`;
 
   const getUseSnippet = () => {
     if (format === 'css') {
@@ -416,7 +418,7 @@ ${kw('export function')} render(container: HTMLElement, signal: AbortSignal, {}:
         '@color-shape-bold-accent',
       )};\n}`;
     }
-    return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
+    return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors/tokens-default/light')};\n\n${kw(
       'const',
     )} styles = { ${cssProp('background')}: colors.shapeBoldAccent };`;
   };
@@ -424,20 +426,29 @@ ${kw('export function')} render(container: HTMLElement, signal: AbortSignal, {}:
   return (
     <Gapped vertical gap={24}>
       <div>
-        <h3 className="section-title">1. Настройка render.tsx</h3>
+        <h3 className="section-title">1. Установка</h3>
         <div className="section-desc">
-          В файл{' '}
-          <Link href="https://git.skbkontur.ru/platform/widget-platform/templates/kontur-react/-/blob/master/widget/render.tsx">
-            render.tsx
-          </Link>{' '}
-          добавьте проверку цветовой схемы продукта и подключение дефолтной
+          Цвета задает продукт, в который встроен виджет: подключать CSS и указывать data-атрибуты не нужно. Если в
+          продукте нет colors, сработают fallback-значения. Их добавит PostCSS-плагин{' '}
+          <Link href="https://widgets.skbkontur.ru/widget-platform/RC/tools/postcss-plugins/k-colors-fallback/">
+            @skbkontur/postcss-plugin-k-colors-fallback
+          </Link>
         </div>
-        <CopyBlock code={getRenderSnippet()} />
+        <CopyBlock code={getInstallSnippet()} />
       </div>
       <div>
-        <h3 className="section-title">2. Использование переменных</h3>
+        <h3 className="section-title">2. Настройка widget/vite.config.ts</h3>
         <div className="section-desc">
-          Выберите формат токенов для использования в ваших стилях (компоненты Kontur UI перекрасятся сами)
+          Добавьте плагин в <code>css.postcss.plugins</code> и укажите цветовую схему для fallback-значений. В
+          npm-loader плагин не работает (он собирается через tsc), там fallback-значения в CSS указывайте вручную
+        </div>
+        <CopyBlock code={getViteConfigSnippet()} />
+      </div>
+      <div>
+        <h3 className="section-title">3. Использование переменных</h3>
+        <div className="section-desc">
+          Выберите формат токенов для использования в ваших стилях. Компоненты Kontur UI перекрасятся сами, в CSS
+          fallback-значения добавит плагин, а в JS/TS они уже есть
         </div>
         <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
           <Tabs.Tab id="css">CSS</Tabs.Tab>

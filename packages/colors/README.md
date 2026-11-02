@@ -66,6 +66,37 @@ npm i @skbkontur/colors
 </div>
 ```
 
+## Подключение в виджетах
+
+Цвета задает продукт, в который встроен виджет: подключать CSS и указывать data-атрибуты не нужно. Если в продукте нет colors, сработают fallback-значения. Их добавит PostCSS-плагин [@skbkontur/postcss-plugin-k-colors-fallback](https://widgets.skbkontur.ru/widget-platform/RC/tools/postcss-plugins/k-colors-fallback/)
+
+```bash
+npm i -D @skbkontur/colors @skbkontur/postcss-plugin-k-colors-fallback
+```
+
+Добавьте плагин в `css.postcss.plugins` в `widget/vite.config.ts` и укажите цветовую схему для fallback-значений
+
+```ts
+import { getColors } from '@skbkontur/colors/get-colors';
+import fallbackPlugin from '@skbkontur/postcss-plugin-k-colors-fallback';
+
+export default {
+  css: {
+    postcss: {
+      plugins: [
+        fallbackPlugin({
+          tokens: getColors({ brand: 'red', accent: 'gray', theme: 'light' }),
+        }),
+      ],
+    },
+  },
+};
+```
+
+В JS/TS импортируйте токены из `@skbkontur/colors/tokens-default/light`: в них fallback-значения уже есть
+
+В npm-loader плагин не работает (он собирается через tsc), там fallback-значения в CSS указывайте вручную
+
 ## Использование
 
 ### CSS
