@@ -148,7 +148,7 @@
 | `shapePaleAccentPressed`                | `rgba(0,0,0,0.32)` → `rgba(0,0,0,0.3)`              | `rgba(255,255,255,0.12)` → `rgba(255,255,255,0.1)`  |
 | `shapePaleNeutralAlpha`                 | `rgba(0,0,0,0.12)` → `rgba(0,0,0,0.11)`             | `rgba(255,255,255,0.12)` → `rgba(255,255,255,0.1)`  |
 | `shapePaleNeutralAlphaHover`            | —                                                   | `rgba(255,255,255,0.16)` → `rgba(255,255,255,0.15)` |
-| `shapePaleNeutralAlphaPressed`          | `rgba(0,0,0,0.24)` → `rgba(0,0,0,0.26)`             | `rgba(255,255,255,0.06)` → `rgba(255,255,255,0.05)` |
+| `shapePaleNeutralAlphaPressed`          | `rgba(0,0,0,0.24)` → `rgba(0,0,0,0.21)`             | `rgba(255,255,255,0.06)` → `rgba(255,255,255,0.05)` |
 | `shapeSoftAccent`                       | `rgba(0,0,0,0.32)` → `rgba(0,0,0,0.3)`              | `rgba(255,255,255,0.32)` → `rgba(255,255,255,0.3)`  |
 | `shapeSoftAccentHover`                  | —                                                   | `rgba(255,255,255,0.4)` → `rgba(255,255,255,0.41)`  |
 | `shapeSoftAccentPressed`                | `rgba(0,0,0,0.48)` → `rgba(0,0,0,0.5)`              | —                                                   |

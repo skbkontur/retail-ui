@@ -52162,8 +52162,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -55428,8 +55428,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -58694,8 +58694,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -61960,8 +61960,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -65226,8 +65226,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -68492,8 +68492,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -71758,8 +71758,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -75024,8 +75024,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -78290,8 +78290,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -81556,8 +81556,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -84822,8 +84822,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -88088,8 +88088,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -91354,8 +91354,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
@@ -94620,8 +94620,8 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-gray.json 1`
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",

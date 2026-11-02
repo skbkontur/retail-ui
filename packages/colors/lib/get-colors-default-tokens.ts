@@ -125,7 +125,7 @@ export const getColorsDefaultTokens = (
     shapePaleErrorPressed: base.customizable.red.dim[88],
     shapePaleNeutralAlpha: base.neutralBlackAlpha[92],
     shapePaleNeutralAlphaHover: base.neutralBlackAlpha[88],
-    shapePaleNeutralAlphaPressed: base.neutralBlackAlpha[80],
+    shapePaleNeutralAlphaPressed: base.neutralBlackAlpha[84],
     shapePaleNeutralSolid: base.neutralSolid[92],
     shapePaleNeutralSolidHover: base.neutralSolid[88],
     shapePaleNeutralSolidPressed: base.neutralSolid[84],

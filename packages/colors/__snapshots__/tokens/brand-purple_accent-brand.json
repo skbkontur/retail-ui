@@ -1211,8 +1211,8 @@
   },
   "shapePaleNeutralAlphaPressed": {
     "light": {
-      "oklch": "oklch(0% 0 0 / 0.26)",
-      "hex": "rgba(0, 0, 0, 0.26)"
+      "oklch": "oklch(0% 0 0 / 0.21)",
+      "hex": "rgba(0, 0, 0, 0.21)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.05)",
