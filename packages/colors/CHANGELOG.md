@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/colors@2.1.11...@skbkontur/colors@3.0.0) (2026-11-02)
+
+Colors work the same way as in 2.0. 23 tokens are new, 114 are changed, 16 are removed.
+
+Solid and Alpha palettes now use the same scale, so hover and pressed colors change smoothly.
+
+
+### Features
+
+* **Semantic tokens:** values are synced with Figma: 89 changed in light theme, 93 in dark ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Semantic tokens:** neutral shapes have two types: `Solid` and `Alpha` (transparent) ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Semantic tokens:** new logo tokens `illustrationKonturLogo` and `illustrationProductLogo` ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Base tokens:** neutral palettes use scales from Figma ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Base tokens:** new `brand.logoKontur` and `getLogoKontur` ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Tailwind:** experimental support: `tailwind.experimental.css` for Tailwind 4, config for Tailwind 3.3+ ([993a1b5](https://github.com/skbkontur/retail-ui/commit/993a1b533e3ff9b9d42fc701822ec288c6ba2d30))
+* **Docs:** colors in widgets with PostCSS plugin `@skbkontur/postcss-plugin-k-colors-fallback` ([6935b8f](https://github.com/skbkontur/retail-ui/commit/6935b8f16e513161353d052615d1fc5a2a82a060))
+
+
+### BREAKING CHANGES
+
+* **Semantic tokens:** 16 old tokens are removed, e.g. `shapeBoldNeutral` → `shapeBoldNeutralSolid`, `textLogo` → `illustrationProductLogo` ([3e8d1d8](https://github.com/skbkontur/retail-ui/commit/3e8d1d8e8c776fc4f9c459f92b08717095584c66))
+* **Base tokens:** palettes are renamed: `gray` → `neutralSolid`, `whiteAlpha` → `neutralWhiteAlpha`, `blackAlpha` → `neutralBlackAlpha`; alpha keys mean lightness now, not opacity ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Base tokens:** `onBrand` and `onAccent` keys are 5…100 with step 5 (no 60 and 85) ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Base tokens:** `brand.logo` → `brand.logoProduct`, `getLogo` → `getLogoProduct` ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+* **Base tokens:** `AlphaScale` and `GrayScale` types are removed ([1eb5734](https://github.com/skbkontur/retail-ui/commit/1eb5734c9e9654e3ac00712def0d7b1190d57bdb))
+
+All replacements and new values are in MIGRATION.md
+
+
+
+
+
 ## [2.1.11](/compare/@skbkontur/colors@2.1.10...@skbkontur/colors@2.1.11) (2026-10-13)
 
 **Note:** Version bump only for package @skbkontur/colors

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.1.1...@skbkontur/table@1.2.0) (2026-11-02)
+
+
+### Features
+
+* **Table:** uses `@skbkontur/colors` 3.0, same as react-ui 6.5 ([bab1cc9](https://github.com/skbkontur/retail-ui/commit/bab1cc9b7877ba9593ab215833e58602aeb9bee4))
+* **Table:** rows on hover and press use solid Backless colors ([bab1cc9](https://github.com/skbkontur/retail-ui/commit/bab1cc9b7877ba9593ab215833e58602aeb9bee4))
+
+
+
+
+
 ## [1.1.1](/compare/@skbkontur/table@1.1.0...@skbkontur/table@1.1.1) (2026-10-13)
 
 **Note:** Version bump only for package @skbkontur/table

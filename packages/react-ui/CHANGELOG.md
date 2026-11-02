@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.7...@skbkontur/react-ui@6.5.0) (2026-11-02)
+
+Hover and pressed colors are cleaned up: smaller step between hover and pressed, pressed state where it was missing, pressed and selected are split where they were the same.
+
+
+### Features
+
+* **Themes:** new 6.5 themes on `@skbkontur/colors` 3.0; themes 6.0–6.4 use `@skbkontur/colors` 2.1.11 and look the same ([bab1cc9](https://github.com/skbkontur/retail-ui/commit/bab1cc9b7877ba9593ab215833e58602aeb9bee4))
+* **Toggle:** no border, new colors ([5893b23](https://github.com/skbkontur/retail-ui/commit/5893b23e539f2a70487ed817ca58aec468772c66))
+* **Checkbox, Radio:** new check and dot color ([5893b23](https://github.com/skbkontur/retail-ui/commit/5893b23e539f2a70487ed817ca58aec468772c66))
+* **Calendar, DatePicker, DateRangePicker:** pressed state for day and month/year links; selected day stays selected ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **FileUploader:** pressed state for upload area, file, file list, error and warning ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **MenuItem:** pressed state in all menus and lists: Autocomplete, ComboBox, Dropdown, DropdownMenu, Kebab, Select, TimePicker, TokenInput, TooltipMenu and month/year lists in Calendar, DatePicker, DateRangePicker ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **Radio:** pressed state for checked radio (before, it kept the hover color) ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **Tabs:** pressed state for tab border ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **Token:** pressed state for background and text ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+* **DateSelect, FileUploader, MenuItem, Token:** smooth color change on hover and press ([8de7208](https://github.com/skbkontur/retail-ui/commit/8de72081224f469934713d35e8591313b8de1997))
+
+
+### Deprecations
+
+* **Tabs:** `error`, `warning`, `success`, `primary` props and `tabColor*`, `tabColorHover*` variables. They are not in Kontur Guides and will be removed in the next major ([bdad456](https://github.com/skbkontur/retail-ui/commit/bdad456f33a9b1175fb2174da4aad83162c269ef))
+
+
+### Bug Fixes
+
+* **MenuItem:** selected item (e.g. value in Select) stays selected on hover and press ([79eae17](https://github.com/skbkontur/retail-ui/commit/79eae177ea98bc2c5ab640de75a2986d92c78329))
+* **Paging:** current page and pressed page have separate colors ([88e72af](https://github.com/skbkontur/retail-ui/commit/88e72afedee3b7f00aaacaaffc0b4cf23d432e88))
+
+
+
+
+
 ## [6.4.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.6...@skbkontur/react-ui@6.4.7) (2026-10-27)
 
 
