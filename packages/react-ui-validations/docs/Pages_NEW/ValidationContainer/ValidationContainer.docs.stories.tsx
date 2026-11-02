@@ -220,27 +220,37 @@ export const ExampleSubmitWithoutFocus: Story = () => {
 };
 ExampleSubmitWithoutFocus.storyName = 'Показ ошибок без фокуса';
 
-/** Ошибка поля сохраняется после перемонтирования: например, после переключения вкладок в уже проверенной форме. */
+/** По умолчанию `ValidationWrapper` не валидирует поле, которое смонтировали после отправки формы: ошибка появится только после следующей отправки или взаимодействия с полем. Проп `validateOnMount` включает проверку при монтировании. */
 export const ExampleRemount: Story = () => {
   const container = React.useRef<ValidationContainer>(null);
   const [tab, setTab] = React.useState<'phone' | 'email'>('phone');
+  const [validateOnMount, setValidateOnMount] = React.useState(false);
   const [phone, setPhone] = React.useState('');
   const [email, setEmail] = React.useState('');
 
   return (
     <ValidationContainer ref={container}>
       <Gapped vertical gap={16}>
+        <Checkbox checked={validateOnMount} onValueChange={setValidateOnMount}>
+          Валидировать при монтировании
+        </Checkbox>
         <Tabs value={tab} onValueChange={setTab}>
           <Tabs.Tab id="phone">Телефон</Tabs.Tab>
           <Tabs.Tab id="email">Почта</Tabs.Tab>
         </Tabs>
         {tab === 'phone' && (
-          <ValidationWrapper validationInfo={phone ? null : { message: 'Укажите телефон', type: 'submit' }}>
+          <ValidationWrapper
+            validateOnMount={validateOnMount}
+            validationInfo={phone ? null : { message: 'Укажите телефон', type: 'submit' }}
+          >
             <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
           </ValidationWrapper>
         )}
         {tab === 'email' && (
-          <ValidationWrapper validationInfo={email ? null : { message: 'Укажите почту', type: 'submit' }}>
+          <ValidationWrapper
+            validateOnMount={validateOnMount}
+            validationInfo={email ? null : { message: 'Укажите почту', type: 'submit' }}
+          >
             <Input placeholder="Почта" value={email} onValueChange={setEmail} />
           </ValidationWrapper>
         )}

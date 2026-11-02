@@ -425,5 +425,63 @@ describe('ValidationWrapper', () => {
 
       expect(screen.queryByText('message')).toBeInTheDocument();
     });
+
+    describe('after form validation', () => {
+      const TestForm = ({
+        validateOnMount,
+        validationType = 'submit',
+      }: {
+        validateOnMount?: boolean;
+        validationType?: ValidationBehaviour;
+      }) => {
+        const containerRef = React.useRef<ValidationContainer>(null);
+        const [isFieldMounted, setIsFieldMounted] = React.useState(false);
+
+        return (
+          <ValidationContainer ref={containerRef} disableSmoothScroll>
+            <button onClick={() => containerRef.current?.validate()}>Submit</button>
+            <button onClick={() => setIsFieldMounted(true)}>Mount field</button>
+            {isFieldMounted && (
+              <ValidationWrapper
+                validateOnMount={validateOnMount}
+                validationInfo={{ type: validationType, level: 'error', message: 'message' }}
+                renderMessage={text('bottom')}
+              >
+                <InputLike />
+              </ValidationWrapper>
+            )}
+          </ValidationContainer>
+        );
+      };
+
+      it('should not validate a newly mounted field without `validateOnMount`', async () => {
+        render(<TestForm />);
+
+        await act(async () => {
+          fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+        });
+        fireEvent.click(screen.getByRole('button', { name: 'Mount field' }));
+
+        expect(screen.queryByText('message')).not.toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+
+        expect(await screen.findByText('message')).toBeInTheDocument();
+      });
+
+      it.each(['submit', 'lostfocus', 'immediate'] as const)(
+        'should validate a newly mounted field with `validateOnMount` and `%s` validation',
+        async (validationType) => {
+          render(<TestForm validateOnMount validationType={validationType} />);
+
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+          });
+          fireEvent.click(screen.getByRole('button', { name: 'Mount field' }));
+
+          expect(await screen.findByText('message')).toBeInTheDocument();
+        },
+      );
+    });
   });
 });

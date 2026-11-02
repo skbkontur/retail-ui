@@ -33,6 +33,9 @@ export interface ValidationWrapperInternalProps {
   children?: React.ReactElement<any>;
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
+  /** Валидирует контрол при монтировании так же, как при отправке формы.
+   * @default false */
+  validateOnMount?: boolean;
   /** Атрибут для поиска элемента в автотестах. Попадает на корневой элемент. */
   'data-tid'?: string;
 }
@@ -70,7 +73,7 @@ export class ValidationWrapperInternal extends React.Component<
     if (this.context) {
       this.context.register(this);
     }
-    if (this.context.isValidationCalled()) {
+    if (this.props.validateOnMount && this.context.isValidationCalled()) {
       this.processSubmit();
     } else {
       this.applyValidation(this.props.validation);

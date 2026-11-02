@@ -33,6 +33,11 @@ export interface ValidationWrapperProps extends Pick<ValidationWrapperInternalPr
   /** Задаёт, как показать сообщение: в тултипе — `tooltip(pos)`, текстом — `text(pos)` или своей функцией.
    * @default tooltip('right top') */
   renderMessage?: Nullable<RenderErrorMessage>;
+  /** Валидирует контрол при монтировании так же, как при отправке формы, если форма уже проверялась.
+   * Пригодится в «бесконечных» таблицах и других динамических формах, где поля должны проверяться на лету.
+   * По умолчанию при монтировании контрол не валидируется.
+   * @default false */
+  validateOnMount?: Nullable<boolean>;
 }
 
 /** Обёртка валидации оборачивает один контрол: подсвечивает его и показывает сообщение.
@@ -43,7 +48,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public static displayName = 'ValidationWrapper';
 
   public render(): React.JSX.Element {
-    const { children, validationInfo, renderMessage, 'data-tid': datTid } = this.props;
+    const { children, validationInfo, renderMessage, validateOnMount, 'data-tid': datTid } = this.props;
     const validation: Nullable<Validation> = validationInfo
       ? {
           level: validationInfo.level || 'error',
@@ -57,6 +62,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
       <ValidationWrapperInternal
         data-tid={datTid}
         errorMessage={renderMessage || tooltip('right top')}
+        validateOnMount={validateOnMount || false}
         validation={validation}
       >
         {children}
