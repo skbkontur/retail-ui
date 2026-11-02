@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.4...@skbkontur/react-ui-validations@3.1.5) (2026-11-02)
+
+
+### Bug Fixes
+
+* **ValidationWrapper:** don't validate fields mounted after submit by default; add validateOnMount opt-in ([7b5105a](https://github.com/skbkontur/retail-ui/commit/7b5105a29dc795a27a2591f33f100d64d224da75))
+
+
+
+
+
 ## [3.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.3...@skbkontur/react-ui-validations@3.1.4) (2026-10-23)
 
 
