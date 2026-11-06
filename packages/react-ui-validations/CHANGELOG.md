@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.5...@skbkontur/react-ui-validations@3.1.6) (2026-11-06)
+
+
+### Bug Fixes
+
+* **ValidationContainer:** don't warn "childContext is not defined" on every submit ([4ca7647](https://github.com/skbkontur/retail-ui/commit/4ca764768abd70e6d46a3455cb24bbe6f9bb0585))
+
+
+
+
+
 ## [3.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.1.4...@skbkontur/react-ui-validations@3.1.5) (2026-11-02)
 
 
