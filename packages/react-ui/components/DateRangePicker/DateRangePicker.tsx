@@ -475,7 +475,7 @@ export const DateRangePicker = Object.assign(
         return;
       }
 
-      const date = String(hoveredElement?.getAttribute(DayDateAttribute)) || null;
+      const date = hoveredElement.getAttribute(DayDateAttribute);
       setHoveredDay(date);
     }
 
