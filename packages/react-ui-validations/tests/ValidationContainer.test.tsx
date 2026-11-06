@@ -35,6 +35,23 @@ describe('ValidationContainer', () => {
     expect(screen.getByTestId('passed-div')).toBeInTheDocument();
   });
 
+  it('submit doesn`t warn when child context is defined', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const containerRef = React.createRef<ValidationContainer>();
+    render(
+      <ValidationContainer ref={containerRef}>
+        <ValidationWrapper validationInfo={null}>
+          <Input />
+        </ValidationWrapper>
+      </ValidationContainer>,
+    );
+
+    await containerRef.current?.submit();
+
+    expect(consoleSpy).not.toHaveBeenCalledWith('Warning: childContext is not defined');
+    consoleSpy.mockRestore();
+  });
+
   describe('scroll into view on submit', () => {
     beforeEach(() => {
       (smoothScrollIntoView as ReturnType<typeof vi.fn>).mockReset();
