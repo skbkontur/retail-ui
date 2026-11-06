@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.0...@skbkontur/react-ui@6.5.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** reset hovered day when the cursor leaves calendar days ([b9b9245](https://github.com/skbkontur/retail-ui/commit/b9b9245e99748124ec6a235dcb3a5e4daeb4cc67))
+
+
+
+
+
 # [6.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.4.7...@skbkontur/react-ui@6.5.0) (2026-11-02)
 
 Hover and pressed colors are cleaned up: smaller step between hover and pressed, pressed state where it was missing, pressed and selected are split where they were the same.
