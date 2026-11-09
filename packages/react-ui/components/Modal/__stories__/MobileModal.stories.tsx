@@ -226,6 +226,39 @@ export const MobileModalFullscreenWithStickyHeaderAndStickyFooterWithLongContent
   );
 };
 
+function MobileModalResizableContent() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div>
+      <Button data-tid="toggle-modal-content" onClick={() => setExpanded(!expanded)}>
+        Toggle content
+      </Button>
+      {expanded ? (
+        <div>
+          {Array.from({ length: 30 }, (_, index) => (
+            <p key={index}>Long content, row {index + 1}</p>
+          ))}
+        </div>
+      ) : (
+        <p>Short content</p>
+      )}
+    </div>
+  );
+}
+
+export const MobileModalWithDynamicBodyContent: Story = () => (
+  <Modal mobileAppearance="fullscreen">
+    <Modal.Header sticky>Title</Modal.Header>
+    <Modal.Body>
+      <MobileModalResizableContent />
+    </Modal.Body>
+    <Modal.Footer sticky>
+      <Button width="100%">Save</Button>
+    </Modal.Footer>
+  </Modal>
+);
+
 export const MobileModalAppearanceBug: Story = () => {
   return <MobileModalWithSettings appearance="fullscreen" isOpened isLongContent hasFooter hasPanel />;
 };

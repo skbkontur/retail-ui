@@ -299,7 +299,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       })}
                       style={isMobile ? undefined : style}
                     >
-                      <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
+                      <ResizeDetector onResize={this.handleResize} useResizeObserver={false} fullHeight={isMobile}>
                         <FocusLock
                           disabled={disableFocusLock}
                           autoFocus={false}

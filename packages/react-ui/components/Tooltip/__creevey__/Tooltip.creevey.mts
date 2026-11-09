@@ -4,6 +4,15 @@ import type { Page } from 'playwright-core';
 
 import { tid, waitForAnimationFrame, waitForPopup } from '../../__creevey__/helpers.mjs';
 
+const waitForDynamicContentLayout = async (page: Page, lastTooltipIndex = 4) => {
+  await page.getByRole('button', { name: 'Toggle', exact: true }).nth(lastTooltipIndex).waitFor();
+  await waitForAnimationFrame(page);
+  await page.evaluate(async () => {
+    await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => {})));
+  });
+  await waitForAnimationFrame(page);
+};
+
 kind('Tooltip', () => {
   story('FocusTooltip', () => {
     test('01 - plain', async (context) => {
@@ -140,6 +149,72 @@ kind('Tooltip', () => {
       await page.locator('#Container-4 button').click();
       await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), '11 - does not change position on shrink');
+    });
+  });
+
+  story('TooltipWithInternalDynamicContent', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: null,
+      skip: { chromeOnly: { in: /^(?!chrome2022$)/ } },
+    });
+
+    test('resize all tooltips', async (context) => {
+      const page = context.webdriver;
+      await waitForDynamicContentLayout(page);
+      const tooltips = page.locator(tid('Tooltip__root'));
+      const count = await tooltips.count();
+      const initial = await context.takeScreenshot();
+
+      for (let index = 0; index < count; index++) {
+        const tooltip = tooltips.nth(index);
+        await tooltip.getByRole('button', { name: 'Toggle', exact: true }).dispatchEvent('click');
+        await tooltip.locator('br').first().waitFor({ state: 'attached' });
+      }
+      await page.mouse.move(0, 0);
+      await waitForDynamicContentLayout(page);
+      const expanded = await context.takeScreenshot();
+
+      for (let index = 0; index < count; index++) {
+        const tooltip = tooltips.nth(index);
+        await tooltip.getByRole('button', { name: 'Toggle', exact: true }).dispatchEvent('click');
+        await tooltip.locator('br').first().waitFor({ state: 'detached' });
+      }
+      await page.mouse.move(0, 0);
+      await waitForDynamicContentLayout(page);
+      const shrunk = await context.takeScreenshot();
+
+      await context.matchImages({ initial, expanded, shrunk });
+    });
+  });
+
+  story('TooltipWithInternalDynamicContentIframe', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: null,
+      skip: { chromeOnly: { in: /^(?!chrome2022$)/ } },
+    });
+
+    test('resize top tooltip through iframe', async (context) => {
+      const page = context.webdriver;
+      await waitForDynamicContentLayout(page, 0);
+      const tooltip = page.locator(tid('Tooltip__root')).nth(0);
+      const toggle = tooltip.getByRole('button', { name: 'Toggle', exact: true });
+      await tooltip.locator('iframe[title="resizeDetector"]').waitFor({ state: 'attached' });
+
+      const initial = await context.takeScreenshot();
+
+      await toggle.click();
+      await tooltip.locator('br').first().waitFor({ state: 'attached' });
+      await page.mouse.move(0, 0);
+      await waitForDynamicContentLayout(page, 0);
+      const expanded = await context.takeScreenshot();
+
+      await toggle.click();
+      await tooltip.locator('br').first().waitFor({ state: 'detached' });
+      await page.mouse.move(0, 0);
+      await waitForDynamicContentLayout(page, 0);
+      const shrunk = await context.takeScreenshot();
+
+      await context.matchImages({ initial, expanded, shrunk });
     });
   });
 

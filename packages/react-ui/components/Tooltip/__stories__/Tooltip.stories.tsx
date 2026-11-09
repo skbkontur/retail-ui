@@ -6,6 +6,7 @@ import { flushSync } from 'react-dom';
 import type { PopupPositionsType } from '../../../internal/Popup/index.js';
 import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
 import { createPropsGetter } from '../../../lib/createPropsGetter.js';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext.js';
 import type { Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
 import { Checkbox } from '../../Checkbox/index.js';
@@ -213,7 +214,27 @@ export const TooltipWithInternalDynamicContent = () => (
   <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
 );
 TooltipWithInternalDynamicContent.storyName = 'Tooltip with internal dynamic content';
-TooltipWithInternalDynamicContent.parameters = { creevey: { skip: true } };
+TooltipWithInternalDynamicContent.parameters = { creevey: { captureElement: null } };
+
+export const TooltipWithInternalDynamicContentIframe = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ resizeDetectorUseIframe: true }}>
+    <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} positions={['top left']} />
+  </ReactUIFeatureFlagsContext.Provider>
+);
+TooltipWithInternalDynamicContentIframe.storyName = 'Tooltip with internal dynamic content iframe';
+TooltipWithInternalDynamicContentIframe.parameters = { creevey: { captureElement: null } };
+
+export const TooltipWithInternalDynamicInputContent = () => (
+  <DynamicContentStory TooltipComponentClass={InternalDynamicInputContentTooltip} />
+);
+TooltipWithInternalDynamicInputContent.storyName = 'Tooltip with internal dynamic height content';
+TooltipWithInternalDynamicInputContent.parameters = { creevey: { skip: true } };
+
+export const TooltipWithInternalDynamicWidthContent = () => (
+  <DynamicContentStory TooltipComponentClass={InternalDynamicWidthContentTooltip} />
+);
+TooltipWithInternalDynamicWidthContent.storyName = 'Tooltip with internal dynamic width content';
+TooltipWithInternalDynamicWidthContent.parameters = { creevey: { skip: true } };
 
 export const TooltipWithTriggerClick = () => <TooltipWithClickTrigger />;
 TooltipWithTriggerClick.storyName = 'Tooltip with trigger=click';
@@ -445,6 +466,16 @@ class TooltipWithDynamicContent extends React.Component {
   };
 }
 
+class TooltipWithDynamicInputContent extends React.Component {
+  public render() {
+    return (
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <Textarea width={120} autoResize spellCheck={false} rows={1} extraRow={false} placeholder="Type here" />
+      </div>
+    );
+  }
+}
+
 class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProps> {
   public render() {
     return (
@@ -463,6 +494,56 @@ class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
 
   private tooltipContentGetter = () => {
     return <TooltipWithDynamicContent />;
+  };
+}
+
+class InternalDynamicInputContentTooltip extends React.Component<HasPopupPositionProps> {
+  public render() {
+    return (
+      <Tooltip
+        allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
+        pos={this.props.pos}
+        render={this.tooltipContentGetter}
+        trigger={'opened'}
+        closeButton={false}
+        useWrapper={false}
+      >
+        <span>Tooltip anchor</span>
+      </Tooltip>
+    );
+  }
+
+  private tooltipContentGetter = () => {
+    return <TooltipWithDynamicInputContent />;
+  };
+}
+
+function TooltipWithDynamicWidthInputContent() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Input value={value} onValueChange={setValue} width={`${Math.max(12, value.length)}ch`} placeholder="Type here" />
+  );
+}
+
+class InternalDynamicWidthContentTooltip extends React.Component<HasPopupPositionProps> {
+  public render() {
+    return (
+      <Tooltip
+        allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
+        pos={this.props.pos}
+        render={this.tooltipContentGetter}
+        trigger={'opened'}
+        closeButton={false}
+        useWrapper={false}
+      >
+        <span>Tooltip anchor</span>
+      </Tooltip>
+    );
+  }
+
+  private tooltipContentGetter = () => {
+    return <TooltipWithDynamicWidthInputContent />;
   };
 }
 
@@ -493,13 +574,18 @@ const DYNAMIC_TOOLTIP_POSITIONS: PopupPositionsType[] = [
 ];
 
 interface DynamicContentStoryProps {
-  TooltipComponentClass: typeof ExternalDynamicContentTooltip | typeof InternalDynamicContentTooltip;
+  positions?: PopupPositionsType[];
+  TooltipComponentClass:
+    | typeof ExternalDynamicContentTooltip
+    | typeof InternalDynamicContentTooltip
+    | typeof InternalDynamicInputContentTooltip
+    | typeof InternalDynamicWidthContentTooltip;
 }
 const DynamicContentStory = (props: DynamicContentStoryProps) => {
-  const { TooltipComponentClass } = props;
+  const { TooltipComponentClass, positions = DYNAMIC_TOOLTIP_POSITIONS } = props;
   return (
     <div style={{ paddingTop: 70, paddingRight: 600, paddingBottom: 70, paddingLeft: 250, width: 130 }}>
-      {DYNAMIC_TOOLTIP_POSITIONS.map((position, index) => {
+      {positions.map((position, index) => {
         return (
           <div key={index} id={`Container-${index}`} style={{ paddingBottom: 70 }}>
             <TooltipComponentClass pos={position} />

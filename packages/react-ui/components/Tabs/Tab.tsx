@@ -233,7 +233,9 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           aria-describedby={ariaDescribedby}
           aria-label={ariaLabel}
         >
-          <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
+          <ResizeDetector onResize={this.context.notifyUpdate} useResizeObserver={false}>
+            {children}
+          </ResizeDetector>
           {this.state.focusedByKeyboard && (
             <div
               className={this.cx(globalClasses.focus, {

@@ -91,24 +91,6 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect, global
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
 }
 
-/** Может стать полностью видимым после прокрутки в область видимости */
-function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset, globalObject: GlobalObject) {
-  const position = getPositionObject(positionName);
-
-  if (position.direction === 'top') {
-    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect(globalObject), globalObject);
-    return coordinates.top + availableScrollDistances.top >= 0;
-  }
-
-  if (position.direction === 'left') {
-    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect(globalObject), globalObject);
-    return coordinates.left + availableScrollDistances.left >= 0;
-  }
-
-  // NOTE: в случаях bottom/right браузер всегда расширяет размер документа
-  return true;
-}
-
 function _getElementRelativeRect(element: Element) {
   const rect = getDOMRect(element);
 
@@ -292,7 +274,6 @@ export const PopupHelper = {
   getElementAbsoluteRect,
   getPopupViewportSidePadding,
   isFullyVisible: isAbsoluteRectFullyVisible,
-  canBecomeFullyVisible,
   getViewportAbsoluteRect,
   getOverflowEdges,
   getOverflowCount,

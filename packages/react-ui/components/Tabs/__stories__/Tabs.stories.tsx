@@ -5,6 +5,7 @@ import { ComponentTable } from '../../../internal/ComponentTable.js';
 import type { SizeProp } from '../../../lib/types/props.js';
 import type { Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
 import { Modal } from '../../Modal/index.js';
 import type { TabsProps } from '../index.js';
 import type { TabProps } from '../Tab.js';
@@ -439,6 +440,50 @@ export const WithCustomTabComponent = () => {
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
 WithUnexpectedTabSizeChange.parameters = { creevey: { skip: true } };
+
+function ResizableTabContent() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <span>
+      <Button
+        size="small"
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setExpanded(!expanded);
+        }}
+      >
+        Toggle
+      </Button>{' '}
+      {expanded ? 'Tab with dynamically expanded content' : 'Tab'}
+    </span>
+  );
+}
+
+export const WithInternalTabSizeChange: Story = () => (
+  <Gapped vertical gap={32}>
+    <div data-tid="ActiveTabResize">
+      <p>Resize the active tab: the indicator width should follow its content.</p>
+      <Tabs value="first">
+        <Tab id="first">
+          <ResizableTabContent />
+        </Tab>
+        <Tab id="second">Second tab</Tab>
+      </Tabs>
+    </div>
+    <div data-tid="PreviousTabResize">
+      <p>Resize the previous tab: the indicator should stay under the active tab.</p>
+      <Tabs value="second">
+        <Tab id="first">
+          <ResizableTabContent />
+        </Tab>
+        <Tab id="second">Active tab</Tab>
+      </Tabs>
+    </div>
+  </Gapped>
+);
+WithInternalTabSizeChange.storyName = 'with internal tab size change';
 
 export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';

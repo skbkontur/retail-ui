@@ -2,6 +2,17 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
+import { PopupPositions } from './Popup.js';
+import { PopupHelper } from './PopupHelper.js';
+
+const ENTER_TIMING = '0.18s cubic-bezier(0.22, 0.61, 0.36, 1)';
+const ENTER_TRANSFORM: Record<string, string> = {
+  top: 'translateY(10px)',
+  bottom: 'translateY(-10px)',
+  left: 'translateX(10px)',
+  right: 'translateX(-10px)',
+  middle: 'translate(0, 0)',
+};
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   popup(t: Theme) {
@@ -94,7 +105,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   },
   'transition-enter-top'() {
     return css`
-      transform: translateY(10px);
+      transform: ${ENTER_TRANSFORM.top};
     `;
   },
   'transition-enter-middle'() {
@@ -102,26 +113,47 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   },
   'transition-enter-bottom'() {
     return css`
-      transform: translateY(-10px);
+      transform: ${ENTER_TRANSFORM.bottom};
     `;
   },
   'transition-enter-left'() {
     return css`
-      transform: translateX(10px);
+      transform: ${ENTER_TRANSFORM.left};
     `;
   },
   'transition-enter-right'() {
     return css`
-      transform: translateX(-10px);
+      transform: ${ENTER_TRANSFORM.right};
     `;
   },
   transitionEnterActive() {
     return css`
       transition:
-        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
-        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+        transform ${ENTER_TIMING},
+        opacity ${ENTER_TIMING};
       opacity: 1;
       transform: translate(0, 0);
+    `;
+  },
+  positionChangeAnimation() {
+    return css`
+      ${PopupPositions.map((position) => {
+        const { direction } = PopupHelper.getPositionObject(position);
+        const transform = ENTER_TRANSFORM[direction];
+        const suffix = position.replace(' ', '-');
+        // Different alignments also need distinct names to restart the animation.
+        const name = `popup-enter-${suffix}`;
+
+        return `
+          &.popup-position-${suffix} {
+            animation: ${name} ${ENTER_TIMING};
+          }
+          @keyframes ${name} {
+            from { opacity: 0.01; transform: ${transform}; }
+            to { opacity: 1; transform: translate(0, 0); }
+          }
+        `;
+      })}
     `;
   },
   transitionExit() {

@@ -61,6 +61,20 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 <Story of={FeatureFlagsStories.ComboBoxMaskedInputLegacyBehavior} />
 
+### resizeDetectorUseIframe
+
+По умолчанию `false`: `ResizeDetector` отслеживает размеры через `ResizeObserver`, в том числе для пересчёта позиции `Popup`-компонентов при изменении размера контента.
+
+При значении `true` используется прежняя реализация с iframe. Если браузер не поддерживает `ResizeObserver`, iframe используется независимо от значения флага.
+
+`Modal`, `ModalBody`, `Textarea` и `Tab` явно используют iframe через `useResizeObserver={false}` независимо от глобального флага, сохраняя прежнюю DOM-структуру и стили.
+
+```jsx static
+<ReactUIFeatureFlagsContext.Provider value={{ resizeDetectorUseIframe: true }}>
+  {/* Использовать iframe вместо ResizeObserver */}
+</ReactUIFeatureFlagsContext.Provider>
+```
+
 ## Объект со всеми флагами
 
 Для получения объекта со списком всех фича-флагов необходимо применить вспомогательные функции к объектам заданных флагов

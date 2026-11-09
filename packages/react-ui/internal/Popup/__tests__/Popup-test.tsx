@@ -118,6 +118,121 @@ describe('Popup fallback position logic', () => {
     vi.restoreAllMocks();
   });
 
+  it.each([false, true])(
+    'replays appearance only on position changes with disableAnimations=%s',
+    async (disableAnimations) => {
+      const popupRef = React.createRef<Popup>();
+      const { rerender } = render(
+        <Popup ref={popupRef} opened anchorElement={<button>Anchor</button>} disableAnimations={disableAnimations}>
+          <input aria-label="Popup input" defaultValue="Initial" />
+        </Popup>,
+      );
+      const popup = popupRef.current!;
+      const root = screen.getByTestId(PopupDataTids.root);
+      const input = screen.getByRole('textbox', { name: 'Popup input' });
+      input.focus();
+      fireEvent.change(input, { target: { value: 'Edited' } });
+
+      await waitFor(() => expect(window.getComputedStyle(root).opacity).not.toBe('0.01'));
+      const getAnimation = () => window.getComputedStyle(root).animation;
+      expect(getAnimation()).toBe('');
+      const initialClasses = root.className;
+      let location = { ...popup.state.location! };
+      const getLocation = vi.spyOn(popup as any, 'getLocation').mockImplementation(() => location);
+      location = { ...location, coordinates: { top: 100, left: 100 } };
+      act(() => popup['updateLocation']());
+      expect(getAnimation()).toBe('');
+      expect(root.className).toBe(initialClasses);
+
+      location = { ...location, position: 'bottom left' };
+      act(() => popup['updateLocation']());
+      const animation = getAnimation();
+      expect(animation.includes('popup-enter-bottom-left')).toBe(!disableAnimations);
+      root.removeAttribute('data-visual-state-position-bottom-left');
+      expect(getAnimation()).toBe(animation);
+
+      getLocation.mockReturnValue({ ...location, position: 'bottom right' });
+      act(() => popup['updateLocation']());
+      if (disableAnimations) {
+        expect(getAnimation()).toBe(animation);
+      } else {
+        expect(getAnimation()).not.toBe(animation);
+      }
+      expect(screen.getByRole('textbox', { name: 'Popup input' })).toBe(input);
+      expect(input).toHaveValue('Edited');
+      expect(input).toHaveFocus();
+
+      getLocation.mockReturnValue(location);
+      act(() => popup['updateLocation']());
+      expect(getAnimation()).toBe(animation);
+
+      getLocation.mockReturnValue({ ...location, position: 'right middle' });
+      act(() => popup['updateLocation']());
+      expect(getAnimation() === animation).toBe(disableAnimations);
+      expect(screen.getByRole('textbox', { name: 'Popup input' })).toBe(input);
+
+      rerender(
+        <Popup
+          ref={popupRef}
+          opened={false}
+          anchorElement={<button>Anchor</button>}
+          disableAnimations={disableAnimations}
+        >
+          <input aria-label="Popup input" defaultValue="Initial" />
+        </Popup>,
+      );
+      if (!disableAnimations) {
+        expect(getAnimation()).toBe('');
+      }
+      await waitFor(() => expect(screen.queryByTestId(PopupDataTids.root)).not.toBeInTheDocument());
+      rerender(
+        <Popup ref={popupRef} opened anchorElement={<button>Anchor</button>} disableAnimations={disableAnimations}>
+          <input aria-label="Popup input" defaultValue="Initial" />
+        </Popup>,
+      );
+      expect(window.getComputedStyle(screen.getByTestId(PopupDataTids.root)).animation).toBe('');
+    },
+  );
+
+  it('only replays appearance on a new position change after animations are re-enabled', async () => {
+    const popupRef = React.createRef<Popup>();
+    const renderPopup = (disableAnimations: boolean) => (
+      <Popup
+        ref={popupRef}
+        opened
+        positions={['top left']}
+        anchorElement={<button>Anchor</button>}
+        disableAnimations={disableAnimations}
+      >
+        Content
+      </Popup>
+    );
+    const { rerender } = render(renderPopup(false));
+    const popup = popupRef.current!;
+    const root = screen.getByTestId(PopupDataTids.root);
+    const getAnimation = () => window.getComputedStyle(root).animation;
+    await waitFor(() => expect(window.getComputedStyle(root).opacity).toBe('1'));
+    expect(getAnimation()).toBe('');
+
+    const location = { ...popup.state.location!, position: 'bottom left' as const };
+    const getLocation = vi.spyOn(popup as any, 'getLocation').mockReturnValue(location);
+    act(() => popup['updateLocation']());
+    expect(getAnimation()).toContain('popup-enter-bottom-left');
+
+    rerender(renderPopup(true));
+    expect(getAnimation()).toBe('');
+    getLocation.mockReturnValue({ ...location, position: 'bottom right' });
+    act(() => popup['updateLocation']());
+    expect(getAnimation()).toBe('');
+
+    rerender(renderPopup(false));
+    expect(getAnimation()).toBe('');
+
+    getLocation.mockReturnValue({ ...location, position: 'right middle' });
+    act(() => popup['updateLocation']());
+    expect(getAnimation()).toContain('popup-enter-right-middle');
+  });
+
   describe('on mobile', () => {
     const oldMatchMedia = window.matchMedia;
     const matchMediaMock = vi.fn().mockImplementation((query) => ({
@@ -312,9 +427,9 @@ describe('Popup fallback position logic', () => {
         ? { top: 0, left: 0, width: 100, height: 20 }
         : { top: 0, left: 0, width: 120, height: 60 },
     );
-    vi.spyOn(popup as any, 'getCoordinates').mockReturnValue({ top: -20, left: 10 });
+    // Outside the current viewport, but within the scrollable document.
+    vi.spyOn(popup as any, 'getCoordinates').mockReturnValue({ top: 20, left: 10 });
     vi.spyOn(PopupHelper, 'isFullyVisible').mockReturnValue(false);
-    vi.spyOn(PopupHelper, 'canBecomeFullyVisible').mockReturnValue(true);
     const pickFallbackPositionSpy = vi.spyOn(popup as any, 'pickBestFallbackPosition');
 
     const result = (popup as any).getLocation(popupElement, {
@@ -324,12 +439,139 @@ describe('Popup fallback position logic', () => {
     });
 
     expect(result).toEqual({
-      coordinates: { top: -20, left: 10 },
+      coordinates: { top: 20, left: 10 },
       position: 'top left',
       isFullyVisible: true,
       pinOffset: 0,
     });
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { scrollTop: 0, anchorTop: 20, expandedHeight: 100, expectedPosition: 'bottom left' },
+    { scrollTop: 100, anchorTop: 120, expandedHeight: 300, expectedPosition: 'bottom left' },
+    { scrollTop: 100, anchorTop: 220, expandedHeight: 100, expectedPosition: 'left middle' },
+  ])(
+    'recalculates left middle after growth with scrollTop=$scrollTop and anchorTop=$anchorTop',
+    ({ scrollTop, anchorTop, expandedHeight, expectedPosition }) => {
+      const popupElement = document.createElement('div');
+      const { popup, anchorElement } = mountPopup({
+        positions: ['left middle', 'bottom left'],
+        tryPreserveFirstRenderedPosition: true,
+      });
+      let popupHeight = 40;
+      const originalScrollTop = window.pageYOffset;
+
+      vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+        element === anchorElement
+          ? { top: anchorTop, left: 200, width: 20, height: 20 }
+          : { top: 0, left: 0, width: 100, height: popupHeight },
+      );
+
+      try {
+        window.pageYOffset = scrollTop;
+        const initialLocation = popup['getLocation'](popupElement);
+        expect(initialLocation?.position).toBe('left middle');
+
+        popupHeight = expandedHeight;
+        const resizedLocation = popup['getLocation'](popupElement, initialLocation);
+        expect(resizedLocation?.position).toBe(expectedPosition);
+        expect(resizedLocation?.coordinates.top).toBeGreaterThanOrEqual(scrollTop);
+        expect(resizedLocation?.isFullyVisible).toBe(true);
+      } finally {
+        window.pageYOffset = originalScrollTop;
+      }
+    },
+  );
+
+  it('switches from right middle when growing content extends above the document', () => {
+    const popupElement = document.createElement('div');
+    const { popup, anchorElement } = mountPopup({
+      positions: ['right middle', 'bottom left'],
+      tryPreserveFirstRenderedPosition: true,
+    });
+    let popupHeight = 40;
+
+    vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+      element === anchorElement
+        ? { top: 20, left: 200, width: 20, height: 20 }
+        : { top: 0, left: 0, width: 100, height: popupHeight },
+    );
+    // Use the real coordinate and visibility helpers: the enlarged side popup
+    // starts above the document, while the bottom position fits in the viewport.
+    const initialLocation = popup['getLocation'](popupElement);
+    expect(initialLocation?.position).toBe('right middle');
+    expect(initialLocation?.coordinates.top).toBe(10);
+
+    popupHeight = 100;
+    const resizedLocation = popup['getLocation'](popupElement, initialLocation);
+
+    expect(resizedLocation?.position).toBe('bottom left');
+    expect(resizedLocation?.coordinates.top).toBeGreaterThanOrEqual(0);
+    expect(resizedLocation?.isFullyVisible).toBe(true);
+  });
+
+  it('returns to the preferred position after shrinking and expanding the viewport', () => {
+    const popupElement = document.createElement('div');
+    const { popup, anchorElement } = mountPopup({
+      positions: ['right middle', 'left middle'],
+      tryPreserveFirstRenderedPosition: true,
+    });
+    let viewportWidth = 200;
+
+    vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+      element === anchorElement
+        ? { top: 50, left: 50, width: 20, height: 20 }
+        : { top: 0, left: 0, width: 80, height: 30 },
+    );
+    vi.spyOn(popup as any, 'getCoordinates').mockImplementation((_anchorRect, _popupRect, position) => ({
+      // The preferred position must be unreachable by scrolling to force a fallback.
+      top: position === 'right middle' && viewportWidth < 200 ? -10 : 40,
+      left: position === 'right middle' ? 100 : 10,
+    }));
+    vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation(
+      (coordinates, rect) => coordinates.top >= 0 && coordinates.left + rect.width < viewportWidth,
+    );
+
+    const initialLocation = (popup as any).getLocation(popupElement);
+    expect(initialLocation?.position).toBe('right middle');
+
+    viewportWidth = 100;
+    const fallbackLocation = (popup as any).getLocation(popupElement, initialLocation);
+    expect(fallbackLocation?.position).toBe('left middle');
+    expect((popup as any).getLocation(popupElement, fallbackLocation)?.position).toBe('left middle');
+
+    viewportWidth = 200;
+    // При изменении содержимого или скролле сохраняем запасную позицию.
+    expect((popup as any).getLocation(popupElement, fallbackLocation)?.position).toBe('left middle');
+    expect((popup as any).getLocation(popupElement, fallbackLocation, true)?.position).toBe('right middle');
+  });
+
+  it('only detects a viewport resize when its dimensions change', () => {
+    const { popup } = mountPopup();
+    const popupElement = document.createElement('div');
+    (popup as any).lastPopupContentElement = popupElement;
+    (popup as any).viewportSize = null;
+    let width = 200;
+    let left = 0;
+    vi.spyOn(PopupHelper, 'getViewportAbsoluteRect').mockImplementation(() => ({
+      top: 0,
+      left,
+      width,
+      height: 100,
+    }));
+    const getLocation = vi.spyOn(popup as any, 'getLocation').mockReturnValue(null);
+
+    (popup as any).updateLocation();
+    expect(getLocation).toHaveBeenLastCalledWith(popupElement, popup.state.location, false);
+    left = 10; // Прокрутка меняет положение, но не размер вьюпорта.
+    (popup as any).updateLocation();
+    expect(getLocation).toHaveBeenLastCalledWith(popupElement, popup.state.location, false);
+    width = 250;
+    (popup as any).updateLocation();
+    expect(getLocation).toHaveBeenLastCalledWith(popupElement, popup.state.location, true);
+    (popup as any).updateLocation();
+    expect(getLocation).toHaveBeenLastCalledWith(popupElement, popup.state.location, false);
   });
 
   it('picks first fully visible position before fallback heuristic', () => {
@@ -405,7 +647,6 @@ describe('Popup fallback position logic', () => {
       };
     });
     vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation((coordinates) => coordinates.top >= 0);
-    vi.spyOn(PopupHelper, 'canBecomeFullyVisible').mockReturnValue(false);
 
     render(
       <Popup

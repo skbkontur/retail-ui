@@ -411,7 +411,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
           })}
         >
           {placeholderPolyfill}
-          <ResizeDetector onResize={this.reflowCounter} alignBaseline>
+          <ResizeDetector onResize={this.reflowCounter} useResizeObserver={false} alignBaseline>
             <Component
               {...textareaProps}
               className={textareaClassNames}

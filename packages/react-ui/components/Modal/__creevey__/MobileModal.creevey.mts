@@ -1,7 +1,31 @@
 import 'creevey/playwright';
 import { kind, story, test } from 'creevey';
 
+import { tid } from '../../__creevey__/helpers.mjs';
+
 kind('Modal/Mobile', () => {
+  story('MobileModalWithDynamicBodyContent', () => {
+    test('resize body with sticky header and footer', async (context) => {
+      const page = context.webdriver;
+      const toggle = page.locator(tid('toggle-modal-content')).getByRole('button');
+      await toggle.waitFor();
+      await page.waitForTimeout(500);
+      const initial = await context.takeScreenshot();
+
+      await toggle.click();
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(500);
+      const expanded = await context.takeScreenshot();
+
+      await toggle.click();
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(500);
+      const shrunk = await context.takeScreenshot();
+
+      await context.matchImages({ initial, expanded, shrunk });
+    });
+  });
+
   story('MobileModalDefaultWithHeaderAndFooterWithLongContent', () => {
     test('idle', async (context) => {
       const top = await context.takeScreenshot();

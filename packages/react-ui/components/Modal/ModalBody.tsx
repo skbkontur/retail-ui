@@ -79,7 +79,9 @@ export class ModalBody extends React.Component<ModalBodyProps> {
               })}
             >
               {this.isMobileLayout ? (
-                <ResizeDetector onResize={this.handleResize}>{this.props.children}</ResizeDetector>
+                <ResizeDetector onResize={this.handleResize} useResizeObserver={false}>
+                  {this.props.children}
+                </ResizeDetector>
               ) : (
                 this.props.children
               )}

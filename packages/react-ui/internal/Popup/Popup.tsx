@@ -1,6 +1,7 @@
 ﻿import type { Emotion } from '@emotion/css/create-instance';
 import type { HTMLAttributes, Ref } from 'react';
 import React from 'react';
+import { flushSync } from 'react-dom';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
 
@@ -14,6 +15,7 @@ import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import * as LayoutEvents from '../../lib/LayoutEvents.js';
 import { mergeRefs } from '../../lib/mergeRefs.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
@@ -27,6 +29,7 @@ import { CommonWrapper } from '../CommonWrapper/index.js';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes.js';
 import { MobilePopup } from '../MobilePopup/index.js';
 import { RenderContainer } from '../RenderContainer/index.js';
+import { ResizeDetector } from '../ResizeDetector/index.js';
 import type { Priority } from '../ZIndex/index.js';
 import { ZIndex } from '../ZIndex/index.js';
 import { getStyles } from './Popup.styles.js';
@@ -187,6 +190,7 @@ interface PopupLocation {
 
 export interface PopupState {
   location: Nullable<PopupLocation>;
+  positionChanged: boolean;
 }
 
 interface FallbackCandidateEvaluation {
@@ -249,7 +253,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
 
-  public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
+  public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null, positionChanged: false };
   private globalObject!: GlobalObject;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
@@ -258,6 +262,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
+  private viewportSize: Nullable<{ width: number; height: number }> = null;
   private lastPopupContentElement: Nullable<Element>;
   private isMobileLayout!: boolean;
   public getRootNode!: TGetRootNode;
@@ -287,7 +292,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         return { location: DUMMY_LOCATION };
       }
     } else if (state.location) {
-      return { location: DUMMY_LOCATION };
+      return { location: DUMMY_LOCATION, positionChanged: false };
+    }
+    if (props.disableAnimations && state.positionChanged) {
+      return { positionChanged: false };
     }
     return state;
   }
@@ -501,19 +509,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { width, minWidth } = this.getProps();
 
     return (
-      <div
-        className={this.styles.content(this.theme)}
-        data-tid={PopupDataTids.content}
-        ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
-      >
+      <ResizeDetector onResize={this.handleContentResize}>
         <div
-          className={this.styles.contentInner(this.theme)}
-          style={{ backgroundColor, width: this.calculateWidth(width), minWidth: this.calculateWidth(minWidth) }}
-          data-tid={PopupDataTids.contentInner}
+          className={this.styles.content(this.theme)}
+          data-tid={PopupDataTids.content}
+          ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
         >
-          {children}
+          <div
+            className={this.styles.contentInner(this.theme)}
+            style={{ backgroundColor, width: this.calculateWidth(width), minWidth: this.calculateWidth(minWidth) }}
+            data-tid={PopupDataTids.contentInner}
+          >
+            {children}
+          </div>
         </div>
-      </div>
+      </ResizeDetector>
     );
   };
 
@@ -552,6 +562,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               priority={this.props.priority}
               className={this.cx({
                 [this.styles.popup(this.theme)]: true,
+                [`popup-position-${location.position.replace(' ', '-')}`]: true,
                 [this.styles.shadow(this.theme)]: hasShadow,
                 [this.styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
@@ -560,6 +571,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
                       [this.styles[`transition-enter-${direction}` as keyof typeof this.styles](this.theme)]: true,
                       [this.styles.transitionEnter()]: state === 'entering',
                       [this.styles.transitionEnterActive()]: state === 'entered',
+                      [this.styles.positionChangeAnimation()]:
+                        Boolean(opened) && state === 'entered' && this.state.positionChanged,
                       [this.styles.transitionExit()]: state === 'exiting',
                     }),
               })}
@@ -596,6 +609,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private renderChildren() {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
+
+  private handleContentResize = () => {
+    if (!this.props.opened) {
+      return;
+    }
+    this.cancelDelayedUpdateLocation();
+    // Apply the new coordinates before the resized popup is painted.
+    if (REACT_MAJOR_VERSION >= 18) {
+      flushSync(this.updateLocation);
+    } else {
+      this.updateLocation();
+    }
+  };
 
   private refPopupContentElement = (element: Nullable<HTMLDivElement>) => {
     if (element) {
@@ -683,13 +709,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private updateLocation = () => {
-    const popupContentElement = this.lastPopupContentElement;
+    const viewport = PopupHelper.getViewportAbsoluteRect(this.globalObject);
+    const viewportResized =
+      isNonNullable(this.viewportSize) &&
+      (this.viewportSize.width !== viewport.width || this.viewportSize.height !== viewport.height);
+    this.viewportSize = { width: viewport.width, height: viewport.height };
 
+    const popupContentElement = this.lastPopupContentElement;
     if (!popupContentElement) {
       return;
     }
 
-    const location = this.getLocation(popupContentElement, this.state.location);
+    const location = this.getLocation(popupContentElement, this.state.location, viewportResized);
     if (location) {
       this.props.onPositionChange?.(location.position, location.isFullyVisible);
     }
@@ -697,9 +728,25 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const stateChanged = !this.locationEquals(this.state.location, location);
 
     if (stateChanged) {
-      this.setState({ location });
+      this.setState((state) => ({
+        location,
+        positionChanged: state.positionChanged || this.shouldAnimatePositionChange(state.location, location),
+      }));
     }
   };
+
+  private shouldAnimatePositionChange(previous: Nullable<PopupLocation>, next: Nullable<PopupLocation>): boolean {
+    if (!this.props.opened || this.getProps().disableAnimations) {
+      return false;
+    }
+
+    // Initial positioning should keep the existing enter transition.
+    if (!previous || previous === DUMMY_LOCATION || !next) {
+      return false;
+    }
+
+    return previous.position !== next.position;
+  }
 
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
     if (x === y) {
@@ -734,7 +781,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
-  private getLocation(popupElement: Element, location?: Nullable<PopupLocation>): Nullable<PopupLocation> {
+  private getLocation(
+    popupElement: Element,
+    location?: Nullable<PopupLocation>,
+    viewportResized = false,
+  ): Nullable<PopupLocation> {
     const { tryBestFallbackPosition } = this.getProps();
     const positions = this.getOrderedPositions();
 
@@ -752,7 +803,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    const reusedLocation = this.tryReuseCurrentLocation(location, positions, anchorRect, popupRect);
+    const reusedLocation = this.tryReuseCurrentLocation(location, positions, anchorRect, popupRect, viewportResized);
     if (reusedLocation) {
       return reusedLocation;
     }
@@ -770,6 +821,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     positions: Readonly<PopupPositionsType[]>,
     anchorRect: Rect,
     popupRect: Rect,
+    viewportResized: boolean,
   ): Nullable<PopupLocation> {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
 
@@ -778,6 +830,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const position = location.position;
+    if (
+      viewportResized &&
+      tryPreserveFirstRenderedPosition &&
+      !this.isMobileLayout &&
+      positions.length > 0 &&
+      position !== positions[0]
+    ) {
+      const preferredCoordinates = this.getCoordinates(anchorRect, popupRect, positions[0]);
+      if (PopupHelper.isFullyVisible(preferredCoordinates, popupRect, this.globalObject)) {
+        return null;
+      }
+    }
+
     const coordinates = this.getCoordinates(anchorRect, popupRect, position);
     const locationAfterPadding = this.applyMobileViewportPadding(
       {
@@ -789,10 +854,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       popupRect,
     );
     const isFullyVisible = locationAfterPadding.isFullyVisible;
-    const canBecomeVisible =
-      !this.isMobileLayout &&
-      !isFullyVisible &&
-      PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
+    const canBecomeVisible = !this.isMobileLayout && !isFullyVisible && coordinates.top >= 0 && coordinates.left >= 0;
 
     const shouldReuseCurrentLocation =
       // если нужно сохранить первоначальную позицию и Попап целиком

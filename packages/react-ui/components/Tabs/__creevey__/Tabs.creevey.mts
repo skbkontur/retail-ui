@@ -1,7 +1,34 @@
 import 'creevey/playwright';
 import { kind, story, test } from 'creevey';
+import type { Page } from 'playwright-core';
 
 import { tid } from '../../__creevey__/helpers.mjs';
+
+const waitForResizedTabIndicator = async (page: Page, containerTid: string, expanded = false) => {
+  await page.waitForFunction(
+    ({ containerTid, expanded }) => {
+      const container = document.querySelector(`[data-tid~="${containerTid}"]`);
+      const resizedTab = container?.querySelector('[data-tid~="Tab__root"]');
+      const activeTab = container?.querySelector('[data-tid~="Tab__root"][data-visual-state-active]');
+      const indicator = container?.querySelector('[data-tid~="Indicator__root"]');
+      if (!resizedTab || !activeTab || !indicator) {
+        return false;
+      }
+      // Wait for the content update before checking the indicator's geometry.
+      if (resizedTab.textContent?.includes('Tab with dynamically expanded content') !== expanded) {
+        return false;
+      }
+      const tabRect = activeTab.getBoundingClientRect();
+      const indicatorRect = indicator.getBoundingClientRect();
+      return (
+        tabRect.width > 0 &&
+        Math.abs(tabRect.left - indicatorRect.left) < 1 &&
+        Math.abs(tabRect.width - indicatorRect.width) < 1
+      );
+    },
+    { containerTid, expanded },
+  );
+};
 
 const tabsSimpleTests = () => {
   test('move focus forward', async (context) => {
@@ -93,6 +120,37 @@ const tabsTests = () => {
 };
 
 kind('Tabs', () => {
+  story('WithInternalTabSizeChange', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { chromeOnly: { in: /^(?!chrome2022$)/ } },
+    });
+
+    for (const [name, containerTid] of [
+      ['resize active tab', 'ActiveTabResize'],
+      ['resize previous tab', 'PreviousTabResize'],
+    ]) {
+      test(name, async (context) => {
+        const page = context.webdriver;
+        const toggle = page.locator(tid(containerTid)).getByRole('button', { name: 'Toggle', exact: true });
+        await toggle.waitFor();
+        await waitForResizedTabIndicator(page, containerTid);
+        const initial = await context.takeScreenshot();
+
+        await toggle.click();
+        await page.mouse.move(0, 0);
+        await waitForResizedTabIndicator(page, containerTid, true);
+        const expanded = await context.takeScreenshot();
+
+        await toggle.click();
+        await page.mouse.move(0, 0);
+        await waitForResizedTabIndicator(page, containerTid);
+        const shrunk = await context.takeScreenshot();
+
+        await context.matchImages({ initial, expanded, shrunk });
+      });
+    }
+  });
+
   story('WithDisabledTab', () => {
     tabsTests();
   });

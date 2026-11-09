@@ -7,6 +7,8 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       position: relative;
       height: 100%;
+      min-width: 0;
+      max-width: 100%;
     `;
   },
 
