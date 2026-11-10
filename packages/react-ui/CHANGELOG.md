@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.1...@skbkontur/react-ui@6.5.2) (2026-11-10)
+
+
+### Bug Fixes
+
+* **Tooltip:** dynamic positions for resizible elements ([b6d5edb](https://github.com/skbkontur/retail-ui/commit/b6d5edb76a5da33d9421b6a63e3b2b8ea086385f))
+
+
+
+
+
 ## [6.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.0...@skbkontur/react-ui@6.5.1) (2026-11-06)
 
 
