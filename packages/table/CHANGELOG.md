@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.2.1...@skbkontur/table@1.3.0) (2026-11-10)
+
+
+### Features
+
+* **Table:** add rowPaddingLeft prop for rows ([13b74bf](https://github.com/skbkontur/retail-ui/commit/13b74bfff73ccecc6ac242f3e69026d419840435))
+
+
+
+
+
 ## [1.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.2.0...@skbkontur/table@1.2.1) (2026-11-10)
 
 
