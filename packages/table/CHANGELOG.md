@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.2.0...@skbkontur/table@1.2.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **Table:** draw row divider by border for nice zooming ([9f83f2b](https://github.com/skbkontur/retail-ui/commit/9f83f2b7741c67e380158055d036d9748b26e879))
+
+
+
+
+
 # [1.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.1.1...@skbkontur/table@1.2.0) (2026-11-02)
 
 
