@@ -59,6 +59,12 @@ import * as TableLayoutStories from './TableLayout.docs.stories';
 - `colSpan`/`rowSpan` для многоуровневых заголовков и ячеек
 - `vAlign` и `noWrap` для выравнивания и фикса переноса
 
+**Левый отступ строк**
+
+`rowPaddingLeft` задаёт отступ от края строки до контента первой ячейки и до начала разделителя. По умолчанию он зависит от `size`: 13px, 17px, 21px. Сдвигается первая ячейка каждой строки, поэтому с `rowSpan` в первой колонке проп не сочетается.
+
+<Story of={TableLayoutStories.RowPaddingLeft} />
+
 ## Особенности вёрстки (cheatsheet)
 
 - Ширины колонок: `px` и `%`.

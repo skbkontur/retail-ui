@@ -17,14 +17,17 @@
 
 .TableSmall {
   --table-radius: var(--table-radius-small);
+  --table-row-padding-left-shift: calc(var(--table-row-padding-left, 13px) - 13px);
 }
 
 .TableMedium {
   --table-radius: var(--table-radius-medium);
+  --table-row-padding-left-shift: calc(var(--table-row-padding-left, 17px) - 17px);
 }
 
 .TableLarge {
   --table-radius: var(--table-radius-large);
+  --table-row-padding-left-shift: calc(var(--table-row-padding-left, 21px) - 21px);
 }
 
 .TableHeader {
@@ -89,6 +92,15 @@
   background: var(--table-sticky-background);
 }
 
+.TableCell,
+.TableHeaderCell {
+  --table-cell-shift: 0px;
+}
+
+.TableRow > :first-child {
+  --table-cell-shift: var(--table-row-padding-left-shift, 0px);
+}
+
 /* width/height ячеек и экшнбара считаются без паддингов — глобальный border-box их сжимает */
 .TableHeaderCell {
   box-sizing: content-box;
@@ -118,18 +130,18 @@
 }
 
 .PaddingForHeaderSmall {
-  padding: 4px 0 4px 0;
-  --table-header-bottom-border-inset-size: 13px;
+  padding: 4px 0 4px var(--table-cell-shift);
+  --table-header-bottom-border-inset-size: calc(13px + var(--table-cell-shift));
 }
 
 .PaddingForHeaderMedium {
-  padding: 8px 0 8px 0;
-  --table-header-bottom-border-inset-size: 17px;
+  padding: 8px 0 8px var(--table-cell-shift);
+  --table-header-bottom-border-inset-size: calc(17px + var(--table-cell-shift));
 }
 
 .PaddingForHeaderLarge {
-  padding: 16px 0 16px 0;
-  --table-header-bottom-border-inset-size: 21px;
+  padding: 16px 0 16px var(--table-cell-shift);
+  --table-header-bottom-border-inset-size: calc(21px + var(--table-cell-shift));
 }
 
 .PaddingForSimpleHeader {
@@ -137,15 +149,15 @@
 }
 
 .PaddingForSimpleHeaderSmall {
-  padding: 10px 13px 10px 13px;
+  padding: 10px 13px 10px calc(13px + var(--table-cell-shift));
 }
 
 .PaddingForSimpleHeaderMedium {
-  padding: 17px 17px 17px 17px;
+  padding: 17px 17px 17px calc(17px + var(--table-cell-shift));
 }
 
 .PaddingForSimpleHeaderLarge {
-  padding: 28px 21px 28px 21px;
+  padding: 28px 21px 28px calc(21px + var(--table-cell-shift));
 }
 
 .TableHeader
@@ -410,30 +422,30 @@
 }
 
 .TableCellSmall {
-  padding: 4px 8px 4px 13px;
-  --table-bottom-border-inset-size: 13px;
+  padding: 4px 8px 4px calc(13px + var(--table-cell-shift));
+  --table-bottom-border-inset-size: calc(13px + var(--table-cell-shift));
 }
 
 .TableCellMedium {
-  padding: 8px 10px 8px 17px;
-  --table-bottom-border-inset-size: 17px;
+  padding: 8px 10px 8px calc(17px + var(--table-cell-shift));
+  --table-bottom-border-inset-size: calc(17px + var(--table-cell-shift));
 }
 
 .TableCellLarge {
-  padding: 16px 12px 16px 21px;
-  --table-bottom-border-inset-size: 21px;
+  padding: 16px 12px 16px calc(21px + var(--table-cell-shift));
+  --table-bottom-border-inset-size: calc(21px + var(--table-cell-shift));
 }
 
 .TableCellTextSmall {
-  padding: 10px 8px 10px 13px;
+  padding: 10px 8px 10px calc(13px + var(--table-cell-shift));
 }
 
 .TableCellTextMedium {
-  padding: 17px 10px 17px 17px;
+  padding: 17px 10px 17px calc(17px + var(--table-cell-shift));
 }
 
 .TableCellTextLarge {
-  padding: 28px 12px 28px 21px;
+  padding: 28px 12px 28px calc(21px + var(--table-cell-shift));
 }
 
 .CheckboxCell {
@@ -443,17 +455,17 @@
 
 .CheckboxCellSmall {
   padding-right: 4px;
-  padding-left: 12px;
+  padding-left: calc(12px + var(--table-cell-shift));
 }
 
 .CheckboxCellMedium {
   padding-right: 6px;
-  padding-left: 16px;
+  padding-left: calc(16px + var(--table-cell-shift));
 }
 
 .CheckboxCellLarge {
   padding-right: 8px;
-  padding-left: 20px;
+  padding-left: calc(20px + var(--table-cell-shift));
 }
 
 .TableCell.NoWrapCell {

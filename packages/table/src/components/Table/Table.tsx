@@ -42,6 +42,8 @@ export interface TableProps extends CommonProps {
   hasChecked?: boolean;
   auto?: boolean;
   size?: SizeProp;
+  /** Левый отступ контента первой ячейки и разделителя. По умолчанию 13/17/21px в зависимости от `size`. */
+  rowPaddingLeft?: CSSProperties['paddingLeft'];
   rootNodeRef?: (instance: Element | null | undefined) => void;
 }
 
@@ -102,11 +104,28 @@ interface TableComponent extends FC<TableProps> {
 }
 
 export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
-  ({ children, hasChecked, auto, size: sizeProp, className, rootNodeRef, width, minWidth, maxWidth, ...rest }, ref) => {
+  (
+    {
+      children,
+      hasChecked,
+      auto,
+      size: sizeProp,
+      rowPaddingLeft,
+      className,
+      rootNodeRef,
+      width,
+      minWidth,
+      maxWidth,
+      ...rest
+    },
+    ref,
+  ) => {
     const sizeContext = useSizeContextCompat();
     const size = sizeProp ?? sizeContext.size;
     const theme = useContext(ThemeContext);
     const tableTheme = getTableTheme(theme);
+    const rowPaddingLeftValue =
+      typeof rowPaddingLeft === 'number' ? `${rowPaddingLeft}px` : (rowPaddingLeft ?? 'initial');
     // Сдвиг текста внутри поля для Table.EditableCell. У Select отступы по умолчанию те же, что у Input.
     const [editablePaddingX, editablePaddingY] = {
       small: [theme.inputPaddingXSmall, theme.inputPaddingYSmall],
@@ -147,6 +166,7 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
                   '--table-checkbox-padding-y-large': normalizeCssLength(tableTheme.checkboxPaddingYLarge),
                   '--table-editable-offset-x': `calc(${theme.inputBorderWidth} + ${editablePaddingX})`,
                   '--table-editable-offset-y': `calc(${theme.inputBorderWidth} + ${editablePaddingY})`,
+                  '--table-row-padding-left': rowPaddingLeftValue,
                 } as CSSProperties
               }
               className={cx(styles.Table, {

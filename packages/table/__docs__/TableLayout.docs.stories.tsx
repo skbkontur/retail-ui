@@ -85,3 +85,24 @@ export const WidthsAndSpans = () => (
     </Table.Body>
   </Table>
 );
+
+export const RowPaddingLeft = () => (
+  <Table rowPaddingLeft={34}>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Имя</Table.HeaderCell>
+        <Table.HeaderCell>Город</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row onClick={() => undefined}>
+        <Table.Cell>Иван Петров</Table.Cell>
+        <Table.Cell>Москва</Table.Cell>
+      </Table.Row>
+      <Table.Row onClick={() => undefined}>
+        <Table.Cell>Мария Смирнова</Table.Cell>
+        <Table.Cell>Екатеринбург</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+);
