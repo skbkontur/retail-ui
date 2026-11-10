@@ -35,8 +35,29 @@ const replaceReactDocgenLoaderUse = (use: RuleSetUseItem | string): RuleSetUseIt
   };
 };
 
+// Storybook creates TerserPlugin with `parallel: true`, which spawns `os.cpus().length - 1` worker threads.
+// In CI containers os.cpus() reports all host cores, so dozens of workers exceed the pod memory limit.
+const MINIFY_WORKERS = 2;
+
+const limitMinimizerParallelism = (config: Configuration) => {
+  config.optimization?.minimizer?.forEach((minimizer) => {
+    if (
+      typeof minimizer === 'object' &&
+      minimizer !== null &&
+      minimizer.constructor.name === 'TerserPlugin' &&
+      'options' in minimizer &&
+      typeof minimizer.options === 'object' &&
+      minimizer.options !== null &&
+      'parallel' in minimizer.options
+    ) {
+      minimizer.options.parallel = MINIFY_WORKERS;
+    }
+  });
+};
+
 export default async ({ config }: { config: Configuration }) => {
   config.devtool = false;
+  limitMinimizerParallelism(config);
   if (config.entry && Array.isArray(config.entry)) {
     config.entry.unshift('core-js/stable');
   }
