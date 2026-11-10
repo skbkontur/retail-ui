@@ -108,9 +108,8 @@
   left: var(--table-header-bottom-border-inset);
   bottom: 0;
   width: calc(100% - var(--table-header-bottom-border-inset));
-  height: 1px;
   pointer-events: none;
-  background: var(--table-border);
+  border-bottom: 1px solid var(--table-border);
   opacity: var(--table-header-bottom-border-opacity);
 }
 
@@ -217,8 +216,7 @@
   left: var(--table-bottom-border-inset);
   bottom: 0;
   width: calc(100% - var(--table-bottom-border-inset));
-  height: 1px;
-  background: var(--table-border);
+  border-bottom: 1px solid var(--table-border);
   opacity: var(--table-bottom-border-opacity);
 }
 
@@ -579,8 +577,7 @@
   left: var(--table-footer-top-border-inset);
   top: 0;
   width: calc(100% - var(--table-footer-top-border-inset));
-  height: 1px;
-  background: var(--table-border);
+  border-top: 1px solid var(--table-border);
   opacity: var(--table-footer-top-border-opacity);
 }
 
