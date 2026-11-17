@@ -6,6 +6,23 @@ import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import { isElement } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
 
+// `tabbable` >= 6.4.0 throws in old browsers (Chrome < 88, Firefox < 84) on the `:not([inert] *)` selector.
+// Fallback list is `candidateSelectors` from tabbable 6.0.1 (no `:not([inert])` parts yet):
+// https://github.com/focus-trap/tabbable/blob/v6.0.1/src/index.js
+const FALLBACK_CANDIDATE_SELECTOR = [
+  'input',
+  'select',
+  'textarea',
+  'a[href]',
+  'button',
+  '[tabindex]:not(slot)',
+  'audio[controls]',
+  'video[controls]',
+  '[contenteditable]:not([contenteditable="false"])',
+  'details>summary:first-of-type',
+  'details',
+].join(',');
+
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе
  * или на всей странице
@@ -22,7 +39,15 @@ export const getTabbableElements = (parent: Nullable<Element | Document>): Focus
   if (!parent || !parent.children.length || !isInstanceOf(parent, getOwnerGlobalObject(parent).Element)) {
     return [];
   }
-  return tabbable(parent);
+
+  try {
+    return tabbable(parent);
+  } catch {
+    // `tabIndex >= 0` matches the value `disableChildrenFocus` saves and restores.
+    return Array.from(parent.querySelectorAll(FALLBACK_CANDIDATE_SELECTOR)).filter(
+      (element): element is FocusableElement => (element as HTMLElement).tabIndex >= 0,
+    );
+  }
 };
 
 /**
