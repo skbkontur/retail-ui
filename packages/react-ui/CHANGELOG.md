@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.2...@skbkontur/react-ui@6.5.3) (2026-11-18)
+
+
+### Bug Fixes
+
+* **Loader:** fallback for tabbable selector in old browsers ([32b3b58](https://github.com/skbkontur/retail-ui/commit/32b3b587acfb3ca580ad8df3d1603e6f6e1ac053))
+* **Toast:** keep height for notification without text ([539f493](https://github.com/skbkontur/retail-ui/commit/539f49321221f29e7dffbd4cb4791504d7223b93))
+
+
+
+
+
 ## [6.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.1...@skbkontur/react-ui@6.5.2) (2026-11-10)
 
 
