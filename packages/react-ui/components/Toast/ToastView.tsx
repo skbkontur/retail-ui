@@ -127,7 +127,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const rootClassName = this.cx(
       this.styles.root(this.theme),
-      isTheme6_1 && this.styles.root6_1(),
+      isTheme6_1 && this.styles.root6_1(this.theme),
       isTheme6_1 && this.isMobileLayout && this.styles.rootMobile(this.theme),
       this.styles[use ?? 'default'](this.theme),
     );

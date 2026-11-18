@@ -26,8 +26,16 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  root6_1() {
+  root6_1(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
+    const minHeight = parseInt(paddingTop) + parseInt(paddingBottom) + parseInt(t.toastLineHeight);
+
     return css`
+      /*
+       * В версии 6.1 вертикальные паддинги переехали на контент, поэтому высота тоста стала
+       * зависеть от наличия строки в нём. Контент без строки (например, пробел) схлопывал тост.
+       */
+      min-height: ${minHeight}px;
       padding: 0;
     `;
   },

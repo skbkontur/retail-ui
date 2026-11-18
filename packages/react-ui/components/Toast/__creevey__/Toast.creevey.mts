@@ -64,6 +64,10 @@ kind('Toast', () => {
     kindTests();
   });
 
+  story('NotificationWithoutText', () => {
+    kindTests();
+  });
+
   story('button', () => {
     kindTests();
   });

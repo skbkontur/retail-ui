@@ -295,3 +295,34 @@ MobileSimpleVeryLongTextWithAction.parameters = {
   },
 };
 MobileSimpleVeryLongTextWithAction.decorators = [mobileDecorator];
+
+export const NotificationWithoutText = () => {
+  const toastRef = React.useRef<Toast>(null);
+  const showNotification = () => {
+    // Контент без строки: тост должен сохранять высоту одной строки
+    toastRef.current?.push(' ', {
+      action: {
+        label: 'Action',
+        handler: action('action'),
+      },
+      showTime: 10_000,
+    });
+  };
+
+  React.useEffect(() => {
+    return () => {
+      toastRef.current?.close();
+    };
+  }, [toastRef]);
+
+  return (
+    <div>
+      <Toast ref={toastRef} />
+      <button data-tid="show-toast" onClick={showNotification}>
+        Show toast without text
+      </button>
+    </div>
+  );
+};
+NotificationWithoutText.storyName = 'notification without text';
+NotificationWithoutText.decorators = [paddingDecorator];
