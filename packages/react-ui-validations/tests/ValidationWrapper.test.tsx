@@ -1,4 +1,11 @@
-import { ThemeFactory, TimePicker, TimePickerDataTids } from '@skbkontur/react-ui';
+import {
+  InputDataTids,
+  PasswordInput,
+  PasswordInputDataTids,
+  ThemeFactory,
+  TimePicker,
+  TimePickerDataTids,
+} from '@skbkontur/react-ui';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
@@ -139,6 +146,39 @@ describe('ValidationWrapper', () => {
         await waitFor(() => expect(input).toHaveFocus());
       }
       expect(await screen.findByText('Custom error')).toBeInTheDocument();
+    });
+  });
+
+  describe('PasswordInput', () => {
+    it('shows lostfocus validation and error border after tabbing past the visibility button', async () => {
+      const onBlur = vi.fn();
+      const { user } = setup(
+        <ValidationContainer>
+          <ValidationWrapper
+            validationInfo={{ type: 'lostfocus', message: 'Invalid password' }}
+            renderMessage={text('bottom')}
+          >
+            <PasswordInput onBlur={onBlur} />
+          </ValidationWrapper>
+          <button>Next</button>
+        </ValidationContainer>,
+      );
+
+      const input = screen.getByTestId(PasswordInputDataTids.root).querySelector('input');
+      expect(input).not.toBeNull();
+      act(() => input?.focus());
+      await user.tab();
+      expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveFocus();
+      expect(screen.queryByText('Invalid password')).not.toBeInTheDocument();
+      expect(onBlur).not.toHaveBeenCalled();
+
+      await user.tab();
+      expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus();
+      await waitFor(() => {
+        expect(screen.getByText('Invalid password')).toBeInTheDocument();
+        expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute('data-visual-state-error');
+      });
+      expect(onBlur).toHaveBeenCalledTimes(1);
     });
   });
 

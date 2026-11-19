@@ -67,6 +67,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   private theme!: Theme;
 
   private input: Nullable<Input>;
+  private pendingInputBlur: React.FocusEvent<HTMLInputElement> | null = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: PasswordInputLocale;
@@ -169,6 +170,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.pendingInputBlur = null;
     if (this.state.focused) {
       return;
     }
@@ -185,6 +187,31 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     if (this.state.focused) {
       this.setState({ focused: false });
+    }
+  };
+
+  private handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.persist();
+    this.pendingInputBlur = event;
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget)) {
+      return;
+    }
+
+    const inputBlur = this.pendingInputBlur;
+    this.pendingInputBlur = null;
+    const input = this.input?.getNode();
+    if (input) {
+      // Preserve the input event contract even when focus leaves via the visibility button.
+      this.props.onBlur?.(
+        Object.assign(Object.create(inputBlur ?? event) as React.FocusEvent<HTMLInputElement>, {
+          currentTarget: input,
+          target: input,
+          relatedTarget: event.relatedTarget,
+        }),
+      );
     }
   };
 
@@ -234,14 +261,14 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
-    const { detectCapsLock, ...rest } = props;
+    const { detectCapsLock, onBlur, ...rest } = props;
     return (
       <RenderLayer
         active={this.state.focused}
         onFocusOutside={this.handleFocusOutside}
         onClickOutside={this.handleFocusOutside}
       >
-        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
+        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()} onBlur={this.handleBlur}>
           <Input
             ref={this.refInput}
             type={this.state.visible ? 'text' : 'password'}
@@ -250,6 +277,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
             onKeyPress={this.handleKeyPress}
             rightIcon={this.renderEye()}
             onFocus={this.handleFocus}
+            onBlurCapture={this.handleInputBlur}
           />
         </div>
       </RenderLayer>

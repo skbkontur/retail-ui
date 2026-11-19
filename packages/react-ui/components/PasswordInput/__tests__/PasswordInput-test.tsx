@@ -122,6 +122,96 @@ describe('PasswordInput', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
+  it('calls onBlur only when focus leaves the entire component', async () => {
+    const onBlur = vi.fn();
+    render(
+      <>
+        <PasswordInput onBlur={onBlur} />
+        <button>Next</button>
+      </>,
+    );
+
+    const input = screen.getByTestId(PasswordInputDataTids.root).querySelector('input');
+    expect(input).not.toBeNull();
+    if (!input) {
+      return;
+    }
+    await userEvent.click(input);
+    await userEvent.tab();
+    expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveFocus();
+    expect(onBlur).not.toHaveBeenCalled();
+
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus();
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(onBlur.mock.calls[0]?.[0].currentTarget).toBe(input);
+    expect(onBlur.mock.calls[0]?.[0].relatedTarget).toBe(screen.getByRole('button', { name: 'Next' }));
+    expect(onBlur.mock.calls[0]?.[0].type).toBe('blur');
+    expect(onBlur.mock.calls[0]?.[0].preventDefault).toEqual(expect.any(Function));
+    expect(onBlur.mock.calls[0]?.[0].stopPropagation).toEqual(expect.any(Function));
+    expect(onBlur.mock.calls[0]?.[0].persist).toEqual(expect.any(Function));
+  });
+
+  it('calls onBlur when focus enters the visibility button from outside and leaves the component', async () => {
+    const onBlur = vi.fn();
+    render(
+      <>
+        <PasswordInput onBlur={onBlur} />
+        <button>Next</button>
+      </>,
+    );
+
+    const input = screen.getByTestId(PasswordInputDataTids.root).querySelector('input');
+    expect(input).not.toBeNull();
+    const next = screen.getByRole('button', { name: 'Next' });
+    await userEvent.click(next);
+    await userEvent.tab({ shift: true });
+    expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveFocus();
+    expect(onBlur).not.toHaveBeenCalled();
+
+    await userEvent.tab();
+    expect(next).toHaveFocus();
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(onBlur.mock.calls[0]?.[0].currentTarget).toBe(input);
+    expect(onBlur.mock.calls[0]?.[0].target).toBe(input);
+    expect(onBlur.mock.calls[0]?.[0].relatedTarget).toBe(next);
+    expect(onBlur.mock.calls[0]?.[0].preventDefault).toEqual(expect.any(Function));
+  });
+
+  it('calls onBlur with the input event when focus leaves by click', async () => {
+    const onBlur = vi.fn((event: React.FocusEvent<HTMLInputElement>) => event.currentTarget.value);
+    render(
+      <>
+        <PasswordInput defaultValue="secret" onBlur={onBlur} />
+        <button>Next</button>
+      </>,
+    );
+
+    const input = screen.getByDisplayValue('secret');
+    await userEvent.click(input);
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }));
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(onBlur.mock.results[0]?.value).toBe('secret');
+    expect(onBlur.mock.calls[0]?.[0].currentTarget).toBe(input);
+  });
+
+  it('calls onBlur when the input blurs with no related target', () => {
+    const onBlur = vi.fn();
+    render(<PasswordInput onBlur={onBlur} />);
+    const input = screen.getByTestId(PasswordInputDataTids.root).querySelector('input');
+    expect(input).not.toBeNull();
+    if (!input) {
+      return;
+    }
+
+    act(() => input.focus());
+    fireEvent.blur(input, { relatedTarget: null });
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(onBlur.mock.calls[0]?.[0].currentTarget).toBe(input);
+  });
+
   it('should not show eye button when input is disabled', () => {
     render(<PasswordInput disabled />);
     expect(screen.queryByTestId(PasswordInputDataTids.eyeIcon)).not.toBeInTheDocument();
