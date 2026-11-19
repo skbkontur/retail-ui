@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.3...@skbkontur/react-ui@6.5.4) (2026-11-19)
+
+
+### Bug Fixes
+
+* **PasswordInput:** validate when focus leaves the component ([029514e](https://github.com/skbkontur/retail-ui/commit/029514e63d7650d99918e9c9b26c2fcddc19f1fe))
+
+
+
+
+
 ## [6.5.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.2...@skbkontur/react-ui@6.5.3) (2026-11-18)
 
 
