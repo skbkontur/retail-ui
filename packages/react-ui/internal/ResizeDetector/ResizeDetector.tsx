@@ -111,7 +111,7 @@ export class ResizeDetector extends React.Component<React.PropsWithChildren<Resi
       const styles = getStyles(this.emotion);
       return (
         <div className={styles.root()}>
-          <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
+          <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} aria-hidden />
           <div
             className={this.cx(styles.content(), {
               [styles.fullHeight()]: fullHeight,

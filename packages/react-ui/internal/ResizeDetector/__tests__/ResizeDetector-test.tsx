@@ -1,4 +1,4 @@
-import { act, cleanup, render } from '@testing-library/react';
+import { act, cleanup, isInaccessible, render } from '@testing-library/react';
 import React from 'react';
 
 import { ResizeDetector } from '../ResizeDetector.js';
@@ -84,5 +84,18 @@ describe('ResizeDetector after React 18 StrictMode mount replay', () => {
 
     expect(onResize).toHaveBeenCalledTimes(1);
     expect(onResize).toHaveBeenCalledWith(expect.objectContaining({ type: 'resize' }));
+  });
+});
+
+describe('ResizeDetector accessibility', () => {
+  it('hides the measuring iframe from screen readers without hiding the content', () => {
+    const { getByTitle, getByText } = render(
+      <ResizeDetector useResizeObserver={false}>
+        <div>Content</div>
+      </ResizeDetector>,
+    );
+
+    expect(isInaccessible(getByTitle('resizeDetector'))).toBe(true);
+    expect(isInaccessible(getByText('Content'))).toBe(false);
   });
 });
