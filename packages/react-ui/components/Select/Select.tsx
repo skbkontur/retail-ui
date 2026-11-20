@@ -732,6 +732,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     } else {
       switch (true) {
         case isKeyEscape(e):
+          e.stopPropagation();
           this.focus();
           this.close();
           break;

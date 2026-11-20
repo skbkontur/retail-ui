@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
@@ -8,8 +8,10 @@ import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/Rea
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { MenuItemDataTids } from '../../MenuItem/index.js';
+import { Modal } from '../../Modal/index.js';
 import * as ResponsiveLayoutHooks from '../../ResponsiveLayout/useResponsiveLayout.js';
 import { ScrollContainer } from '../../ScrollContainer/index.js';
+import { SidePage } from '../../SidePage/index.js';
 import { SelectLocaleHelper } from '../locale/index.js';
 import { Select, SelectDataTids, SelectIds } from '../Select.js';
 
@@ -401,6 +403,67 @@ describe('Select', () => {
       );
     });
   });
+
+  describe('Escape key', () => {
+    it.each([false, true])('closes only the opened menu inside Modal when `search` is %s', async (search) => {
+      const onClose = vi.fn();
+
+      render(
+        <Modal onClose={onClose}>
+          <Modal.Body>
+            <Select items={['One', 'Two']} search={search} />
+          </Modal.Body>
+        </Modal>,
+      );
+
+      const select = screen.getByTestId(SelectDataTids.root);
+      await userEvent.click(within(select).getByRole('button'));
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+
+      await userEvent.keyboard('{Escape}');
+
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('closes only the opened menu inside SidePage', async () => {
+      const onClose = vi.fn();
+
+      render(
+        <SidePage onClose={onClose}>
+          <SidePage.Body>
+            <Select items={['One', 'Two']} search />
+          </SidePage.Body>
+        </SidePage>,
+      );
+
+      const select = screen.getByTestId(SelectDataTids.root);
+      await userEvent.click(within(select).getByRole('button'));
+      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+
+      await userEvent.keyboard('{Escape}');
+
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('closes Modal on Escape when the menu is closed', async () => {
+      const onClose = vi.fn();
+
+      render(
+        <Modal onClose={onClose}>
+          <Modal.Body>
+            <Select items={['One', 'Two']} />
+          </Modal.Body>
+        </Modal>,
+      );
+
+      await userEvent.keyboard('{Escape}');
+
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('with item of any type', () => {
     beforeEach(() => {
       render(
