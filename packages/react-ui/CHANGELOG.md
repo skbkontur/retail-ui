@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.4...@skbkontur/react-ui@6.5.5) (2026-11-20)
+
+
+### Bug Fixes
+
+* **Modal,Tabs,Textarea:** hide measuring iframe from screen readers ([fce664b](https://github.com/skbkontur/retail-ui/commit/fce664b1af901d652a18b7926329e25e6e53102a))
+
+
+
+
+
 ## [6.5.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.3...@skbkontur/react-ui@6.5.4) (2026-11-19)
 
 
