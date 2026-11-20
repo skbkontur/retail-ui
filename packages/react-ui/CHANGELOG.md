@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.5...@skbkontur/react-ui@6.5.6) (2026-11-20)
+
+
+### Bug Fixes
+
+* **Select:** stop Escape propagation when the menu is open ([0c6dadb](https://github.com/skbkontur/retail-ui/commit/0c6dadbc6dc2eea92ac813d07876e1d98be4ddeb))
+
+
+
+
+
 ## [6.5.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.4...@skbkontur/react-ui@6.5.5) (2026-11-20)
 
 
