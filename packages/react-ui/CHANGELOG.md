@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.6...@skbkontur/react-ui@6.5.7) (2026-11-23)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** stop update loop on controlled value change ([1ce63f7](https://github.com/skbkontur/retail-ui/commit/1ce63f7ede287cd57fb8b587a2eda0f8a426e4b4))
+
+
+
+
+
 ## [6.5.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.5...@skbkontur/react-ui@6.5.6) (2026-11-20)
 
 
