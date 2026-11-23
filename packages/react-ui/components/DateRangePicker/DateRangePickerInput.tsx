@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
+import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
 import type { Ref } from 'react';
 
 import { MIN_FULLDATE, MAX_FULLDATE } from '../../lib/date/constants.js';
@@ -51,6 +51,9 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
 
   useImperativeHandle<DateInput | null, DateInput | null>(ref, () => (isStart ? startRef.current : endRef.current), []);
 
+  const valueFromPropsRef = useRef(props.value);
+  const currentValue = isStart ? startValue : endValue;
+
   useEffect(() => {
     if (isStart && startValue !== props.value) {
       setStartValue(props.value || '');
@@ -72,16 +75,20 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
   }, [props.optional, props.disabled, props.minDate, props.maxDate]);
 
   useEffect(() => {
-    if (isStart && startValue !== props.value && isNonNullable(startValue)) {
-      props.onValueChange?.(startValue);
-    }
-  }, [startValue]);
+    // Если контролируемый `value` изменился в этом же коммите, то внутреннее состояние устарело:
+    // сообщать о нём наверх нельзя, иначе значение из пропа и внутреннее значение перезаписывают
+    // друг друга и обновления зацикливаются (React error #185).
+    const isValueChangedFromProps = valueFromPropsRef.current !== props.value;
+    valueFromPropsRef.current = props.value;
 
-  useEffect(() => {
-    if (isEnd && endValue !== props.value && isNonNullable(endValue)) {
-      props.onValueChange?.(endValue);
+    if (isValueChangedFromProps) {
+      return;
     }
-  }, [endValue]);
+
+    if (currentValue !== props.value && isNonNullable(currentValue)) {
+      props.onValueChange?.(currentValue);
+    }
+  }, [currentValue, props.value]);
 
   const commonProps: DateRangePickerInputProps = {
     withIcon: true,

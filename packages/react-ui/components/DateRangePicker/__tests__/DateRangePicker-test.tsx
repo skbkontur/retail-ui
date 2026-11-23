@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { DateInput } from '../../../components/DateInput/index.js';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
@@ -76,6 +76,53 @@ describe('DateRangePicker', () => {
 
     expect(onStartValueChange).not.toHaveBeenCalled();
     expect(onEndValueChange).not.toHaveBeenCalled();
+  });
+
+  it('should not loop updates when controlled value changes right after mount', () => {
+    const onStartValueChange = vi.fn();
+
+    const Component = () => {
+      const [startValue, setStartValue] = useState('21.10.2026');
+
+      useEffect(() => {
+        setStartValue('07.11.2026');
+      }, []);
+
+      return (
+        <DateRangePicker>
+          <DateRangePicker.Start
+            value={startValue}
+            onValueChange={(value) => {
+              onStartValueChange(value);
+              setStartValue(value);
+            }}
+          />
+        </DateRangePicker>
+      );
+    };
+
+    render(<Component />);
+
+    expect(onStartValueChange).not.toHaveBeenCalled();
+    expect(screen.getByTestId(DateRangePickerDataTids.start)).toHaveTextContent(/^07.11.2026$/);
+  });
+
+  it('should not call onValueChange when controlled value comes from the parent', () => {
+    const onStartValueChange = vi.fn();
+    const { rerender } = render(
+      <DateRangePicker>
+        <DateRangePicker.Start value="21.10.2026" onValueChange={onStartValueChange} />
+      </DateRangePicker>,
+    );
+
+    rerender(
+      <DateRangePicker>
+        <DateRangePicker.Start value="07.11.2026" onValueChange={onStartValueChange} />
+      </DateRangePicker>,
+    );
+
+    expect(onStartValueChange).not.toHaveBeenCalled();
+    expect(screen.getByTestId(DateRangePickerDataTids.start)).toHaveTextContent(/^07.11.2026$/);
   });
 
   it('should handle onValueChange when clear value', async () => {
