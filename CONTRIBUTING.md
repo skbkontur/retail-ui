@@ -55,16 +55,18 @@
   - `lint` — `tsc --noEmit` + `oxlint` + `oxfmt`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
+  - `storybook:docs` — Storybook документация
   - `storybook:test` — Storybook со стилями для тестов
   - `fix` — форматирование кода по правилам oxlint и oxfmt
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
   - `test` — интеграционные тесты с использованием `SeleniumTesting` (работает только во внутренней сети Контура)
-- `yarn workspace react-ui-validations <command>` - валидации
-  - `start:docs` — документация
+- `yarn workspace @skbkontur/react-ui-validations <command>` - валидации
   - `test` — unit-тесты
   - `lint` — линтеры + `oxfmt`
   - `storybook` — Storybook
+  - `storybook:docs` — Storybook документация
+  - `storybook:test` — Storybook со стилями для тестов
   - `fix` — форматирование кода по правилам oxlint и oxfmt
 - `yarn workspace react-ui-smoke-test test` - smoke-тест сборки и запуска тестового приложения
 - `yarn set-testing-package-versions` - подменить версии зависимостей для matrix-прогона
