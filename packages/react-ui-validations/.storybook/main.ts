@@ -4,7 +4,15 @@ const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
 const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.tsx'],
-  addons: ['creevey'],
+  addons: [
+    'creevey',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        docs: false,
+      },
+    },
+  ],
 
   framework: {
     name: '@storybook/react-webpack5',

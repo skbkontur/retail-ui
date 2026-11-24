@@ -11,7 +11,7 @@ function createControl(type: string): React.ReactElement {
 
 describe('ReactUiDetection', () => {
   describe('isSelectionControl', () => {
-    it.each(['RadioGroup', 'Radio', 'Checkbox', 'Toggle', 'Switcher', 'Select', 'ComboBox'])(
+    it.each(['RadioGroup', 'Radio', 'Checkbox', 'Toggle', 'Switcher', 'Select', 'ComboBox', 'FileUploader'])(
       'returns true for %s',
       (type) => {
         expect(ReactUiDetection.isSelectionControl(createControl(type))).toBe(true);

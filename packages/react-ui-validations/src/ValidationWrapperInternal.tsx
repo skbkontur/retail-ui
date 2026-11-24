@@ -1,3 +1,4 @@
+import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/components/FileUploader/index';
 import React from 'react';
 import type { ReactInstance } from 'react';
 import warning from 'warning';
@@ -60,6 +61,7 @@ export class ValidationWrapperInternal extends React.Component<
   public isChanging = false;
   private child: any; // todo type
   private rootNode: Nullable<Element>;
+  private fileUploaderFiles = this.getInitialFileUploaderFiles();
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
@@ -84,7 +86,13 @@ export class ValidationWrapperInternal extends React.Component<
     this.context.unregister(this);
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: ValidationWrapperInternalProps) {
+    if (
+      prevProps.children?.type !== this.props.children?.type ||
+      prevProps.children?.key !== this.props.children?.key
+    ) {
+      this.fileUploaderFiles = this.getInitialFileUploaderFiles();
+    }
     this.applyValidation(this.props.validation);
   }
 
@@ -124,10 +132,17 @@ export class ValidationWrapperInternal extends React.Component<
           }
         },
         onValueChange: (...args: any[]) => {
-          this.isChanging = true;
+          const isFileUploader = ReactUiDetection.isFileUploader(children);
+          const valueChanged = !isFileUploader || this.checkFileUploaderValueChange(args[0]);
+          if (valueChanged) {
+            this.isChanging = true;
 
-          if (ReactUiDetection.isSelectionControl(children)) {
-            this.setValidation(null);
+            if (
+              ReactUiDetection.isSelectionControl(children) &&
+              (!isFileUploader || getType(this.state.validation) !== 'immediate')
+            ) {
+              this.setValidation(null);
+            }
           }
 
           if (children.props && children.props.onValueChange) {
@@ -176,6 +191,26 @@ export class ValidationWrapperInternal extends React.Component<
     }
     this.child = instance;
   };
+
+  /** Captures the initial FileUploader selection, keeping only the first file in single-file mode. */
+  private getInitialFileUploaderFiles(): File[] {
+    const { children } = this.props;
+    if (!ReactUiDetection.isFileUploader(children)) {
+      return [];
+    }
+    const files: File[] = children?.props.initialFiles || [];
+    return children?.props.multiple ? files.slice() : files.slice(0, 1);
+  }
+
+  /**
+   * Returns whether the selected files changed and remembers them for the next comparison.
+   * Upload status changes also trigger onValueChange but must not clear the form validation.
+   */
+  private checkFileUploaderValueChange(files: FileUploaderAttachedFile[]): boolean {
+    const previous = this.fileUploaderFiles;
+    this.fileUploaderFiles = files.map(({ originalFile }) => originalFile);
+    return previous.length !== files.length || previous.some((file, index) => file !== files[index].originalFile);
+  }
 
   private setRootNode = (element: Nullable<ReactInstance>) => {
     this.rootNode = getRootNode(element);

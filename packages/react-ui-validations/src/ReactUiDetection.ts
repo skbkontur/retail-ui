@@ -55,6 +55,10 @@ export class ReactUiDetection {
     return ReactUiDetection.checkType(element, 'Select');
   }
 
+  public static isFileUploader(element: unknown): boolean {
+    return ReactUiDetection.checkType(element, 'FileUploader');
+  }
+
   public static isSelectionControl(element: ReactElement): boolean {
     return (
       ReactUiDetection.isRadioGroup(element) ||
@@ -63,7 +67,8 @@ export class ReactUiDetection {
       ReactUiDetection.isToggle(element) ||
       ReactUiDetection.isSwitcher(element) ||
       ReactUiDetection.isSelect(element) ||
-      ReactUiDetection.isComboBox(element)
+      ReactUiDetection.isComboBox(element) ||
+      ReactUiDetection.isFileUploader(element)
     );
   }
 }

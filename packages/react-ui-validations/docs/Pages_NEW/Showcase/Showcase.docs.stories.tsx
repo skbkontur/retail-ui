@@ -6,6 +6,8 @@ import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index';
 import { DateRangePicker } from '@skbkontur/react-ui/components/DateRangePicker/index';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader';
+import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/components/FileUploader/index';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Link } from '@skbkontur/react-ui/components/Link/index';
 import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
@@ -44,6 +46,7 @@ export const ExampleShowcase: Story = () => {
     callTime: Nullable<string>;
     vacationStart: string;
     vacationEnd: string;
+    files: FileUploaderAttachedFile[];
     about: string;
     confirmed: boolean;
     clicked: boolean;
@@ -152,6 +155,18 @@ export const ExampleShowcase: Story = () => {
           },
         );
         b.prop(
+          (x) => x.files,
+          (b, files) => {
+            b.invalid((x) => x.length === 0, 'Прикрепите файл', type, level);
+            b.invalid(
+              (x) => x.length > 1,
+              `Можно прикрепить не больше одного файла. Прикреплено: ${files.length}.`,
+              type,
+              level,
+            );
+          },
+        );
+        b.prop(
           (x) => x.about,
           (b) => {
             b.invalid((x) => !x, 'Расскажите о себе', type, level);
@@ -190,6 +205,7 @@ export const ExampleShowcase: Story = () => {
     callTime: null,
     vacationStart: '',
     vacationEnd: '',
+    files: [],
     about: '',
     confirmed: false,
     clicked: false,
@@ -308,7 +324,7 @@ export const ExampleShowcase: Story = () => {
           </div>
 
           <div style={fieldStyle}>
-            <div style={labelStyle}>Пол</div>
+            <div style={{ ...labelStyle, alignSelf: 'flex-start', lineHeight: '32px' }}>Пол</div>
             <ValidationWrapper
               validationInfo={validationInfo.getNode((x) => x.sex).get()}
               renderMessage={renderMessage}
@@ -446,6 +462,16 @@ export const ExampleShowcase: Story = () => {
                 value={data.about}
                 onValueChange={(value) => handleChange({ about: value })}
               />
+            </ValidationWrapper>
+          </div>
+
+          <div style={fieldStyle}>
+            <div style={labelStyle}>Файл</div>
+            <ValidationWrapper
+              validationInfo={validationInfo.getNode((x) => x.files).get()}
+              renderMessage={renderMessage}
+            >
+              <FileUploader multiple onValueChange={(files) => handleChange({ files })} />
             </ValidationWrapper>
           </div>
 

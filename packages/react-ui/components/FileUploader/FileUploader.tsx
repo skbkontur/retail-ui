@@ -587,4 +587,5 @@ export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, F
   React.memo(_FileUploader),
 );
 
+FileUploader.__KONTUR_REACT_UI__ = 'FileUploader';
 FileUploader.displayName = 'FileUploader';
