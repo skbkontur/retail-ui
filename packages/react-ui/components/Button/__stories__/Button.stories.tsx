@@ -7,6 +7,7 @@ import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegula
 import { IconXLight16 } from '@skbkontur/icons/IconXLight16';
 import { IconXLight20 } from '@skbkontur/icons/IconXLight20';
 import { IconXRegular24 } from '@skbkontur/icons/IconXRegular24';
+import type { StoryFn } from '@storybook/react';
 import type { ReactElement } from 'react';
 import React from 'react';
 
@@ -699,3 +700,19 @@ export const BtnTextBgHoverActive: Story = () => {
     </ThemeContext.Provider>
   );
 };
+
+export const ParentFontSize: StoryFn<{
+  parentFontSize: number;
+  size: ButtonProps['size'];
+}> = ({ parentFontSize, size }) => (
+  <div style={{ fontSize: parentFontSize, border: '1px solid red' }}>
+    <Button size={size}>Кнопка</Button>
+  </div>
+);
+ParentFontSize.storyName = 'Parent font size';
+ParentFontSize.args = { parentFontSize: 34, size: 'small' };
+ParentFontSize.argTypes = {
+  parentFontSize: { name: 'Размер шрифта родителя, px', control: { type: 'range', min: 0, max: 64, step: 1 } },
+  size: { name: 'Размер Button', control: 'select', options: ['small', 'medium', 'large'] },
+};
+ParentFontSize.parameters = { creevey: { skip: true } };

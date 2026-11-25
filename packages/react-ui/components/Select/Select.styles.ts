@@ -6,7 +6,7 @@ import type { Theme } from '../../lib/theming/Theme.js';
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
-      display: inline-block;
+      display: inline-flex;
       position: relative;
       line-height: normal;
     `;
@@ -16,6 +16,12 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       width: ${t.selectRootWidthMobile};
       max-width: ${t.mobileSelectMaxWidth};
+    `;
+  },
+
+  buttonWrapper() {
+    return css`
+      display: inline-flex;
     `;
   },
 

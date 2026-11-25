@@ -1,6 +1,7 @@
 import { IconNatureFxLightningALight16 } from '@skbkontur/icons/IconNatureFxLightningALight16';
 import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
 import { action } from '@storybook/addon-actions';
+import type { StoryFn } from '@storybook/react';
 import type { CSFStory } from 'creevey';
 import React, { type JSX, useState } from 'react';
 
@@ -584,3 +585,19 @@ export const ScrollToSelectedItemOnOpen: Story = () => {
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
+
+export const ParentFontSize: StoryFn<{
+  parentFontSize: number;
+  size: SelectProps<unknown, unknown>['size'];
+}> = ({ parentFontSize, size }) => (
+  <div style={{ fontSize: parentFontSize, border: '1px solid red' }}>
+    <Select size={size} items={['первый', 'второй', 'третий']} />
+  </div>
+);
+ParentFontSize.storyName = 'Parent font size';
+ParentFontSize.args = { parentFontSize: 34, size: 'small' };
+ParentFontSize.argTypes = {
+  parentFontSize: { name: 'Размер шрифта родителя, px', control: { type: 'range', min: 0, max: 64, step: 1 } },
+  size: { name: 'Размер Select', control: 'select', options: ['small', 'medium', 'large'] },
+};
+ParentFontSize.parameters = { creevey: { skip: true } };

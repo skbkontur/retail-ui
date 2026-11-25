@@ -668,7 +668,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
     wrap(t: Theme) {
       return emotion.css`
         box-sizing: border-box;
-        display: inline-block;
+        display: inline-flex;
         line-height: normal;
         padding: ${t.btnBorderWidth};
       `;
@@ -715,6 +715,8 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
 
     wrapLink() {
       return emotion.css`
+        /* Keep inline-block so link text doesn't shift toward the center when width is set. */
+        display: inline-block;
         padding: 0;
       `;
     },

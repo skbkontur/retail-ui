@@ -1,4 +1,5 @@
 import { action } from '@storybook/addon-actions';
+import type { StoryFn } from '@storybook/react';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types.js';
@@ -326,3 +327,23 @@ export const WithManualPosition: Story = () => {
   );
 };
 WithManualPosition.storyName = 'with manual position';
+
+export const ParentFontSize: StoryFn<{
+  parentFontSize: number;
+  size: SizeProp;
+}> = ({ parentFontSize, size }) => {
+  const [value, setValue] = useState('02.07.2017');
+
+  return (
+    <div style={{ fontSize: parentFontSize, border: '1px solid red' }}>
+      <DatePicker size={size} value={value} onValueChange={setValue} />
+    </div>
+  );
+};
+ParentFontSize.storyName = 'Parent font size';
+ParentFontSize.args = { parentFontSize: 34, size: 'small' };
+ParentFontSize.argTypes = {
+  parentFontSize: { name: 'Размер шрифта родителя, px', control: { type: 'range', min: 0, max: 64, step: 1 } },
+  size: { name: 'Размер DatePicker', control: 'select', options: ['small', 'medium', 'large'] },
+};
+ParentFontSize.parameters = { creevey: { skip: true } };

@@ -537,7 +537,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const icon = <ArrowDownIcon size={this.size} />;
 
     return (
-      <Button {...buttonProps}>
+      <Button {...buttonProps} className={this.styles.buttonWrapper()}>
         <div
           className={this.cx(this.styles.selectButtonContainer(), {
             [this.linkStyles.root(this.theme)]: use === 'link',
