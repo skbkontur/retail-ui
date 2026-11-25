@@ -73,7 +73,7 @@ export default defineConfig({
         replacement: path.join(repoRoot, 'packages/react-ui'),
       },
       {
-        find: '@skbkontur/colors',
+        find: '@skbkontur/colors-v3',
         replacement: path.join(repoRoot, 'packages/colors'),
       },
       {

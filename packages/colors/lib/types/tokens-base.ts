@@ -1,4 +1,4 @@
-import type { neutralBlackAlpha, neutralSolid, neutralWhiteAlpha } from '../consts/default-swatch.js';
+import type { neutralShade, neutralSolid, neutralWhiteAlpha } from '../consts/default-swatch.js';
 
 export interface TokensBase {
   brand: {
@@ -25,7 +25,8 @@ export interface TokensBase {
   success: ColorPalette;
   neutralSolid: ColorWithScale<NeutralSolidScale>;
   neutralWhiteAlpha: ColorWithScale<NeutralWhiteAlphaScale>;
-  neutralBlackAlpha: ColorWithScale<NeutralBlackAlphaScale>;
+  neutralBlackAlpha: ColorWithScale<NeutralShadeScale>;
+  neutralShade: ColorWithScale<NeutralShadeScale>;
   onBrand: ColorWithScale<OnBrandScale>;
   onAccent?: ColorWithScale<OnAccentScale>;
   customizable: {
@@ -71,7 +72,7 @@ export type ChromaScale =
 
 type NeutralWhiteAlphaScale = keyof typeof neutralWhiteAlpha;
 
-type NeutralBlackAlphaScale = keyof typeof neutralBlackAlpha;
+type NeutralShadeScale = keyof typeof neutralShade;
 
 type NeutralSolidScale = keyof typeof neutralSolid;
 

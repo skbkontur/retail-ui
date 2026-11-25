@@ -1,4 +1,4 @@
-import * as colors from '@skbkontur/colors/tokens-default/dark';
+import * as colors from '@skbkontur/colors-v3/tokens-default/dark';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
 import type { TableThemeInternal } from './TableLightTheme.js';

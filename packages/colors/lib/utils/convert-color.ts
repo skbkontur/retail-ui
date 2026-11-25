@@ -158,8 +158,12 @@ function convertToAarrggbbRecursive(obj: ColorStructure): ColorStructure {
   return newObj as ColorStructure;
 }
 
+const LIGHTNESS_EPSILON = 1e-6;
+
 export const formatOklch = ({ l, c, h = 0, alpha }: { l: number; c: number; h?: number; alpha?: number }): string => {
-  const lightness = Number((l <= 1 && l > 0 ? l * 100 : l).toFixed(1));
+  // culori may return l slightly above 1 for white (e.g. 1.0000000000000002)
+  const isFraction = l > 0 && l <= 1 + LIGHTNESS_EPSILON;
+  const lightness = Number(Math.min(100, isFraction ? l * 100 : l).toFixed(1));
   const chroma = Number(c.toFixed(3));
   const hue = Number(h.toFixed(1));
   const opacity = alpha !== undefined && alpha < 1 ? ` / ${alpha}` : '';

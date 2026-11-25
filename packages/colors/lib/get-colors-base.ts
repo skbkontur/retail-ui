@@ -1,6 +1,7 @@
 import * as DEFAULT_SWATCH from './consts/default-swatch.js';
 import { getHover, getPressed } from './helpers/get-interactions.js';
 import { getLogoKontur, getLogoProduct } from './helpers/get-logo.js';
+import { getNeutralPalette } from './helpers/get-neutral.js';
 import { getOnBrand } from './helpers/get-on-brand.js';
 import { getPalette } from './helpers/get-palette.js';
 import { getPromo } from './helpers/get-promo.js';
@@ -61,6 +62,16 @@ export function getColorsBase({
     }) as ColorPalette;
   }
 
+  const NEUTRAL_HUE = 280;
+  const CHROMA_LIGHT = 0.002;
+  const CHROMA_DARK = 0.015;
+  const { neutralSolid, neutralAlpha } = getNeutralPalette(NEUTRAL_HUE, CHROMA_LIGHT, CHROMA_DARK);
+
+  const onBrandBlackAlpha = {
+    ...DEFAULT_SWATCH.onBrandBlackAlpha,
+    95: neutralAlpha[24],
+  };
+
   const result = {
     brand: {
       logoKontur: getLogoKontur(),
@@ -89,11 +100,12 @@ export function getColorsBase({
     warning: getPalette({ color: system.warning, type: 'warning' }) as ColorPalette,
     error: getPalette({ color: system.error }) as ColorPalette,
     success: getPalette({ color: system.success }) as ColorPalette,
-    neutralSolid: DEFAULT_SWATCH.neutralSolid,
-    neutralBlackAlpha: DEFAULT_SWATCH.neutralBlackAlpha,
+    neutralSolid: neutralSolid as TokensBase['neutralSolid'],
+    neutralBlackAlpha: neutralAlpha as TokensBase['neutralBlackAlpha'],
     neutralWhiteAlpha: DEFAULT_SWATCH.neutralWhiteAlpha,
-    onBrand: getOnBrand(brandColor),
-    onAccent: accentColor ? getOnBrand(accentColor) : undefined,
+    neutralShade: DEFAULT_SWATCH.neutralShade,
+    onBrand: getOnBrand(brandColor, onBrandBlackAlpha),
+    onAccent: accentColor ? getOnBrand(accentColor, onBrandBlackAlpha) : undefined,
     customizable: customizablePalettes,
   } as unknown as ColorStructure;
 

@@ -1,5 +1,6 @@
 import { test, describe, expect } from 'vitest';
 
+import { getColorsBase } from '../lib/get-colors-base.js';
 import { getColors } from '../lib/get-colors.js';
 
 test('should return both themes with HEX values by default', () => {
@@ -18,6 +19,56 @@ test('should use custom hex for brand tokens', () => {
   const res = getColors({ brand: '#FF5500', accent: 'brand', theme: 'light' });
   const firstToken = Object.values(res)[0];
   expect(firstToken).toMatch(/^#[0-9a-f]{6}$/i);
+});
+
+test.each(['light', 'dark'] as const)('should use the same text scale on a light brand and accent in %s', (theme) => {
+  const options = { brand: '#FAB800', accent: 'brand' };
+  const base = getColorsBase(options);
+  const tokens = getColors({ ...options, theme });
+
+  const expected = {
+    Heavy: base.neutralBlackAlpha[24],
+    Soft: base.neutralBlackAlpha[44],
+    Pale: 'rgba(0, 0, 0, 0.5)',
+    Faint: base.neutralBlackAlpha[72],
+  };
+
+  for (const level of ['Heavy', 'Soft', 'Pale', 'Faint'] as const) {
+    expect(tokens[`textOnBrandOriginal${level}`]).toBe(expected[level]);
+    expect(tokens[`textOnAccentBold${level}`]).toBe(expected[level]);
+  }
+});
+
+test('should keep the white brand and accent palette steps independent of text tokens', () => {
+  const options = { brand: 'blue', accent: 'brand' };
+  const base = getColorsBase(options);
+
+  for (const palette of [base.onBrand, base.onAccent]) {
+    expect(palette).toMatchObject({
+      95: base.neutralWhiteAlpha[97],
+      65: base.neutralWhiteAlpha[76],
+      50: base.neutralWhiteAlpha[68],
+    });
+  }
+
+  for (const theme of ['light', 'dark'] as const) {
+    const tokens = getColors({ ...options, theme });
+    expect(tokens).toMatchObject({
+      textOnBrandOriginalSoft: base.onBrand[75],
+      textOnBrandOriginalPale: base.onBrand[55],
+      textOnAccentBoldSoft: base.onAccent?.[75],
+      textOnAccentBoldPale: base.onAccent?.[55],
+    });
+  }
+});
+
+test('should match neutral heavy text for the gray accent on dark backgrounds', () => {
+  const options = { brand: 'blue', accent: 'gray' };
+  const dark = getColors({ ...options, theme: 'dark' });
+  const light = getColors({ ...options, theme: 'light' });
+
+  expect(dark.textAccentHeavy).toBe(dark.textNeutralHeavy);
+  expect(light.textInvertedAccentHeavy).toBe(light.textInvertedNeutralHeavy);
 });
 
 test('should apply custom system palette', () => {
@@ -53,7 +104,7 @@ test('should merge custom tokens via overrides', () => {
     theme: 'light',
     overrides: (base) => ({ light: { customBrand: base?.neutralSolid[20] } }) as any,
   }) as any;
-  expect(res.customBrand).toBe('#161616');
+  expect(res.customBrand).toBe('#15151d');
 });
 
 test('should apply format to override tokens', () => {

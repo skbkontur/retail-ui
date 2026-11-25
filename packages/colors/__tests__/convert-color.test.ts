@@ -22,3 +22,9 @@ test('should convert to hex-aarrggbb format', () => {
   const result = convertColorFormat(mockTokens, 'hex-aarrggbb') as any;
   expect(result.primary).toMatch(/^#[0-9A-F]{6}$/);
 });
+
+test('should format white hex as 100% lightness in oklch', () => {
+  const result = convertColorFormat({ white: '#ffffff', black: '#000000' }, 'oklch') as any;
+  expect(result.white).toBe('oklch(100% 0 0)');
+  expect(result.black).toBe('oklch(0% 0 0)');
+});

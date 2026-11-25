@@ -1005,180 +1005,184 @@
     "hex": "#000000"
   },
   "neutralSolid20": {
-    "oklch": "oklch(20% 0 0)",
-    "hex": "#161616"
+    "oklch": "oklch(20% 0.016 284.9)",
+    "hex": "#15151d"
   },
   "neutralSolid24": {
-    "oklch": "oklch(24% 0 0)",
-    "hex": "#1f1f1f"
+    "oklch": "oklch(24.1% 0.013 278.9)",
+    "hex": "#1e1f26"
   },
   "neutralSolid28": {
-    "oklch": "oklch(28% 0 0)",
-    "hex": "#292929"
+    "oklch": "oklch(27.9% 0.015 279.8)",
+    "hex": "#272830"
   },
   "neutralSolid32": {
-    "oklch": "oklch(32% 0 0)",
-    "hex": "#333333"
+    "oklch": "oklch(31.9% 0.014 279.9)",
+    "hex": "#31323a"
   },
   "neutralSolid36": {
-    "oklch": "oklch(36% 0 0)",
-    "hex": "#3d3d3d"
+    "oklch": "oklch(36.1% 0.01 278.3)",
+    "hex": "#3c3d43"
   },
   "neutralSolid40": {
-    "oklch": "oklch(40% 0 0)",
-    "hex": "#484848"
+    "oklch": "oklch(40% 0.012 279.4)",
+    "hex": "#46474e"
   },
   "neutralSolid44": {
-    "oklch": "oklch(44% 0 0)",
-    "hex": "#525252"
+    "oklch": "oklch(44% 0.011 279.4)",
+    "hex": "#515259"
   },
   "neutralSolid48": {
-    "oklch": "oklch(48% 0 0)",
-    "hex": "#5d5d5d"
+    "oklch": "oklch(48% 0.01 278.5)",
+    "hex": "#5c5d63"
   },
   "neutralSolid52": {
-    "oklch": "oklch(52% 0 0)",
-    "hex": "#696969"
+    "oklch": "oklch(52% 0.011 286)",
+    "hex": "#68686f"
   },
   "neutralSolid56": {
-    "oklch": "oklch(56% 0 0)",
-    "hex": "#747474"
+    "oklch": "oklch(56% 0.009 278.5)",
+    "hex": "#73747a"
   },
   "neutralSolid60": {
-    "oklch": "oklch(60% 0 0)",
-    "hex": "#808080"
+    "oklch": "oklch(60.1% 0.008 277.1)",
+    "hex": "#7f8085"
   },
   "neutralSolid64": {
-    "oklch": "oklch(64% 0 0)",
-    "hex": "#8c8c8c"
+    "oklch": "oklch(64.1% 0.007 277.1)",
+    "hex": "#8b8c91"
   },
   "neutralSolid68": {
-    "oklch": "oklch(68% 0 0)",
-    "hex": "#989898"
+    "oklch": "oklch(68% 0.007 277.1)",
+    "hex": "#97989d"
   },
   "neutralSolid72": {
-    "oklch": "oklch(72% 0 0)",
-    "hex": "#a4a4a4"
+    "oklch": "oklch(72% 0.006 286.3)",
+    "hex": "#a4a4a8"
   },
   "neutralSolid76": {
-    "oklch": "oklch(76% 0 0)",
-    "hex": "#b1b1b1"
+    "oklch": "oklch(76.1% 0.006 274.9)",
+    "hex": "#b0b1b5"
   },
   "neutralSolid80": {
-    "oklch": "oklch(80% 0 0)",
-    "hex": "#bebebe"
+    "oklch": "oklch(80% 0.006 286.3)",
+    "hex": "#bdbdc1"
   },
   "neutralSolid84": {
-    "oklch": "oklch(84% 0 0)",
-    "hex": "#cacaca"
+    "oklch": "oklch(84% 0.004 286.3)",
+    "hex": "#cacacd"
   },
   "neutralSolid88": {
-    "oklch": "oklch(88% 0 0)",
-    "hex": "#d7d7d7"
+    "oklch": "oklch(88% 0.004 286.3)",
+    "hex": "#d7d7da"
   },
   "neutralSolid92": {
-    "oklch": "oklch(92% 0 0)",
-    "hex": "#e4e4e4"
+    "oklch": "oklch(91.9% 0.003 286.3)",
+    "hex": "#e4e4e6"
   },
   "neutralSolid96": {
-    "oklch": "oklch(96% 0 0)",
-    "hex": "#f2f2f2"
+    "oklch": "oklch(96.1% 0.002 247.8)",
+    "hex": "#f1f2f3"
   },
   "neutralSolid97": {
-    "oklch": "oklch(97% 0 0)",
-    "hex": "#f5f5f5"
+    "oklch": "oklch(97% 0.001 286.4)",
+    "hex": "#f5f5f6"
   },
   "neutralSolid100": {
     "oklch": "oklch(100% 0 0)",
     "hex": "#ffffff"
   },
   "neutralBlackAlpha20": {
-    "oklch": "oklch(0% 0 0 / 0.92)",
-    "hex": "rgba(0, 0, 0, 0.92)"
+    "oklch": "oklch(20% 0.016 284.9)",
+    "hex": "rgba(21, 21, 29, 1)"
   },
   "neutralBlackAlpha24": {
-    "oklch": "oklch(0% 0 0 / 0.88)",
-    "hex": "rgba(0, 0, 0, 0.88)"
+    "oklch": "oklch(20% 0.016 284.9 / 0.9608)",
+    "hex": "rgba(21, 21, 29, 0.9608)"
   },
   "neutralBlackAlpha28": {
-    "oklch": "oklch(0% 0 0 / 0.84)",
-    "hex": "rgba(0, 0, 0, 0.84)"
+    "oklch": "oklch(20.3% 0.016 279.3 / 0.9216)",
+    "hex": "rgba(21, 22, 30, 0.9216)"
   },
   "neutralBlackAlpha32": {
-    "oklch": "oklch(0% 0 0 / 0.80)",
-    "hex": "rgba(0, 0, 0, 0.8)"
+    "oklch": "oklch(20.3% 0.016 279.3 / 0.8784)",
+    "hex": "rgba(21, 22, 30, 0.8784)"
   },
   "neutralBlackAlpha36": {
-    "oklch": "oklch(0% 0 0 / 0.76)",
-    "hex": "rgba(0, 0, 0, 0.76)"
+    "oklch": "oklch(20.3% 0.016 279.3 / 0.8314)",
+    "hex": "rgba(21, 22, 30, 0.8314)"
   },
   "neutralBlackAlpha40": {
-    "oklch": "oklch(0% 0 0 / 0.72)",
-    "hex": "rgba(0, 0, 0, 0.72)"
+    "oklch": "oklch(20.3% 0.018 279.7 / 0.7882)",
+    "hex": "rgba(21, 22, 31, 0.7882)"
   },
   "neutralBlackAlpha44": {
-    "oklch": "oklch(0% 0 0 / 0.68)",
-    "hex": "rgba(0, 0, 0, 0.68)"
+    "oklch": "oklch(20.3% 0.018 279.7 / 0.7412)",
+    "hex": "rgba(21, 22, 31, 0.7412)"
   },
   "neutralBlackAlpha48": {
-    "oklch": "oklch(0% 0 0 / 0.63)",
-    "hex": "rgba(0, 0, 0, 0.63)"
+    "oklch": "oklch(20.3% 0.018 279.7 / 0.6941)",
+    "hex": "rgba(21, 22, 31, 0.6941)"
   },
   "neutralBlackAlpha52": {
-    "oklch": "oklch(0% 0 0 / 0.59)",
-    "hex": "rgba(0, 0, 0, 0.59)"
+    "oklch": "oklch(20.4% 0.02 280 / 0.6471)",
+    "hex": "rgba(21, 22, 32, 0.6471)"
   },
   "neutralBlackAlpha56": {
-    "oklch": "oklch(0% 0 0 / 0.54)",
-    "hex": "rgba(0, 0, 0, 0.54)"
+    "oklch": "oklch(20.4% 0.02 280 / 0.5961)",
+    "hex": "rgba(21, 22, 32, 0.5961)"
   },
   "neutralBlackAlpha60": {
-    "oklch": "oklch(0% 0 0 / 0.5)",
-    "hex": "rgba(0, 0, 0, 0.5)"
+    "oklch": "oklch(20.4% 0.02 280 / 0.5451)",
+    "hex": "rgba(21, 22, 32, 0.5451)"
   },
   "neutralBlackAlpha64": {
-    "oklch": "oklch(0% 0 0 / 0.45)",
-    "hex": "rgba(0, 0, 0, 0.45)"
+    "oklch": "oklch(20.5% 0.022 280.2 / 0.4941)",
+    "hex": "rgba(21, 22, 33, 0.4941)"
   },
   "neutralBlackAlpha68": {
-    "oklch": "oklch(0% 0 0 / 0.4)",
-    "hex": "rgba(0, 0, 0, 0.4)"
+    "oklch": "oklch(20.5% 0.022 280.2 / 0.4431)",
+    "hex": "rgba(21, 22, 33, 0.4431)"
   },
   "neutralBlackAlpha72": {
-    "oklch": "oklch(0% 0 0 / 0.36)",
-    "hex": "rgba(0, 0, 0, 0.36)"
+    "oklch": "oklch(20.5% 0.022 280.2 / 0.3882)",
+    "hex": "rgba(21, 22, 33, 0.3882)"
   },
   "neutralBlackAlpha76": {
-    "oklch": "oklch(0% 0 0 / 0.3)",
-    "hex": "rgba(0, 0, 0, 0.3)"
+    "oklch": "oklch(20.6% 0.026 280.5 / 0.3373)",
+    "hex": "rgba(21, 22, 35, 0.3373)"
   },
   "neutralBlackAlpha80": {
-    "oklch": "oklch(0% 0 0 / 0.26)",
-    "hex": "rgba(0, 0, 0, 0.26)"
+    "oklch": "oklch(20.6% 0.026 280.5 / 0.2824)",
+    "hex": "rgba(21, 22, 35, 0.2824)"
   },
   "neutralBlackAlpha84": {
-    "oklch": "oklch(0% 0 0 / 0.21)",
-    "hex": "rgba(0, 0, 0, 0.21)"
+    "oklch": "oklch(20.6% 0.026 280.5 / 0.2275)",
+    "hex": "rgba(21, 22, 35, 0.2275)"
   },
   "neutralBlackAlpha88": {
-    "oklch": "oklch(0% 0 0 / 0.16)",
-    "hex": "rgba(0, 0, 0, 0.16)"
+    "oklch": "oklch(21.2% 0.034 278 / 0.1725)",
+    "hex": "rgba(21, 23, 40, 0.1725)"
   },
   "neutralBlackAlpha92": {
-    "oklch": "oklch(0% 0 0 / 0.11)",
-    "hex": "rgba(0, 0, 0, 0.11)"
+    "oklch": "oklch(21.3% 0.037 278.1 / 0.1137)",
+    "hex": "rgba(21, 23, 42, 0.1137)"
   },
   "neutralBlackAlpha96": {
-    "oklch": "oklch(0% 0 0 / 0.05)",
-    "hex": "rgba(0, 0, 0, 0.05)"
+    "oklch": "oklch(22.1% 0.051 276.5 / 0.0588)",
+    "hex": "rgba(21, 24, 50, 0.0588)"
   },
   "neutralBlackAlpha97": {
-    "oklch": "oklch(0% 0 0 / 0.03)",
-    "hex": "rgba(0, 0, 0, 0.03)"
+    "oklch": "oklch(23.1% 0.065 275.1 / 0.0431)",
+    "hex": "rgba(21, 25, 59, 0.0431)"
   },
   "neutralBlackAlpha100": {
-    "oklch": "oklch(0% 0 0 / 1)",
-    "hex": "rgba(0, 0, 0, 1)"
+    "oklch": "oklch(23.1% 0.065 275.1 / 0)",
+    "hex": "rgba(21, 25, 59, 0)"
+  },
+  "neutralWhiteAlpha28": {
+    "oklch": "oklch(100% 0 0 / 0)",
+    "hex": "rgba(255, 255, 255, 0)"
   },
   "neutralWhiteAlpha32": {
     "oklch": "oklch(100% 0 0 / 0.05)",
@@ -1256,6 +1260,94 @@
     "oklch": "oklch(100% 0 0)",
     "hex": "#ffffff"
   },
+  "neutralShade20": {
+    "oklch": "oklch(0% 0 0 / 0.92)",
+    "hex": "rgba(0, 0, 0, 0.92)"
+  },
+  "neutralShade24": {
+    "oklch": "oklch(0% 0 0 / 0.88)",
+    "hex": "rgba(0, 0, 0, 0.88)"
+  },
+  "neutralShade28": {
+    "oklch": "oklch(0% 0 0 / 0.84)",
+    "hex": "rgba(0, 0, 0, 0.84)"
+  },
+  "neutralShade32": {
+    "oklch": "oklch(0% 0 0 / 0.80)",
+    "hex": "rgba(0, 0, 0, 0.8)"
+  },
+  "neutralShade36": {
+    "oklch": "oklch(0% 0 0 / 0.76)",
+    "hex": "rgba(0, 0, 0, 0.76)"
+  },
+  "neutralShade40": {
+    "oklch": "oklch(0% 0 0 / 0.72)",
+    "hex": "rgba(0, 0, 0, 0.72)"
+  },
+  "neutralShade44": {
+    "oklch": "oklch(0% 0 0 / 0.68)",
+    "hex": "rgba(0, 0, 0, 0.68)"
+  },
+  "neutralShade48": {
+    "oklch": "oklch(0% 0 0 / 0.63)",
+    "hex": "rgba(0, 0, 0, 0.63)"
+  },
+  "neutralShade52": {
+    "oklch": "oklch(0% 0 0 / 0.59)",
+    "hex": "rgba(0, 0, 0, 0.59)"
+  },
+  "neutralShade56": {
+    "oklch": "oklch(0% 0 0 / 0.54)",
+    "hex": "rgba(0, 0, 0, 0.54)"
+  },
+  "neutralShade60": {
+    "oklch": "oklch(0% 0 0 / 0.5)",
+    "hex": "rgba(0, 0, 0, 0.5)"
+  },
+  "neutralShade64": {
+    "oklch": "oklch(0% 0 0 / 0.45)",
+    "hex": "rgba(0, 0, 0, 0.45)"
+  },
+  "neutralShade68": {
+    "oklch": "oklch(0% 0 0 / 0.4)",
+    "hex": "rgba(0, 0, 0, 0.4)"
+  },
+  "neutralShade72": {
+    "oklch": "oklch(0% 0 0 / 0.36)",
+    "hex": "rgba(0, 0, 0, 0.36)"
+  },
+  "neutralShade76": {
+    "oklch": "oklch(0% 0 0 / 0.3)",
+    "hex": "rgba(0, 0, 0, 0.3)"
+  },
+  "neutralShade80": {
+    "oklch": "oklch(0% 0 0 / 0.26)",
+    "hex": "rgba(0, 0, 0, 0.26)"
+  },
+  "neutralShade84": {
+    "oklch": "oklch(0% 0 0 / 0.21)",
+    "hex": "rgba(0, 0, 0, 0.21)"
+  },
+  "neutralShade88": {
+    "oklch": "oklch(0% 0 0 / 0.16)",
+    "hex": "rgba(0, 0, 0, 0.16)"
+  },
+  "neutralShade92": {
+    "oklch": "oklch(0% 0 0 / 0.11)",
+    "hex": "rgba(0, 0, 0, 0.11)"
+  },
+  "neutralShade96": {
+    "oklch": "oklch(0% 0 0 / 0.05)",
+    "hex": "rgba(0, 0, 0, 0.05)"
+  },
+  "neutralShade97": {
+    "oklch": "oklch(0% 0 0 / 0.03)",
+    "hex": "rgba(0, 0, 0, 0.03)"
+  },
+  "neutralShade100": {
+    "oklch": "oklch(0% 0 0 / 0)",
+    "hex": "rgba(0, 0, 0, 0)"
+  },
   "onBrand5": {
     "oklch": "oklch(100% 0 0 / 0.05)",
     "hex": "rgba(255, 255, 255, 0.05)"
@@ -1321,8 +1413,8 @@
     "hex": "rgba(255, 255, 255, 0.88)"
   },
   "onBrand95": {
-    "oklch": "oklch(100% 0 0 / 0.94)",
-    "hex": "rgba(255, 255, 255, 0.94)"
+    "oklch": "oklch(100% 0 0 / 0.96)",
+    "hex": "rgba(255, 255, 255, 0.96)"
   },
   "onBrand100": {
     "oklch": "oklch(100% 0 0)",

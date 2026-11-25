@@ -56,6 +56,7 @@ export const neutralSolid = {
 };
 
 export const neutralWhiteAlpha = {
+  28: 'oklch(100% 0 0 / 0)',
   32: 'oklch(100% 0 0 / 0.05)',
   36: 'oklch(100% 0 0 / 0.10)',
   40: 'oklch(100% 0 0 / 0.15)',
@@ -77,7 +78,7 @@ export const neutralWhiteAlpha = {
   100: 'oklch(100% 0 0)',
 };
 
-export const neutralBlackAlpha = {
+export const neutralShade = {
   20: 'oklch(0% 0 0 / 0.92)',
   24: 'oklch(0% 0 0 / 0.88)',
   28: 'oklch(0% 0 0 / 0.84)',
@@ -99,12 +100,12 @@ export const neutralBlackAlpha = {
   92: 'oklch(0% 0 0 / 0.11)',
   96: 'oklch(0% 0 0 / 0.05)',
   97: 'oklch(0% 0 0 / 0.03)',
-  100: 'oklch(0% 0 0 / 1)',
+  100: 'oklch(0% 0 0 / 0)',
 };
 
 export const onBrandWhiteAlpha = {
   100: neutralSolid[100],
-  95: neutralWhiteAlpha[96],
+  95: neutralWhiteAlpha[97],
   90: neutralWhiteAlpha[92],
   80: neutralWhiteAlpha[88],
   75: neutralWhiteAlpha[84],
@@ -125,21 +126,21 @@ export const onBrandWhiteAlpha = {
 
 export const onBrandBlackAlpha = {
   100: neutralSolid[0],
-  95: neutralBlackAlpha[20],
-  90: neutralBlackAlpha[24],
-  80: neutralBlackAlpha[32],
-  75: neutralBlackAlpha[36],
-  70: neutralBlackAlpha[40],
-  65: neutralBlackAlpha[48],
-  55: neutralBlackAlpha[56],
-  50: neutralBlackAlpha[60],
-  45: neutralBlackAlpha[64],
-  40: neutralBlackAlpha[68],
-  35: neutralBlackAlpha[72],
-  30: neutralBlackAlpha[76],
-  25: neutralBlackAlpha[80],
-  20: neutralBlackAlpha[84],
-  15: neutralBlackAlpha[88],
-  10: neutralBlackAlpha[92],
-  5: neutralBlackAlpha[96],
+  95: neutralShade[20],
+  90: neutralShade[24],
+  80: neutralShade[32],
+  75: neutralShade[36],
+  70: neutralShade[40],
+  65: neutralShade[48],
+  55: neutralShade[56],
+  50: neutralShade[60],
+  45: neutralShade[64],
+  40: neutralShade[68],
+  35: neutralShade[72],
+  30: neutralShade[76],
+  25: neutralShade[80],
+  20: neutralShade[84],
+  15: neutralShade[88],
+  10: neutralShade[92],
+  5: neutralShade[96],
 };

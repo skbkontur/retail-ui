@@ -111,7 +111,7 @@ export const transformations: Rule[] = [
       const CUSTOMIZABLE_KEYS = Object.keys(customizable);
 
       const transformToken = (rawValue: string): string => {
-        const neutralMatch = rawValue.match(/^Neutral\/(Black Alpha|White Alpha|Solid)\/(\d+)(?:\s*∙\s*\d+%)?$/);
+        const neutralMatch = rawValue.match(/^Neutral\/(Black Alpha|White Alpha|Solid|Shade)\/(\d+)(?:\s*∙\s*\d+%)?$/);
         if (neutralMatch) {
           const scaleType = neutralMatch[1];
           const key = Number(neutralMatch[2]);
@@ -120,6 +120,9 @@ export const transformations: Rule[] = [
           }
           if (scaleType === 'White Alpha') {
             return `base.neutralWhiteAlpha[${key}]`;
+          }
+          if (scaleType === 'Shade') {
+            return `base.neutralShade[${key}]`;
           }
           if (scaleType === 'Solid') {
             return `base.neutralSolid[${key}]`;
@@ -190,7 +193,7 @@ export const transformations: Rule[] = [
         return rawValue;
       };
 
-      const valueToExpression = (value: string): string => {
+      const valueToExpression = (key: string, value: string): string => {
         let rawValue = value;
         const camelValue = slashToCamelCase(rawValue);
 
@@ -284,6 +287,14 @@ export const transformations: Rule[] = [
               }
             }
 
+            if (key.startsWith('textOnBrandOriginal') && item.startsWith('OnBrand/')) {
+              return `onBrandText[${item.slice('OnBrand/'.length)}]`;
+            }
+
+            if (key.startsWith('textOnAccentBold') && item.startsWith('OnAccent/')) {
+              return `onAccentText?.[${item.slice('OnAccent/'.length)}]`;
+            }
+
             return transformToken(item);
           })
           .join(' || ');
@@ -292,8 +303,8 @@ export const transformations: Rule[] = [
       const result: Output = {};
       for (const [key, values] of Object.entries(tokens)) {
         result[key] = {
-          light: valueToExpression(values.light),
-          dark: valueToExpression(values.dark),
+          light: valueToExpression(key, values.light),
+          dark: valueToExpression(key, values.dark),
         };
       }
       return result;
@@ -362,12 +373,25 @@ export const transformations: Rule[] = [
         return lines.join('\n');
       };
 
-      return `import type { TokensBase } from './types/tokens-base.js';
+      const usesOnBrandText = sorted.some(([, values]) =>
+        [values.light, values.dark].some((value) => value.startsWith('onBrandText[')),
+      );
+      const usesOnAccentText = sorted.some(([, values]) =>
+        [values.light, values.dark].some((value) => value.startsWith('onAccentText?.[')),
+      );
+      const textImport =
+        usesOnBrandText || usesOnAccentText ? "import { getOnBrandText } from './helpers/get-on-brand.js';\n" : '';
+      const brandText = usesOnBrandText ? '  const onBrandText = getOnBrandText(base, base.onBrand);\n' : '';
+      const accentText = usesOnAccentText
+        ? '  const onAccentText = base.onAccent && getOnBrandText(base, base.onAccent);\n'
+        : '';
+
+      return `${textImport}import type { TokensBase } from './types/tokens-base.js';
 
 export const getColorsDefaultTokens = (
-  base: TokensBase
+  base: TokensBase,
 ): { light: Record<string, string>; dark: Record<string, string> } => {
-  const light = {
+${brandText}${accentText}  const light = {
 ${generateMain('light')}
   };
   const dark = {

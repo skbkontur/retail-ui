@@ -1,5 +1,5 @@
-import * as colors from '@skbkontur/colors/tokens-default/dark';
-import * as lightColors from '@skbkontur/colors/tokens-default/light';
+import * as colors from '@skbkontur/colors-v3/tokens-default/dark';
+import * as lightColors from '@skbkontur/colors-v3/tokens-default/light';
 
 import { createTheme, markAsDarkTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
 import { BasicThemeClassForExtension } from './BasicTheme.js';
