@@ -356,6 +356,20 @@ describe('<TokenInput />', () => {
     expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
   });
 
+  it.each([
+    ['Combined', TokenInputType.Combined],
+    ['WithoutReference', TokenInputType.WithoutReference],
+  ] as const)('should type Cyrillic б on the Comma key in %s mode', async (_name, type) => {
+    const user = userEvent.setup({ keyboardMap: [{ key: 'б', code: 'Comma' }] });
+    render(<SimpleTokenInput type={type} initialSelectedItems={[]} />);
+    const tokenInput = screen.getByRole('textbox');
+
+    await user.type(tokenInput, 'а[Comma]');
+
+    expect(tokenInput).toHaveValue('аб');
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(0);
+  });
+
   it.each(extendedDelimiters)('should add token on onChange with delimiter %j', async (delimiter) => {
     await assertTokenAddedOnDelimiterChange(delimiter);
   });

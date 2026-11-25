@@ -29,8 +29,6 @@ import {
   isKeyArrowUp,
   isKeyArrowVertical,
   isKeyBackspace,
-  isKeyComma,
-  isCodeComma,
   isKeyDelete,
   isKeyEnter,
   isKeyEscape,
@@ -993,13 +991,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return value.split(new RegExp(`[${pattern}]+`));
   }
 
-  private isDelimiterKeyEvent(e: KeyboardEvent<HTMLTextAreaElement>, delimiter: string): boolean {
-    if (delimiter === ',') {
-      return e.key === delimiter || isKeyComma(e) || isCodeComma(e);
-    }
-    return e.key === delimiter;
-  }
-
   private canAcceptInputAsToken(value: string): boolean {
     if (!value) {
       return false;
@@ -1227,7 +1218,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     e.stopPropagation();
 
     if (
-      (this.isDelimiterInputEnabled && this.getProps().delimiters.some((key) => this.isDelimiterKeyEvent(e, key))) ||
+      (this.isDelimiterInputEnabled && this.getProps().delimiters.some((delimiter) => e.key === delimiter)) ||
       (isKeyEnter(e) && this.type === TokenInputType.WithoutReference)
     ) {
       e.preventDefault();
