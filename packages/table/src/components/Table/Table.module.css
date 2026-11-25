@@ -522,6 +522,7 @@
  * Типографика таблицы включает табличные цифры, а resetText в react-ui (Input, Button → Select, ComboBox) ставит
  * font-variant: normal на корень контрола: число в поле было бы другой ширины, чем в покое.
  * Стили таблицы лежат в @layer и без !important проигрывают Emotion без слоя.
+ * В Chrome 73–98 слоя нет, но !important всё равно нужен для Chrome 99+ — не убирать.
  */
 .EditableCellEditor * {
   font-variant-numeric: inherit !important;

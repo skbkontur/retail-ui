@@ -28,11 +28,17 @@ describe('adoptTableStyles (no-op вне baseline)', () => {
 // Синтетический root с поддержкой adoptedStyleSheets и рабочим CSSStyleSheet,
 // чтобы протестировать refcount без реального baseline-DOM jsdom.
 class FakeSheet {
-  public replaceSync(): void {}
+  public cssText = '';
+  public replaceSync(cssText: string): void {
+    this.cssText = cssText;
+  }
 }
 
-function createFakeRoot(): Document | ShadowRoot {
-  const view = { CSSStyleSheet: FakeSheet as unknown as typeof CSSStyleSheet };
+function createFakeRoot({ supportsLayer = true } = {}): Document | ShadowRoot {
+  const view = {
+    CSSStyleSheet: FakeSheet as unknown as typeof CSSStyleSheet,
+    ...(supportsLayer ? { CSSLayerBlockRule: class {} } : {}),
+  };
   const doc = { nodeType: Node.DOCUMENT_NODE, defaultView: view, ownerDocument: null };
   const root = {
     nodeType: Node.DOCUMENT_FRAGMENT_NODE,
@@ -82,5 +88,27 @@ describe('refcount по root', () => {
     adoptTableStyles(root);
     expect(root.adoptedStyleSheets).toHaveLength(1);
     expect(root.adoptedStyleSheets[0]).toBe(firstSheet);
+  });
+});
+
+describe('@layer', () => {
+  const css = '._Table_ { table-layout: fixed; }';
+
+  it('заворачивает CSS в слой, если браузер знает @layer', () => {
+    cssGlobal.__skbkonturTableCss = css;
+    const root = createFakeRoot();
+
+    adoptTableStyles(root);
+
+    expect((root.adoptedStyleSheets[0] as unknown as FakeSheet).cssText).toBe(`@layer skbkontur-table {\n${css}\n}`);
+  });
+
+  it('кладёт CSS без слоя в Chrome 73–98 (adoptedStyleSheets есть, @layer нет)', () => {
+    cssGlobal.__skbkonturTableCss = css;
+    const root = createFakeRoot({ supportsLayer: false });
+
+    adoptTableStyles(root);
+
+    expect((root.adoptedStyleSheets[0] as unknown as FakeSheet).cssText).toBe(css);
   });
 });

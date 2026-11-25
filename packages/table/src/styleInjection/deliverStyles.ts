@@ -36,11 +36,12 @@ function getOwnerDocument(root: Document | ShadowRoot): Document | null {
 /**
  * Лист со стилями пакета для документа (конструктор из его realm), null вне baseline.
  *
- * Эффективный baseline — пересечение adoptedStyleSheets и @layer:
- * Chrome/Edge 99+, Firefox 101+, Safari 16.4+. Детект по `replaceSync` пропускает
- * Chrome 73–98 (там есть adopted sheets, но нет @layer) — на них правила внутри
- * @layer будут отброшены и таблица останется без стилей; в 2026 такие версии
- * вымерли, поэтому отдельный детект @layer не добавляем.
+ * Baseline — adoptedStyleSheets: Chrome/Edge 73+, Firefox 101+, Safari 16.4+.
+ * В Chrome 73–98 нет @layer: браузер отбросил бы весь блок, и таблица осталась бы
+ * без стилей (так встраиваются виджеты Диадока). Там кладём CSS без слоя: adopted-лист
+ * идёт в каскаде после <style> документа, поэтому при равной специфичности таблица
+ * перебивает и consumer-оверрайды, и Emotion-стили контролов react-ui в ячейках —
+ * раскладка там может немного отличаться от Chrome 99+.
  */
 function getSheet(doc: Document): CSSStyleSheet | null {
   const cached = sheetsByDocument.get(doc);
@@ -48,12 +49,13 @@ function getSheet(doc: Document): CSSStyleSheet | null {
     return cached;
   }
   const rawCss = getRawCss();
-  const SheetConstructor = doc.defaultView?.CSSStyleSheet;
-  if (!rawCss || typeof SheetConstructor !== 'function' || !('replaceSync' in SheetConstructor.prototype)) {
+  const view = doc.defaultView;
+  const SheetConstructor = view?.CSSStyleSheet;
+  if (!view || !rawCss || typeof SheetConstructor !== 'function' || !('replaceSync' in SheetConstructor.prototype)) {
     return null;
   }
   const sheet = new SheetConstructor();
-  sheet.replaceSync(layered(rawCss));
+  sheet.replaceSync('CSSLayerBlockRule' in view ? layered(rawCss) : rawCss);
   sheetsByDocument.set(doc, sheet);
   return sheet;
 }
