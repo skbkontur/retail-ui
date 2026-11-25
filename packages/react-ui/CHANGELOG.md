@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.7...@skbkontur/react-ui@6.5.8) (2026-11-25)
+
+
+### Bug Fixes
+
+* **Button,Select,DatePicker:** remove parent font-size side effects ([6c58c08](https://github.com/skbkontur/retail-ui/commit/6c58c08685136b03612217f4f7ce654019f45ee1))
+* **FileUploader:** hide stale validation tooltip on selection change ([c7b404f](https://github.com/skbkontur/retail-ui/commit/c7b404f4e938972bfa925ca77e640f713ab519ca))
+* **TokenInput:** match delimiters by typed character ([eac192b](https://github.com/skbkontur/retail-ui/commit/eac192bb29f8a0b8b1f7092b3c9b3befafcc86d1))
+
+
+
+
+
 ## [6.5.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.5.6...@skbkontur/react-ui@6.5.7) (2026-11-23)
 
 
