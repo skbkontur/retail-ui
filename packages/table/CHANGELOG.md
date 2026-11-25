@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.3.0...@skbkontur/table@1.3.1) (2026-11-25)
+
+
+### Bug Fixes
+
+* **Table:** keep styles in browsers without @layer support ([c189f3c](https://github.com/skbkontur/retail-ui/commit/c189f3cc7089aa3f9d70c109369cf5f1358d1daa))
+
+
+
+
+
 # [1.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.2.1...@skbkontur/table@1.3.0) (2026-11-10)
 
 
