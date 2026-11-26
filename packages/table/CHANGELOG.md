@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.3.1...@skbkontur/table@1.3.2) (2026-11-26)
+
+
+### Bug Fixes
+
+* **Table:** end dividers where the last column text ends ([863ffb9](https://github.com/skbkontur/retail-ui/commit/863ffb9fc37e5ab7e0d7b9fbe4f15118dd293f7c))
+
+
+
+
+
 ## [1.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/table@1.3.0...@skbkontur/table@1.3.1) (2026-11-25)
 
 
