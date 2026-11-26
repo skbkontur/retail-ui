@@ -5,23 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/colors@3.0.0...@skbkontur/colors@4.0.0) (2026-11-26)
 
-207 of 652 semantic color values changed in light and dark themes. Neutral colors now have a subtle blue tint to match the updated brand palette. Token names stay the same.
+Only semantic token values are updated. Their names and structure stay the same, so no code changes are needed when upgrading from 3.0 to 4.0.
+
+Neutral colors now use cooler, blue-tinted shades to match the updated Figma palette.
 
 ### Features
 
-* **Semantic tokens:** update surfaces: `surfaceBase`, `surfaceHigh`, `surfaceLow`, and `surfaceModalBackdrop`.
-* **Semantic tokens:** update fields and shapes: `shapeOtherField*`, `shapeOtherLow*`, `shapeFaintNeutral*`, `shapeSoftNeutral*`, `shapePaleNeutral*`, and `shapeBoldNeutral*`.
-* **Semantic tokens:** update hover, pressed, and disabled colors, including `shapeInverted*` and `shapeConst*`.
-* **Semantic tokens:** update borders: `lineNeutral*`, `lineInvertedNeutral*`, `lineAccent*`, `lineInvertedAccent*`, and `lineConst*`.
-* **Semantic tokens:** update text: `textNeutral*`, `textInvertedNeutral*`, `textConst*`, `textOnBrandOriginal*`, `textOnAccentBold*`, and `textAccentHeavy*`.
-* **Semantic tokens:** update neutral gray and black values in the `customizable*` palette.
-* **Base tokens:** generate blue-tinted `neutralSolid` and matching `neutralBlackAlpha`; add `neutralShade` and transparent step `28` to `neutralWhiteAlpha`.
-* **Base tokens:** adjust `onBrand` and `onAccent`; white step `95` now has `96%` opacity.
-
-### BREAKING CHANGES
-
-* **Semantic tokens:** token names stay the same; only color values change in light and dark themes.
-* **Base tokens:** `neutralBlackAlpha` now contains blue-tinted values; `TokensBase` adds `neutralShade`.
+* **Semantic tokens:** 153 of 326 values are updated across web color schemes.
+* **Mobile design system:** 79 of 182 values are updated across Android and iOS color schemes. Mobile tokens do not include `Hover` and `Pressed` states.
+* **Base tokens:** neutral palettes use cooler, blue-tinted shades; `neutralShade` and step `28` are added to `neutralWhiteAlpha`.
+* **Base tokens:** `onBrand` and `onAccent` palettes are updated; white step `95` now has `96%` opacity.
 
 
 # [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/colors@2.1.11...@skbkontur/colors@3.0.0) (2026-11-02)
