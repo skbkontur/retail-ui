@@ -16,7 +16,7 @@ export interface TableCellProps extends CommonProps {
   checkboxCell?: boolean;
   /** Скрывает нижнюю границу у ячейки. Автоматически применяется для `checkboxCell`. */
   noBottomBorder?: boolean;
-  /** Исключает ячейку из расчёта отступа нижней границы, чтобы она начиналась со следующей ячейки. */
+  /** Убирает у ячейки отступ линии разделителя: у первой ячейки линия начнётся от края, у последней — дойдёт до края. */
   noBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;

@@ -156,7 +156,7 @@ const DemoTable = ({
             <Table.HeaderCell width={stockColumnWidth} currency>
               Остаток
             </Table.HeaderCell>
-            {separateActionsColumn && <Table.HeaderCell width={`${actionsColumnWidth}px`} />}
+            {separateActionsColumn && <Table.HeaderCell width={`${actionsColumnWidth}px`} noBottomBorder />}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -202,7 +202,7 @@ const DemoTable = ({
                 )}
               </Table.Cell>
               {separateActionsColumn && (
-                <Table.Cell contentCompensator={false}>
+                <Table.Cell contentCompensator={false} noBottomBorder>
                   <Table.ActionBar items={items} itemsVisible={itemsVisible} />
                 </Table.Cell>
               )}

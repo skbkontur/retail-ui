@@ -18,16 +18,19 @@
 .TableSmall {
   --table-radius: var(--table-radius-small);
   --table-row-padding-left-shift: calc(var(--table-row-padding-left, 13px) - 13px);
+  --table-divider-inset-end-size: 13px;
 }
 
 .TableMedium {
   --table-radius: var(--table-radius-medium);
   --table-row-padding-left-shift: calc(var(--table-row-padding-left, 17px) - 17px);
+  --table-divider-inset-end-size: 17px;
 }
 
 .TableLarge {
   --table-radius: var(--table-radius-large);
   --table-row-padding-left-shift: calc(var(--table-row-padding-left, 21px) - 21px);
+  --table-divider-inset-end-size: 21px;
 }
 
 .TableHeader {
@@ -95,6 +98,7 @@
 .TableCell,
 .TableHeaderCell {
   --table-cell-shift: 0px;
+  --table-divider-inset-end: 0px;
 }
 
 .TableRow > :first-child {
@@ -114,12 +118,29 @@
   --table-header-bottom-border-inset: 0px;
 }
 
+/*
+ * !! Требования к разделителям (шапка, строки, футер) — не ломать, всё это уже чинили:
+ *
+ * 1. Линия идёт ровно под текстом: начинается там, где начинается текст первой колонки
+ *    (--table-*-border-inset), и кончается там, где кончается текст последней
+ *    (--table-divider-inset-end = 13/17/21px). Это компенсатор шапки: отступ кнопки в шапке 12/16/20px
+ *    + рамка 1px, чтобы шапка-кнопка и шапка-текст стояли одинаково. Тот же отступ у валюты и последней ячейки.
+ *    Служебные ячейки по краям (чекбокс, ведущая иконка, кебаб) с noBottomBorder линию не продолжают.
+ * 2. Рисуем border, а не height: 1px + background: при зуме браузера фон в 1px размывается,
+ *    пропадает или толстеет, а border браузер всегда прибивает к целому пикселю (9f83f2b774).
+ * 3. Рисуем псевдоэлементом каждой ячейки, а не строки или шапки: линия на <thead> в Safari
+ *    рисовалась ненадёжно (8702849924), а псевдоэлемент внутри <tr> браузер превращает
+ *    в анонимную ячейку, и колонки сжимаются (3a5afac908).
+ * 4. :nth-child(… of …) есть только с Chrome 111 / Firefox 113, а поддерживаем Chrome 73+.
+ *    Правило с ним целиком выкидывается, поэтому рядом всегда лежит запасное на
+ *    :first-child / :last-child — в старом браузере верен хотя бы обычный случай.
+ */
 .TableHeaderCell::after {
   content: '';
   position: absolute;
   left: var(--table-header-bottom-border-inset);
   bottom: 0;
-  width: calc(100% - var(--table-header-bottom-border-inset));
+  width: calc(100% - var(--table-header-bottom-border-inset) - var(--table-divider-inset-end));
   pointer-events: none;
   border-bottom: 1px solid var(--table-border);
   opacity: var(--table-header-bottom-border-opacity);
@@ -160,10 +181,48 @@
   padding: 28px 21px 28px calc(21px + var(--table-cell-shift));
 }
 
+/* Запасное для Chrome < 111, см. п. 4 в комментарии к разделителям */
+.TableHeader > .TableRow:first-child > .TableHeaderCell:first-child:not(.WithoutBottomBorderInset) {
+  --table-header-bottom-border-inset: var(--table-header-bottom-border-inset-size, 0px);
+}
+
+.TableHeader > .TableRow:first-child > .TableHeaderCell:last-child:not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
 .TableHeader
   > .TableRow:first-child
   > .TableHeaderCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
   --table-header-bottom-border-inset: var(--table-header-bottom-border-inset-size, 0px);
+}
+
+.TableHeader
+  > .TableRow:first-child
+  > .TableHeaderCell:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
+.TableHeader
+  > .TableRow:last-child
+  > :nth-last-child(1 of :not(.WithoutBottomBorder))
+  ~ .TableHeaderCell.WithoutBottomBorder,
+.TableHeader
+  > .TableRow:not(:last-child)
+  > :nth-last-child(1 of :not(.WithoutBottomBorder))
+  ~ .TableHeaderCell[rowspan].WithoutBottomBorder {
+  --table-header-bottom-border-opacity: 0;
+}
+
+/*
+ * Многоэтажная шапка: если справа в первой строке группа без rowspan, нижнюю линию у края рисует последняя ячейка
+ * нижней строки — отступ ей. Без :has() линия шапки дойдёт до края (незначительная деградация).
+ */
+@supports (selector(:has(*))) {
+  .TableHeader:has(> .TableRow:first-child > .TableHeaderCell:last-child:not([rowspan]))
+    > .TableRow:last-child
+    > .TableHeaderCell:last-child:not(.WithoutBottomBorderInset) {
+    --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+  }
 }
 
 .TableHeader > .TableRow > .TableHeaderCell[rowspan] {
@@ -227,7 +286,7 @@
   position: absolute;
   left: var(--table-bottom-border-inset);
   bottom: 0;
-  width: calc(100% - var(--table-bottom-border-inset));
+  width: calc(100% - var(--table-bottom-border-inset) - var(--table-divider-inset-end));
   border-bottom: 1px solid var(--table-border);
   opacity: var(--table-bottom-border-opacity);
 }
@@ -248,8 +307,25 @@
   --table-bottom-border-opacity: 1;
 }
 
+/* Запасное для Chrome < 111, см. п. 4 в комментарии к разделителям */
+.BottomBorder > .TableCell:first-child:not(.WithoutBottomBorderInset) {
+  --table-bottom-border-inset: var(--table-bottom-border-inset-size, 0px);
+}
+
+.BottomBorder > .TableCell:last-child:not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
 .BottomBorder > .TableCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
   --table-bottom-border-inset: var(--table-bottom-border-inset-size, 0px);
+}
+
+.BottomBorder > .TableCell:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
+.BottomBorder > :nth-last-child(1 of :not(.WithoutBottomBorder)) ~ .TableCell.WithoutBottomBorder {
+  --table-bottom-border-opacity: 0;
 }
 
 .BottomBorderInset {
@@ -486,6 +562,33 @@
   padding-right: 21px;
   padding-left: 12px;
 }
+
+/* Текст последней колонки кончается там же, где текст шапки и разделитель (--table-divider-inset-end-size) */
+.TableCellSmall:last-child {
+  padding-right: 13px;
+}
+
+.TableCellMedium:last-child {
+  padding-right: 17px;
+}
+
+.TableCellLarge:last-child {
+  padding-right: 21px;
+}
+
+/* То же для последней ячейки с линией, если за ней служебная с noBottomBorder (кебаб) */
+.TableCellSmall:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.NoPaddingRightCell) {
+  padding-right: 13px;
+}
+
+.TableCellMedium:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.NoPaddingRightCell) {
+  padding-right: 17px;
+}
+
+.TableCellLarge:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.NoPaddingRightCell) {
+  padding-right: 21px;
+}
+
 .TableCell.Currency {
   text-align: right;
 }
@@ -589,7 +692,7 @@
   position: absolute;
   left: var(--table-footer-top-border-inset);
   top: 0;
-  width: calc(100% - var(--table-footer-top-border-inset));
+  width: calc(100% - var(--table-footer-top-border-inset) - var(--table-divider-inset-end));
   border-top: 1px solid var(--table-border);
   opacity: var(--table-footer-top-border-opacity);
 }
@@ -610,10 +713,32 @@
   --table-footer-top-border-opacity: 1;
 }
 
+/* Запасное для Chrome < 111, см. п. 4 в комментарии к разделителям */
+.TableFooter > .TableRow:first-child > .TableCell:first-child:not(.WithoutBottomBorderInset) {
+  --table-footer-top-border-inset: var(--table-bottom-border-inset-size, 0px);
+}
+
+.TableFooter > .TableRow:first-child > .TableCell:last-child:not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
 .TableFooter
   > .TableRow:first-child
   > .TableCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
   --table-footer-top-border-inset: var(--table-bottom-border-inset-size, 0px);
+}
+
+.TableFooter
+  > .TableRow:first-child
+  > .TableCell:nth-last-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-divider-inset-end: var(--table-divider-inset-end-size, 0px);
+}
+
+.TableFooter
+  > .TableRow:first-child
+  > :nth-last-child(1 of :not(.WithoutBottomBorder))
+  ~ .TableCell.WithoutBottomBorder {
+  --table-footer-top-border-opacity: 0;
 }
 
 .StickyTableFooter {
